@@ -1,55 +1,54 @@
 ﻿<html ng-app="smartHomeApp" lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart home controller - beta 1.00 development</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bundle.css" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> -->
-</head>
-<body>
-    <div ng-controller="RootController" data-ng-init="getDictionaries()">
-        <div class="nav-side-menu">
-            <div class="brand">Smart Home</div>
-            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart home controller - beta 1.00 development</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/bundle.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div ng-controller="RootController" data-ng-init="getDictionaries()">
+            <div class="nav-side-menu">
+                <div class="brand">Smart Home</div>
+                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
-            <div class="menu-list">
-                <ul id="menu-content" class="menu-content collapse out">
-                    <li>
-                        <a href="#!charts" onclick="ChangeMainPanelName('charts')"><i class="fa fa-chart-bar fa-lg"></i> Dane z czujników</a>
-                    </li>
+                <div class="menu-list">
+                    <ul id="menu-content" class="menu-content collapse out">
+                        <li>
+                            <a href="#charts" onclick="ChangeMainPanelName('charts')"><i class="fa fa-chart-bar fa-lg"></i> Dane z czujników</a>
+                        </li>
 
-                    <li>
-                        <a href="#!control" onclick="ChangeMainPanelName('control')"><i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
-                    </li>
+                        <li>
+                            <a href="#control" onclick="ChangeMainPanelName('control')"><i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
+                        </li>
 
-                    <li data-toggle="collapse" data-target="#admin-panel" class="collapsed">
-                        <a href="javascript:void(0)"><i class="fa fa-globe fa-lg"></i>Panel sterowania<i class="fa fa-sort-down fa-lg" style="float: right;"></i></a>
-                    </li>
-                    <ul class="sub-menu collapse" id="admin-panel">
-                        <li><a href="#!nodes" onclick="ChangeMainPanelName('nodes')"><i class="fas fa-caret-right"></i> Dodaj urządzenie</a></li>
-                        <li><a href="#!new-device-type" onclick="ChangeMainPanelName('new-device-type')"><i class="fas fa-caret-right"></i> Dodaj nowy typ</a></li>
-                        <li><a href="#!users" onclick="ChangeMainPanelName('users')"><i class="fas fa-caret-right"></i> Użytkownicy systemu</a></li>
+                        <li data-toggle="collapse" data-target="#admin-panel" class="collapsed">
+                            <a href="javascript:void(0)"><i class="fa fa-globe fa-lg"></i>Panel sterowania<i class="fa fa-sort-down fa-lg" style="float: right;"></i></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="admin-panel">
+                            <li><a href="#nodes" onclick="ChangeMainPanelName('nodes')"><i class="fas fa-caret-right"></i> Dodaj urządzenie</a></li>
+                            <li><a href="#new-device-type" onclick="ChangeMainPanelName('new-device-type')"><i class="fas fa-caret-right"></i> Dodaj nowy typ</a></li>
+                            <li><a href="#users" onclick="ChangeMainPanelName('users')"><i class="fas fa-caret-right"></i> Użytkownicy systemu</a></li>
+                        </ul>
+                        <li>
+                            <a href="#my-profile" onclick="ChangeMainPanelName('my-profile')"><i class="fa fa-user fa-lg"></i> Mój profil</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-sign-out-alt fa-lg"></i> Wyloguj</a>
+                        </li>
                     </ul>
-                    <li>
-                        <a href="#!my-profile" onclick="ChangeMainPanelName('my-profile')"><i class="fa fa-user fa-lg"></i> Mój profil</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-sign-out-alt fa-lg"></i> Wyloguj</a>
-                    </li>
-                </ul>
+                </div>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="panel panel-default">
-                <div class="panel-heading" id="view-title">Strona główna</div>
-                <div class="panel-body">
-                    <main>
-                        <div ng-view></div>
-                    </main>
+            <div class="main-content">
+                <div class="panel panel-default">
+                    <div class="panel-heading" id="view-title">Strona główna</div>
+                    <div class="panel-body">
+                        <main>
+                            <div ng-view></div>
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="js/bundle.js"></script>
-</body>
+        <script src="js/bundle.js"></script>
+    </body>
 </html>
