@@ -1,6 +1,11 @@
-﻿const gulp = require('gulp');
+﻿const pump = require('pump');
+const gulp = require('gulp');
 const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+var url = require('url');
 const browserSync = require('browser-sync').create();
+const httpProxy = require('http-proxy');
+const proxy = require('proxy-middleware');
 
 let devMode = false;
 
@@ -17,21 +22,23 @@ const stylesProd = [
 ];
 
 const scriptsDev = [
-    "./src/js/**/*.js",
+    "./node_modules/jquery/dist/jquery.js",
     "./node_modules/angular/angular.js",
     "./node_modules/angular-route/angular-route.js",
-    "./node_modules/jquery/dist/jquery.js",
     "./node_modules/bootstrap/dist/js/bootstrap.js",
-    "./node_modules/js-datepicker/datepicker.js"
+    "./node_modules/js-datepicker/datepicker.js",
+    "./node_modules/chart.js/dist/Chart.js",
+    "./src/js/**/*.js"
 ];
 
 const scriptsProd = [
-    "./src/js/**/*.js",
+    "./node_modules/jquery/dist/jquery.min.js",
     "./node_modules/angular/angular.min.js",
     "./node_modules/angular-route/angular-route.min.js",
-    "./node_modules/jquery/dist/jquery.min.js",
     "./node_modules/bootstrap/dist/js/bootstrap.min.js",
-    "./node_modules/js-datepicker/datepicker.min.js"
+    "./node_modules/js-datepicker/datepicker.min.js",
+    "./node_modules/chart.js/dist/Chart.min.js",
+    "./src/js/**/*.js"
 ];
 
 gulp.task('css', function () {
@@ -43,13 +50,32 @@ gulp.task('css', function () {
         }));
 });
 
-gulp.task('js', function () {
-    gulp.src(devMode ? scriptsDev : scriptsProd)
-        .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('./dist/js'))
-        .pipe(browserSync.reload({
-            stream: true
-        }));
+gulp.task('js', function (cb) {
+    if (devMode) {
+        pump([
+            gulp.src(scriptsDev),
+            concat('bundle.js'),
+            gulp.dest('./dist/js'),
+            browserSync.reload({
+                stream: true
+            })
+        ],
+            cb
+        );
+    }else {
+        pump([
+            gulp.src(scriptsProd),
+            uglify(),
+            concat('bundle.min.js'),
+            gulp.dest('./dist/js'),
+            browserSync.reload({
+                stream: true
+            })
+        ],
+            cb
+        );
+    }
+
 });
 
 gulp.task('html', function () {
@@ -64,11 +90,18 @@ gulp.task('build', function () {
     gulp.start(['css', 'js', 'html']);
 });
 
+
+
 gulp.task('browser-sync', function () {
+    var proxyOptions = url.parse('http://localhost/api/');
+    proxyOptions.route = '/api/';
+
     browserSync.init(null, {
         open: false,
+        port: 3000,
         server: {
-            baseDir: 'dist'
+            baseDir: 'dist',
+            middleware: [proxy(proxyOptions)]
         }
     });
 });
@@ -83,5 +116,5 @@ gulp.task('startDev', function () {
 
 gulp.task('buildProd', function () {
     devMode = false;
-    gulp.start(['build', 'browser-sync']);
+    gulp.start(['build']);
 });

@@ -42,8 +42,22 @@ app.config(function ($routeProvider) {
         });
 });
 
-app.controller("RootController", function ($scope) {
+app.run(function ($rootScope, $location, $window) {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        if (next.$$route.auth) {
+            const tokenValidTo = $window.localStorage.getItem('validTo');
 
-    $scope.test = 'TEST';
+            const tokenValidToObject = new Date(tokenValidTo);
+            let currentTime = new Date();
+            if (currentTime.getTime() > tokenValidToObject.getTime()) { //token is no longer valid
 
+                if (tokenValidTo != null) {
+                    $rootScope.badAuthentication = true;
+                    $rootScope.badAuthenticationMessage = 'Twoja sesja wygasła. Zaloguj się ponownie.';
+                }
+                $location.path('/login');
+            }
+        }
+
+    });
 });
