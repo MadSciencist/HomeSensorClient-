@@ -1,0 +1,14 @@
+﻿.avatar-edit-thumbnail {
+    margin-top: 15px;
+    padding: 5px;
+    line-height: 2;
+    border: 1px solid #565656;
+    border-radius: 8px;
+    transition: all .5s cubic-bezier(0.6 0.04 0.6 1);
+}
+
+.edit-user-form-validation-message {
+    display: block;
+    margin-left: 10px;
+    text-align: left;
+}
