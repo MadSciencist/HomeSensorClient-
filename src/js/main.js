@@ -1,4 +1,4 @@
-﻿let ChangeMainPanelName = function (name) {
+﻿var ChangeMainPanelName = function (name) {
     const names = [
         {
             id: 'charts',

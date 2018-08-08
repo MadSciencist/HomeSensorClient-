@@ -49,7 +49,7 @@ app.run(function ($rootScope, $location, $window) {
             const tokenValidTo = $window.localStorage.getItem('validTo');
 
             const tokenValidToObject = new Date(tokenValidTo);
-            let currentTime = new Date();
+            const currentTime = new Date();
             if (currentTime.getTime() > tokenValidToObject.getTime()) { //token is no longer valid
 
                 if (tokenValidTo != null) {

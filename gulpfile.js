@@ -1,8 +1,8 @@
 ﻿const pump = require('pump');
 const gulp = require('gulp');
 const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
-var url = require('url');
+const uglify = require('gulp-uglifyes');
+const url = require('url');
 const browserSync = require('browser-sync').create();
 const proxy = require('proxy-middleware');
 
@@ -112,11 +112,6 @@ gulp.task('webFonts', function () {
         }));
 });
 
-gulp.task('build', function () {
-    gulp.start(['css', 'js', 'html', 'fonts', 'webFonts']);
-});
-
-
 gulp.task('browser-sync', function () {
     let proxyOptionsApi = url.parse('http://localhost/api/');
     proxyOptionsApi.route = '/api/';
@@ -134,6 +129,10 @@ gulp.task('browser-sync', function () {
     });
 });
 
+gulp.task('build', function () {
+    gulp.start(['css', 'js', 'html', 'fonts', 'webFonts']);
+});
+
 gulp.task('startDev', function () {
     devMode = true;
     gulp.start(['build', 'browser-sync']);
@@ -145,4 +144,14 @@ gulp.task('startDev', function () {
 gulp.task('buildProd', function () {
     devMode = false;
     gulp.start(['build']);
+});
+
+gulp.task('buildDev', function () {
+    devMode = true;
+    gulp.start(['build']);
+});
+
+gulp.task('publish', function(){
+    gulp.src('./dist/**/*.*')
+    .pipe(gulp.dest('./../wwwroot/'));
 });
