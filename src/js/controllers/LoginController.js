@@ -1,5 +1,4 @@
 ﻿app.controller("LoginController", function ($rootScope, $scope, $http, $window, $route, $location) {
-
     $scope.login = function () {
 
         let credentials = JSON.stringify({

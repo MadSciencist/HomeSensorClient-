@@ -5,6 +5,9 @@ const uglify = require('gulp-uglifyes');
 const url = require('url');
 const browserSync = require('browser-sync').create();
 const proxy = require('proxy-middleware');
+const sourcemaps = require('gulp-sourcemaps')
+const rollup = require('gulp-better-rollup')
+const babel = require('rollup-plugin-babel')
 
 let devMode = false;
 

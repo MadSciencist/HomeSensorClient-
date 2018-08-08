@@ -14,23 +14,23 @@
                 <div class="menu-list">
                     <ul id="menu-content" class="menu-content collapse out">
                         <li>
-                            <a href="#charts" onclick="ChangeMainPanelName('charts')"><i class="fa fa-chart-bar fa-lg"></i> Dane z czujników</a>
+                            <a href="#charts"><i class="fa fa-chart-bar fa-lg"></i> Dane z czujników</a>
                         </li>
 
                         <li>
-                            <a href="#control" onclick="ChangeMainPanelName('control')"><i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
+                            <a href="#control"><i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
                         </li>
 
                         <li data-toggle="collapse" data-target="#admin-panel" class="collapsed">
                             <a href="javascript:void(0)"><i class="fa fa-globe fa-lg"></i>Panel sterowania<i class="fa fa-sort-down fa-lg" style="float: right;"></i></a>
                         </li>
                         <ul class="sub-menu collapse" id="admin-panel">
-                            <li><a href="#nodes" onclick="ChangeMainPanelName('nodes')"><i class="fas fa-caret-right"></i> Dodaj urządzenie</a></li>
-                            <li><a href="#new-device-type" onclick="ChangeMainPanelName('new-device-type')"><i class="fas fa-caret-right"></i> Dodaj nowy typ</a></li>
-                            <li><a href="#users" onclick="ChangeMainPanelName('users')"><i class="fas fa-caret-right"></i> Użytkownicy systemu</a></li>
+                            <li><a href="#nodes"><i class="fas fa-caret-right"></i> Dodaj urządzenie</a></li>
+                            <li><a href="#new-device-type"><i class="fas fa-caret-right"></i> Dodaj nowy typ</a></li>
+                            <li><a href="#users"><i class="fas fa-caret-right"></i> Użytkownicy systemu</a></li>
                         </ul>
                         <li>
-                            <a href="#my-profile" onclick="ChangeMainPanelName('my-profile')"><i class="fa fa-user fa-lg"></i> Mój profil</a>
+                            <a href="#my-profile"><i class="fa fa-user fa-lg"></i> Mój profil</a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-sign-out-alt fa-lg"></i> Wyloguj</a>
@@ -40,7 +40,7 @@
             </div>
             <div class="main-content">
                 <div class="panel panel-default">
-                    <div class="panel-heading" id="view-title">Strona główna</div>
+                    <div class="panel-heading" id="view-title" ng-bind="pageTitle"></div>
                     <div class="panel-body">
                         <main>
                             <div ng-view></div>

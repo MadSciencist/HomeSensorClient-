@@ -1,8 +1,9 @@
-﻿app.controller("RootController", function ($rootScope, $http, httpService, $scope, $window, $route, $location) {
-
+﻿app.controller("RootController", function ($rootScope, $http, httpService, $scope, $window, $route, $location, constants) {
+    $rootScope.pageTitle = "Strona główna";
     $rootScope.genderDictionary = [];
     $rootScope.roleDictionary = [];
     $rootScope.isDictionaryDataFetched = false;
+
 
     $scope.getDictionaries = function () {
         const rolesDictionaryUrl = '/api/dictionaries/roles';
