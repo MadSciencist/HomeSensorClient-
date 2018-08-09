@@ -1,5 +1,4 @@
-﻿app.controller("UserController", function ($scope, $rootScope, $location, httpService) {
-
+﻿app.controller("UserController", function ($scope, $rootScope, constants, $location, httpService) {
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.scopeGetUserGenderFromDictionary = $rootScope.getUserGenderFromDictionary;
     $scope.userData = {};
@@ -9,7 +8,7 @@
     let picker = null;
 
     $scope.initController = function () {
-        $scope.get()
+        $scope.getUser()
             .then(function () {
                 initDatePicker();
             });
@@ -58,7 +57,7 @@
         httpService.putData(updateUrl, payload)
             .then(function (response) {
                 $location.path('/my-profile');
-                $scope.get();
+                $scope.getUser();
             }).catch(error => console.log("Error while puting data: " + error));
     };
 
@@ -66,7 +65,7 @@
         $scope.userToEdit = $scope.userData;
     };
 
-    $scope.get = function () {
+    $scope.getUser = function () {
         const userUrl = '/api/users/'.concat(localStorage.getItem('userId'));
         return httpService.getData(userUrl)
             .then(function (response) {

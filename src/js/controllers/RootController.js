@@ -1,9 +1,7 @@
-﻿app.controller("RootController", function ($rootScope, $http, httpService, $scope, $window, $route, $location, constants) {
-    $rootScope.pageTitle = "Strona główna";
+﻿app.controller("RootController", function ($rootScope, $http, httpService, $scope, $window, $route, $location) {
     $rootScope.genderDictionary = [];
     $rootScope.roleDictionary = [];
     $rootScope.isDictionaryDataFetched = false;
-
 
     $scope.getDictionaries = function () {
         const rolesDictionaryUrl = '/api/dictionaries/roles';
@@ -14,8 +12,8 @@
                 $rootScope.roleDictionary = response.data;
             })
             .then(httpService.getData(gendersDictionaryUrl)
-                .then(function (response1) {
-                    $rootScope.genderDictionary = response1.data;
+                .then(function (response) {
+                    $rootScope.genderDictionary = response.data;
                     $rootScope.isDictionaryDataFetched = true;
                 })
             ).catch(error => console.log("Error while retrieving data: " + error));
@@ -44,6 +42,4 @@
 
         $route.reload();
     };
-
-
 });

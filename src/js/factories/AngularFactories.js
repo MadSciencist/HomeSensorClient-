@@ -1,5 +1,4 @@
 ﻿app.service('httpService', function ($http) {
- 
     this.getData = function (url) {
         console.log('GET data from: ' + url);
         return $http.get(url,
@@ -22,7 +21,7 @@
         });
     };
 
-    this.posteData = function (url, data) {
+    this.postData = function (url, data) {
         console.log('POST data to: ' + url + ' using data:')
         console.log(data);
         return $http.post(url, data, {
@@ -42,5 +41,4 @@
             }
         });
     };
-
 });

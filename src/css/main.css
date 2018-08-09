@@ -19,3 +19,18 @@
 .not-found-box .a {
     text-decoration: none;
 }
+
+#language-panel {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#language-picker {
+    background-color: #2e353d;
+    border-radius: 1px;
+    padding: 3px;
+}
+
+#language-picker:hover {
+    background-color: #1d1d1d;
+  }

@@ -1,7 +1,4 @@
 ﻿app.controller("UsersController", function ($scope, $rootScope, httpService) {
-
-    const baseUsersUrl = "/api/users/";
-
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.formatDate = formatDate;
     $scope.userToEdit = null;
@@ -12,6 +9,7 @@
     $scope.resultMessage = "";
     $scope.isDeleteSuccess = false;
     $scope.isDeleteFailed = false;
+    const baseUsersUrl = "/api/users/";
 
     $scope.getUsers = function () {
         if (localStorage.getItem('role') === "Admin") {
@@ -94,5 +92,4 @@
         }
         return false;
     };
-
 });

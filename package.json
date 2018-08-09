@@ -17,7 +17,9 @@
     "bootstrap": "~3.3.7",
     "chart.js": "^2.7.2",
     "jquery": "^3.3.1",
-    "js-datepicker": "^3.3.2"
+    "js-datepicker": "^3.3.2",
+    "ng-office-ui-fabric": "^0.16.1",
+    "office-ui-fabric": "^2.6.3"
   },
   "devDependencies": {
     "babel": "^6.23.0",

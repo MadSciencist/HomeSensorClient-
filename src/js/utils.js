@@ -25,5 +25,5 @@
 const roleLookUpTable = function (roleId) {
     const roles = ['Sensor', 'Viewer', 'Manager', 'Admin'];
     if (roleId >= 0 && roleId <= (roles.length + 1))
-    return roles[roleId];
+        return roles[roleId];
 };

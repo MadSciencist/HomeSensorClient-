@@ -15,6 +15,8 @@ const stylesDev = [
     "./node_modules/bootstrap/dist/css/bootstrap.css",
     "./node_modules/js-datepicker/datepicker.css",
     "./node_modules/@fortawesome/fontawesome-free/css/all.css",
+    "./node_modules/office-ui-fabric/dist/css/fabric.css",
+    "./node_modules/office-ui-fabric/dist/css/fabric.components.css",
     "./src/css/**/*.css"
 ];
 
@@ -32,6 +34,7 @@ const scriptsDev = [
     "./node_modules/bootstrap/dist/js/bootstrap.js",
     "./node_modules/js-datepicker/datepicker.js",
     "./node_modules/chart.js/dist/Chart.js",
+    "./node_modules/ng-office-ui-fabric/ngOfficeUiFabric.js",
     "./src/js/**/*.js"
 ];
 

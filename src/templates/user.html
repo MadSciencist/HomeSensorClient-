@@ -91,9 +91,6 @@
         </div>
     </div><!--END OF PANEL-->
 
-
-
-
     <div class="container-fluid" style="text-align: center;">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
@@ -153,8 +150,15 @@
                             </div>
 
                             <!--TODO validate password-->
-                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userName.$invalid && !editUserForm.userName.$pristine }">
+                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine }">
                                 <label for="userPassword" class="control-label col-xs-3">Hasło</label>
+                                <div class="col-xs-9">
+                                    <input name="userPassword" value="{{userData.password}}" ng-model="userData.password" type="password" class="form-control" required ng-minlength="5" ng-maxlength="20">
+                                </div>
+                            </div>
+
+                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine }">
+                                <label for="userPassword" class="control-label col-xs-3">Powtórz hasło</label>
                                 <div class="col-xs-9">
                                     <input name="userPassword" value="{{userData.password}}" ng-model="userData.password" type="password" class="form-control" required ng-minlength="5" ng-maxlength="20">
                                     <p ng-show="editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine"

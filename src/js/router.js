@@ -1,6 +1,5 @@
 app.config(function ($routeProvider, $locationProvider, constants) {
     $locationProvider.hashPrefix('');
-    console.log();
     $routeProvider
         .when("/", {
             templateUrl: "charts.html",
@@ -10,42 +9,42 @@ app.config(function ($routeProvider, $locationProvider, constants) {
         .when("/charts", {
             templateUrl: "charts.html",
             controller: "ChartsController",
-            pageTitle: constants.dict[constants.lang.pl].pageTitle.sensors,
+            pageTitle: constants.dict[0].pageTitle.sensors,
             auth: true
         })
         .when("/control", {
             templateUrl: "control.html",
             controller: "NodesController",
-            pageTitle: constants.dict[constants.lang.pl].pageTitle.control,
+            pageTitle: constants.dict[0].pageTitle.control,
             auth: true
         })
         .when("/nodes", {
             templateUrl: "nodes.html",
             controller: "NodesController",
-            pageTitle: constants.dict[constants.lang.pl].pageTitle.nodes,
+            pageTitle: constants.dict[0].pageTitle.nodes,
             auth: true
         })
         .when("/users", {
             templateUrl: "users.html",
             controller: "UsersController",
-            pageTitle: constants.dict[2].pageTitle.users,
+            pageTitle: constants.dict[0].pageTitle.users,
             auth: true
         })
         .when("/my-profile", {
             templateUrl: "user.html",
             controller: "UserController",
-            pageTitle: constants.dict[2].pageTitle.myProfile,
+            pageTitle: constants.dict[0].pageTitle.myProfile,
             auth: true
         })
         .when("/login", {
             templateUrl: "login.html",
             controller: "LoginController",
-            pageTitle: constants.dict[2].pageTitle.login,
+            pageTitle: constants.dict[0].pageTitle.login,
             auth: false
         })
         .when('not-found', {
             templateUrl: 'not-found.html',
-            pageTitle: constants.dict[2].pageTitle.default,
+            pageTitle: constants.dict[0].pageTitle.default,
             auth: false
         })
         .otherwise({
@@ -58,9 +57,8 @@ app.run(function ($rootScope, $location, $window, constants) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         const nextRoute = next.$$route;
         if (nextRoute === undefined) {
-            $rootScope.pageTitle = constants[1].pageTitle.default,
+            $rootScope.pageTitle = constants.dict[0].pageTitle.default;
             $location.path('not-found');
-            return;
         } else {
             $rootScope.pageTitle = nextRoute.pageTitle;
             if (nextRoute.auth) {
@@ -69,7 +67,7 @@ app.run(function ($rootScope, $location, $window, constants) {
                 if (new Date().getTime() > tokenValidToObject.getTime()) { //token is no longer valid
                     if (tokenValidTo != null) {
                         $rootScope.badAuthentication = true;
-                        $rootScope.badAuthenticationMessage = 'asd';
+                        $rootScope.badAuthenticationMessage = constants.dict[0].forms.login.badAuthenticationMessage;
                     }
                     $location.path('/login');
                 }
