@@ -2,6 +2,7 @@
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.scopeGetUserGenderFromDictionary = $rootScope.getUserGenderFromDictionary;
     $scope.userData = {};
+    $scope.confirmPassword = "";
     $scope.isAvatarUploaded = false;
     $scope.uploadedAvatarUrl = "";
     $scope.userToEdit = null;

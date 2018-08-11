@@ -144,25 +144,27 @@
                                 <label for="userEmail" class="control-label col-xs-3">Adres e-mail</label>
                                 <div class="col-xs-9">
                                     <input name="userEmail" value="{{userData.email}}" ng-model="userData.email" type="email" class="form-control" required>
-                                    <p ng-show="editUserForm.userEmail.$invalid && !editUserForm.userEmail.$pristine"
+                                    <p ng-show="editUserForm.userEmail.$invalid && editUserForm.userEmail.$dirty"
                                        class="help-block edit-user-form-validation-message">Email nie jest prawidłowy.<span class="glyphicon glyphicon-exclamation-sign red"></span></p>
                                 </div>
                             </div>
 
                             <!--TODO validate password-->
-                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine }">
+                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPassword.$invalid && editUserForm.userPassword.$dirty }">
                                 <label for="userPassword" class="control-label col-xs-3">Hasło</label>
                                 <div class="col-xs-9">
                                     <input name="userPassword" value="{{userData.password}}" ng-model="userData.password" type="password" class="form-control" required ng-minlength="5" ng-maxlength="20">
+                                    <p ng-show="editUserForm.userPassword.$invalid && editUserForm.userPassword.$dirty"
+                                       class="help-block edit-user-form-validation-message">Hasło musi zawierać od 5 do 20 znaków.<span class="glyphicon glyphicon-exclamation-sign red"></span></p>
                                 </div>
                             </div>
 
-                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine }">
-                                <label for="userPassword" class="control-label col-xs-3">Powtórz hasło</label>
+                            <div class="row form-group" ng-class="{ 'has-error' : editUserForm.userPasswordConfirm.$invalid && !editUserForm.userPasswordConfirm.$pristine }">
+                                <label for="userPasswordConfirm" class="control-label col-xs-3">Powtórz hasło</label>
                                 <div class="col-xs-9">
-                                    <input name="userPassword" value="{{userData.password}}" ng-model="userData.password" type="password" class="form-control" required ng-minlength="5" ng-maxlength="20">
-                                    <p ng-show="editUserForm.userPassword.$invalid && !editUserForm.userPassword.$pristine"
-                                       class="help-block edit-user-form-validation-message">Hasło musi zawierać od 5 do 20 znaków.<span class="glyphicon glyphicon-exclamation-sign red"></span></p>
+                                    <input name="userPasswordConfirm" ng-model="confirmPassword" type="password" class="form-control" required>
+                                    <p ng-show="(userData.password != confirmPassword) && editUserForm.userPasswordConfirm.$dirty"
+                                       class="help-block edit-user-form-validation-message">Wprowadzone hasła są różne.<span class="glyphicon glyphicon-exclamation-sign red"></span></p>
                                 </div>
                             </div>
 
@@ -179,7 +181,7 @@
                         <!--photo uploader form-->
                         <div class="row form-group">
                             <label for="userPhotoUrl" class="control-label col-xs-3">Zdjęcie profilowe</label>
-                            <div class="col-xs-7">
+                            <div class="col-xs-5">
                                 <form id="avatarUploadForm" enctype="multipart/form-data" name="avatarUploadForm" novalidate>
                                     <div style="text-align: center;">
 
@@ -198,8 +200,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-xs-2">
-                                <input type="button" class="btn btn-primary btn-sm" ng-click="uploadFile()" value="Upload" />
+                            <div class="col-xs-4">
+                                <input type="button" class="btn btn-primary btn-sm" ng-click="uploadFile()" value="Wyślij zdjęcie" />
                             </div>
                         </div>
 
