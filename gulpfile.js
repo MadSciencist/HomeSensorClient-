@@ -15,8 +15,6 @@ const stylesDev = [
     "./node_modules/bootstrap/dist/css/bootstrap.css",
     "./node_modules/js-datepicker/datepicker.css",
     "./node_modules/@fortawesome/fontawesome-free/css/all.css",
-    "./node_modules/office-ui-fabric/dist/css/fabric.css",
-    "./node_modules/office-ui-fabric/dist/css/fabric.components.css",
     "./src/css/**/*.css"
 ];
 

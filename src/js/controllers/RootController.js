@@ -2,8 +2,13 @@
     $rootScope.genderDictionary = [];
     $rootScope.roleDictionary = [];
     $rootScope.isDictionaryDataFetched = false;
+    $scope.isUserAdmin = false;
 
-    $scope.getDictionaries = function () {
+    $scope.initController = function () {
+        if (localStorage.getItem('role') === "Admin") {
+            $scope.isUserAdmin = true;
+        }
+
         const rolesDictionaryUrl = '/api/dictionaries/roles';
         const gendersDictionaryUrl = '/api/dictionaries/genders';
 

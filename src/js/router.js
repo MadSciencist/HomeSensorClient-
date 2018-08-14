@@ -18,6 +18,12 @@ app.config(function ($routeProvider, $locationProvider, constants) {
             pageTitle: constants.dict[0].pageTitle.control,
             auth: true
         })
+        .when("/stream", {
+            templateUrl: "stream.html",
+            controller: "StreamController",
+            pageTitle: constants.dict[0].pageTitle.control,
+            auth: true
+        })
         .when("/nodes", {
             templateUrl: "nodes.html",
             controller: "NodesController",
@@ -69,6 +75,7 @@ app.run(function ($rootScope, $location, $window, constants) {
                         $rootScope.badAuthentication = true;
                         $rootScope.badAuthenticationMessage = constants.dict[0].forms.login.badAuthenticationMessage;
                     }
+                    $window.localStorage.clear();
                     $location.path('/login');
                 }
             }

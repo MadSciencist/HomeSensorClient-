@@ -1,15 +1,16 @@
-﻿<html ng-app="smartHomeApp" lang="pl">
+﻿<!DOCTYPE html>
+<html ng-app="smartHomeApp" lang="pl">
 
 <head>
     <meta charset="UTF-8">
     <title>Smart home controller - beta 1.00 development</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet">
     <link href="css/bundle.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div ng-controller="RootController" data-ng-init="getDictionaries()">
+    <div ng-controller="RootController" data-ng-init="initController()">
         <div class="nav-side-menu">
             <div class="brand">Smart Home</div>
             <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -26,7 +27,12 @@
                             <i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
                     </li>
 
-                    <li data-toggle="collapse" data-target="#admin-panel" class="collapsed">
+                    <li>
+                        <a href="#stream">
+                            <i class="fa fa-sitemap fa-lg"></i> Oglądaj stream</a>
+                    </li>
+
+                    <li data-toggle="collapse" data-target="#admin-panel" class="collapsed" ng-show="isUserAdmin">
                         <a href="javascript:void(0)">
                             <i class="fa fa-globe fa-lg"></i>Panel sterowania
                             <i class="fa fa-sort-down fa-lg" style="float: right;"></i>
