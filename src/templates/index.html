@@ -1,40 +1,33 @@
 ﻿<!DOCTYPE html>
 <html ng-app="smartHomeApp" lang="pl">
-
 <head>
     <meta charset="UTF-8">
     <title>Smart home controller - beta 1.00 development</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet">
     <link href="css/bundle.css" rel="stylesheet" />
 </head>
-
 <body>
     <div ng-controller="RootController" data-ng-init="initController()">
         <div class="nav-side-menu">
             <div class="brand">Smart Home</div>
             <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
             <div class="menu-list">
                 <ul id="menu-content" class="menu-content collapse out">
                     <li>
                         <a href="#charts">
                             <i class="fa fa-chart-bar fa-lg"></i> Dane z czujników</a>
                     </li>
-
                     <li>
                         <a href="#control">
                             <i class="fa fa-sitemap fa-lg"></i> Sterowanie</a>
                     </li>
-
                     <li>
                         <a href="#stream">
                             <i class="fa fa-sitemap fa-lg"></i> Oglądaj stream</a>
                     </li>
-
                     <li data-toggle="collapse" data-target="#admin-panel" class="collapsed" ng-show="isUserAdmin">
                         <a href="javascript:void(0)">
-                            <i class="fa fa-globe fa-lg"></i>Panel sterowania
+                            <i class="fa fa-globe fa-lg"></i> Panel sterowania
                             <i class="fa fa-sort-down fa-lg" style="float: right;"></i>
                         </a>
                     </li>
@@ -45,7 +38,11 @@
                         </li>
                         <li>
                             <a href="#new-device-type">
-                                <i class="fas fa-caret-right"></i> Dodaj nowy typ</a>
+                                <i class="fas fa-caret-right"></i> Zdefiniuj nowy typ</a>
+                        </li>
+                        <li>
+                            <a href="#manage-streams">
+                                <i class="fas fa-caret-right"></i> Zarządzaj streamami</a>
                         </li>
                         <li>
                             <a href="#users">
@@ -91,5 +88,4 @@
     </div>
     <script src="js/bundle.js"></script>
 </body>
-
 </html>

@@ -16,11 +16,8 @@
     "angular-route": "^1.7.2",
     "bootstrap": "~3.3.7",
     "chart.js": "^2.7.2",
-    "flv.js": "^1.4.2",
     "jquery": "^3.3.1",
     "js-datepicker": "^3.3.2",
-    "ng-office-ui-fabric": "^0.16.1",
-    "office-ui-fabric": "^2.6.3",
     "video.js": "^7.1.0"
   },
   "devDependencies": {

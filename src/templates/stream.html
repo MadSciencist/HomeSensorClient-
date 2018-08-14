@@ -1,11 +1,22 @@
-<div ng-controller="StreamController" ng-init="initController()">
-    <video id="my-video" class="video-js" controls preload="auto" width="640" height="480" data-setup="{}">
-      <source src="http://192.168.0.200:8083/hls/stream.m3u8" type="application/x-mpegURL>
+<div ng-controller="StreamController" ng-init="initController()" class="container-fluid">
+  <div clas="row">
+      <div id="users-info-error" ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade in">
+          <a class="close" ng-click="isMessagebarVisible = false">×</a>
+          <strong>Błąd!</strong> {{ messagebarMessage }}
+      </div>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-secondary" ng-click="startStream()">Odtwarzaj</button>
+    <button type="button" class="btn btn-secondary" ng-click="stopStream()">Zatrzymaj</button>
+  </div>
+  
+  <div class="row" style="max-width: 900px;">
+    <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480"
+      data-setup={{playerSettings}}>
+      <source src="{{streamSource}}" " type="application/x-mpegURL>
       <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        To view this video please enable JavaScript, and consider upgrading to a web browser thatsupports HTML5 video
       </p>
     </video>
-  
-    <script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+  </div>
 </div>

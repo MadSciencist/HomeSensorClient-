@@ -21,7 +21,7 @@ app.config(function ($routeProvider, $locationProvider, constants) {
         .when("/stream", {
             templateUrl: "stream.html",
             controller: "StreamController",
-            pageTitle: constants.dict[0].pageTitle.control,
+            pageTitle: "Podgląd kamer",
             auth: true
         })
         .when("/nodes", {
@@ -34,6 +34,18 @@ app.config(function ($routeProvider, $locationProvider, constants) {
             templateUrl: "users.html",
             controller: "UsersController",
             pageTitle: constants.dict[0].pageTitle.users,
+            auth: true
+        })
+        .when("/new-device-type", {
+            templateUrl: "manage-device-type.html",
+            controller: "ManageDeviceTypeController",
+            pageTitle: "Zarządzaj dostępnymi typami urządzeń",
+            auth: true
+        })
+        .when("/manage-streams", {
+            templateUrl: "manage-streams.html",
+            controller: "ManageStreamsController",
+            pageTitle: "Zarządzaj dostępnymi streamami",
             auth: true
         })
         .when("/my-profile", {
