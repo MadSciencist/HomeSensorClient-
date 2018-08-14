@@ -3,17 +3,29 @@ app.controller("StreamController", function ($scope, httpService) {
     $scope.messagebarMessage = '';
     $scope.playerSettings = '{"fluid": true}';
     $scope.streamSource = 'http://192.168.0.200:8083/hls/stream.m3u8';
+    $scope.selectedStream = 'ley1';
+    $scope.streams = [{
+        value: 'ley1',
+        dictionary: 'asss1'
+    }, {
+        value: 'ley2',
+        dictionary: 'asss2'
+    },
+    {
+        value: 'ley3',
+        dictionary: 'asss3'
+    }];
 
 
     $scope.initController = function() {
         //TODO
-        const url = '/api/streams/';
-        httpService.getData(url)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => console.log("Error while retrieving data: " + error)
-        );
+        // const url = '/api/streams/';
+        // httpService.getData(url)
+        // .then(response => {
+        //     console.log(response);
+        // })
+        // .catch(error => console.log("Error while retrieving data: " + error)
+        // );
     };
 
     $scope.startStream = function () {

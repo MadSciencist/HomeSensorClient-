@@ -25,6 +25,15 @@
     padding-bottom: 5px;
 }
 
+.vertical-spacer {
+    padding-top: 20px;
+}
+
+.horizontal-spacer {
+    display: inline-block;
+    padding-left: 20px;
+}
+
 #language-picker {
     background-color: #2e353d;
     border-radius: 1px;
