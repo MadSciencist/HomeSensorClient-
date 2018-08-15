@@ -14,14 +14,13 @@
       <button type="button" class="btn btn-secondary" ng-click="startStream()">Odtwarzaj</button>
       <button type="button" class="btn btn-danger" ng-click="stopStream()">Zatrzymaj</button>
     </div>
-    <div class="vertical-spacer"></div>
+    <div class="top-padding"></div>
   </div>
 
   <div class="row" style="max-width: 900px;">
     <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480"
       data-setup={{playerSettings}}>
       <source src="{{streamSource}}" " type="application/x-mpegURL>
-      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser thatsupports HTML5 video</p>
-    </video>
+      <p class="vjs-no-js">To view this video please enable JavaScript</p>
   </div>
 </div>

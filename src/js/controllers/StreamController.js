@@ -6,14 +6,17 @@ app.controller("StreamController", function ($scope, httpService) {
     $scope.selectedStream = 'ley1';
     $scope.streams = [{
         value: 'ley1',
-        dictionary: 'asss1'
+        dictionary: 'asss1',
+        url: ''
     }, {
         value: 'ley2',
-        dictionary: 'asss2'
+        dictionary: 'asss2',
+        url: ''
     },
     {
         value: 'ley3',
-        dictionary: 'asss3'
+        dictionary: 'asss3',
+        url: ''
     }];
 
 
