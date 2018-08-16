@@ -1,54 +1,71 @@
 app.controller("StreamController", function ($scope, httpService) {
+    const baseUrl = '/api/streamingdevices/';
     $scope.isMessagebarVisible = false;
     $scope.messagebarMessage = '';
     $scope.playerSettings = '{"fluid": true}';
-    $scope.streamSource = 'http://192.168.0.200:8083/hls/stream.m3u8';
-    $scope.selectedStream = 'ley1';
-    $scope.streams = [{
-        value: 'ley1',
-        dictionary: 'asss1',
-        url: ''
-    }, {
-        value: 'ley2',
-        dictionary: 'asss2',
-        url: ''
-    },
-    {
-        value: 'ley3',
-        dictionary: 'asss3',
-        url: ''
-    }];
+    $scope.streamUrl = '';
+    $scope.streams = {};
+    $scope.selectedStreamKey = '';
 
-
-    $scope.initController = function() {
-        //TODO
-        // const url = '/api/streams/';
-        // httpService.getData(url)
-        // .then(response => {
-        //     console.log(response);
-        // })
-        // .catch(error => console.log("Error while retrieving data: " + error)
-        // );
+    $scope.initController = function () {
+        getAllStreams();
     };
 
-    $scope.startStream = function () {
-        manageStreamService('start');
+    $scope.startStream = () => beginStream();
+    $scope.stopStream = () => stopStream();
+
+    $scope.streamChanged = function (o) {
+        const selectedStream = $scope.streams.filter(s => s.key === $scope.selectedStreamKey)[0];
+        $scope.selectedStreamKey = selectedStream.key;
+        $scope.streamUrl = selectedStream.url;
+        $scope.streamDescription = selectedStream.description;
     };
 
-    $scope.stopStream = function () {
-        manageStreamService('stop');
+    const getAllStreams = function () {
+        httpService.getData(baseUrl)
+            .then(response => {
+                $scope.streams = response.data.map(i => ({
+                    dictionary: i.name,
+                    key: i.name,
+                    url: i.connectionString,
+                    description: i.description
+                }))
+                $scope.selectedStreamKey = $scope.streams[0].key;
+                $scope.streamUrl = $scope.streams[0].url;
+                $scope.streamDescription = $scope.streams[0].description;
+            })
+            .catch(error => {
+                console.log('Wystapił błąd: ' + error);
+            });
     };
 
-    const manageStreamService = function(state){
-        const url = '/api/rpiprocesses/ffmpeg/'.concat(state);
-        httpService.getData(url)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            $scope.isMessagebarVisible = true;
-            $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
-            console.log("Error while retrieving data: " + error)}
-        );
-    };   
+    const beginStream = function (streamKey) {
+
+        //TODO post a stream id to hide its url and credentials
+        const url = '/api/rpiprocesses/ffmpeg/start';
+        const data = JSON.stringify({
+            Url: $scope.streamUrl
+        });
+
+        httpService.postData(url, data)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                $scope.isMessagebarVisible = true;
+                $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
+                console.log("Error while retrieving data: " + error)
+            });
+    };
+
+    const stopStream = function () {
+        const url = '/api/rpiprocesses/ffmpeg/stop';
+
+        httpService.postData(url, null)
+            .catch(error => {
+                $scope.isMessagebarVisible = true;
+                $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
+                console.log("Error while retrieving data: " + error)
+            });
+    };
 });

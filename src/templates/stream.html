@@ -8,7 +8,7 @@
   <div class="row">
     <div style="width: 200px; display: inline-block;">
       <p>Wybierz kamerę:</p>
-      <select class="form-control" ng-model="selectedStream" ng-options="option.value as option.dictionary for option in streams"></select>
+      <select class="form-control" ng-model="selectedStreamKey" ng-change="streamChanged()" ng-options="option.key as option.dictionary for option in streams"></select>
     </div>
     <div style="display: inline-block;">
       <button type="button" class="btn btn-secondary" ng-click="startStream()">Odtwarzaj</button>
@@ -20,7 +20,7 @@
   <div class="row" style="max-width: 900px;">
     <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480"
       data-setup={{playerSettings}}>
-      <source src="{{streamSource}}" " type="application/x-mpegURL>
+      <source src="{{streamUrl}}" " type="application/x-mpegURL>
       <p class="vjs-no-js">To view this video please enable JavaScript</p>
   </div>
 </div>
