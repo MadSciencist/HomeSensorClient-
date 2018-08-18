@@ -3,7 +3,6 @@ app.controller("StreamController", function ($scope, httpService) {
     $scope.isMessagebarVisible = false;
     $scope.messagebarMessage = '';
     $scope.playerSettings = '{"fluid": true}';
-    $scope.streamUrl = '';
     $scope.streams = {};
     $scope.selectedStreamKey = '';
 
@@ -26,12 +25,11 @@ app.controller("StreamController", function ($scope, httpService) {
             .then(response => {
                 $scope.streams = response.data.map(i => ({
                     dictionary: i.name,
-                    key: i.name,
+                    key: i.id,
                     url: i.connectionString,
                     description: i.description
                 }))
                 $scope.selectedStreamKey = $scope.streams[0].key;
-                $scope.streamUrl = $scope.streams[0].url;
                 $scope.streamDescription = $scope.streams[0].description;
             })
             .catch(error => {
@@ -40,11 +38,11 @@ app.controller("StreamController", function ($scope, httpService) {
     };
 
     const beginStream = function (streamKey) {
-
         //TODO post a stream id to hide its url and credentials
         const url = '/api/rpiprocesses/ffmpeg/start';
         const data = JSON.stringify({
-            Url: $scope.streamUrl
+            StreamingDeviceId: $scope.selectedStreamKey,
+            resolution: 'auto'
         });
 
         httpService.postData(url, data)

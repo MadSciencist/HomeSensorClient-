@@ -19,7 +19,10 @@ app.controller("ManageStreamsController", function ($scope, httpService) {
 
     $scope.createEditFormSubmit = function () {
         if ($scope.isUpdating === false) {
-            httpService.postData(baseUrl, getFormInputsData())
+            let data = getFormInputsData();
+            delete data.id;
+
+            httpService.postData(baseUrl, data)
                 .then(() => {
                     $scope.getAllStreams();
                     $scope.successMessage = `Stream ${$scope.formData.name} dodany!`;
@@ -30,10 +33,8 @@ app.controller("ManageStreamsController", function ($scope, httpService) {
                     $scope.isOperationFail = true;
                     $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy dodawaniu streamu ${$scope.formData.name}. Sprawdź połączenie sieciowe.`;
                 });
-        } else {
+        } else { 
             const updatingId = $scope.formData.id;
-            console.log($scope.formData);
-            console.log(updatingId);
             const putUrl = baseUrl.concat(updatingId);
             httpService.putData(putUrl, getFormInputsData())
                 .then(() => {
