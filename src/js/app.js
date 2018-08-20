@@ -1,5 +1,6 @@
 ﻿var app = angular.module("smartHomeApp", [
-    'ngRoute'
+    'ngRoute',
+    'ngMaterial'
 ]);
 
 app.run(function ($rootScope, constants) {

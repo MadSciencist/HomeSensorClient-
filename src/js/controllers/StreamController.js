@@ -31,14 +31,12 @@ app.controller("StreamController", function ($scope, httpService) {
                 }))
                 $scope.selectedStreamKey = $scope.streams[0].key;
                 $scope.streamDescription = $scope.streams[0].description;
-            })
-            .catch(error => {
+            }).catch(error => {
                 console.log('Wystapił błąd: ' + error);
             });
     };
 
     const beginStream = function (streamKey) {
-        //TODO post a stream id to hide its url and credentials
         const url = '/api/rpiprocesses/ffmpeg/start';
         const data = JSON.stringify({
             StreamingDeviceId: $scope.selectedStreamKey,
@@ -48,8 +46,7 @@ app.controller("StreamController", function ($scope, httpService) {
         httpService.postData(url, data)
             .then(response => {
                 console.log(response);
-            })
-            .catch(error => {
+            }).catch(error => {
                 $scope.isMessagebarVisible = true;
                 $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
                 console.log("Error while retrieving data: " + error)
@@ -58,7 +55,6 @@ app.controller("StreamController", function ($scope, httpService) {
 
     const stopStream = function () {
         const url = '/api/rpiprocesses/ffmpeg/stop';
-
         httpService.postData(url, null)
             .catch(error => {
                 $scope.isMessagebarVisible = true;
