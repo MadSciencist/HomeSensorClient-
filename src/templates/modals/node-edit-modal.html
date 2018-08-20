@@ -1,0 +1,57 @@
+<md-dialog style="min-width: 50%;">
+    <form name="nodeForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Nowe urządzenie</h2>
+                <span flex></span>
+                <md-button ng-click="cancel()">×</md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content form-horizontal container-fluid">
+
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Nazwa</label>
+                        <input required name="name" ng-model="form.name" type="text">
+                        <div ng-messages="nodeForm.name.$error">
+                            <div ng-message="required">Musisz podać nazwę.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Identyfikator</label>
+                        <input required name="identifier" ng-model="form.identifier" type="text">
+                        <div ng-messages="nodeForm.identifier.$error">
+                            <div ng-message="required">Musisz podać unikalny identyfikator.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                        <md-input-container flex="100">
+                                <label>Opis</label>
+                                <input name="description" ng-model="form.description" type="text">
+                            </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Login</label>
+                        <input name="login" ng-model="form.login" type="text">
+                    </md-input-container>
+
+                    <md-input-container flex="50">
+                        <label>Password</label>
+                        <input name="password" ng-model="form.password" type="password">
+                    </md-input-container>
+                </div>
+
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">Anuluj</md-button>
+            <md-button type="submit">Wyślij</md-button>
+            <!--show some spinner, mesage bar, .then close this form-->
+        </md-dialog-actions>
+    </form>
+</md-dialog>

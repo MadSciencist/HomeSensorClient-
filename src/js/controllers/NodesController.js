@@ -1,4 +1,52 @@
-﻿app.controller("NodesController", function ($scope, $http, $window, $document) {
+﻿app.controller("NodesController", function ($scope, $mdDialog, $http, $window, $document) {
+
+    $scope.nodeForm = {};
+    $scope.status = '  ';
+
+    $scope.showAdvanced = function (ev) {
+        $scope.nodeForm.email = "123@o2.pl";
+        $mdDialog.show({
+            controller: DialogController,
+            locals: { dataToPass: $scope.nodeForm },
+            templateUrl: './modals/node-edit-modal.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            fullscreen: false // Only for -xs, -sm breakpoints.
+        })
+            .then(event => {
+                console.log('YEP');
+            }, () => {
+                console.log('NOPE');
+            });
+    };
+
+    function DialogController($scope, $mdDialog, dataToPass) {
+        //inject data to form (2 way binding)
+        $scope.form = dataToPass;
+        
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function (answer) {
+            $mdDialog.hide(answer);
+        };
+    }
+
+
+
+
+
+
+
+
+
+
     $scope.nodes = [];
 
     $scope.onToggle = function (nodeId) {
@@ -91,7 +139,7 @@
             setTimeout(function () {
                 $scope.getNodes(); //refresh area
             }, 250);
-            
+
         }, function onError(error) {
             $('#nodes-info-error-text').text(error.data);
             $('#nodes-info-error').show();

@@ -12,13 +12,20 @@
 
     <div id="nodes-info-error" class="alert alert-danger alert-dismissible fade in" style="display: none">
         <a class="close" onclick="$('#nodes-info-error').hide()">×</a>
-        <strong>Błąd!</strong> <span id="nodes-info-error-text"></span>
+        <strong>Błąd!</strong>
+        <span id="nodes-info-error-text"></span>
     </div>
 
     <div class="container-fluid" style="margin-bottom: 15px;">
         <button type="submit" class="btn-success btn-sm btn" ng-click="getNodes()">Odśwież listę</button>
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newNodeModal" ng-click="clearNodeForm()">Dodaj nowe urządzenie</button>
     </div>
+
+
+
+            <md-button class="md-primary md-raised" ng-click="showAdvanced()">
+                Custom Dialog
+            </md-button>
 
     <!-- Modal -->
     <div class="modal fade" id="newNodeModal" tabindex="-1" role="dialog" aria-labelledby="addEditNodeModalLabel" aria-hidden="true">
