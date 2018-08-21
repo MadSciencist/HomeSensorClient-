@@ -2,14 +2,14 @@
     <form name="nodeForm">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Nowe urządzenie</h2>
+                <h2 ng-if="isEditing">Edytuj urządzenie</h2>
+                <h2 ng-if="!isEditing">Dodaj urządzenie</h2>
                 <span flex></span>
-                <md-button ng-click="cancel()">×</md-button>
+                <md-button ng-click="cancelForm()">×</md-button>
             </div>
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content form-horizontal container-fluid">
-
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Nazwa</label>
@@ -27,31 +27,58 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                        <md-input-container flex="100">
-                                <label>Opis</label>
-                                <input name="description" ng-model="form.description" type="text">
-                            </md-input-container>
+                    <md-input-container flex="100">
+                        <label>Opis</label>
+                        <input name="description" ng-model="form.description" type="text">
+                    </md-input-container>
                 </div>
-
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Login</label>
-                        <input name="login" ng-model="form.login" type="text">
+                        <input name="loginName" ng-model="form.loginName" type="text">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Password</label>
+                        <input name="loginPassword" ng-model="form.loginPassword" type="password">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Typ</label>
+                        <md-select ng-model="form.nodeType">
+                            <md-option ng-repeat="node in nodeDictionary" value="{{node.key}}" ng-bind="node.value"></md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50" ng-show="form.nodeType == 0">
+                        <label>Typ sensora</label>
+                        <md-select ng-model="form.sensorType">
+                            <md-option ng-repeat="sensor in sensorDictionary" value="{{sensor.key}}" ng-bind="sensor.value"></md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="50" ng-show="form.nodeType == 1">
+                        <label>Urządzenie</label>
+                        <md-select ng-model="form.actuatorType">
+                            <md-option ng-repeat="act in actuatorDictionary" value="{{act.key}}" ng-bind="act.value"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" ng-show="form.nodeType == 1">
+                    <md-input-container flex="50">
+                        <label>IP urządzenia</label>
+                        <input name="ipAddress" ng-model="form.ipAddress" type="text">
                     </md-input-container>
 
                     <md-input-container flex="50">
-                        <label>Password</label>
-                        <input name="password" ng-model="form.password" type="password">
+                        <label>IP bramy</label>
+                        <input name="gatewayAddress" ng-model="form.gatewayAddress" type="text">
                     </md-input-container>
                 </div>
-
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="cancel()">Anuluj</md-button>
-            <md-button type="submit">Wyślij</md-button>
-            <!--show some spinner, mesage bar, .then close this form-->
+            <md-button ng-click="cancelForm()">Anuluj</md-button>
+            <md-button ng-disabled="nodeForm.$invalid" ng-click="submitForm()">Wyślij</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

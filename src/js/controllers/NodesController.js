@@ -1,43 +1,98 @@
-﻿app.controller("NodesController", function ($scope, $mdDialog, $http, $window, $document) {
-
+﻿app.controller("NodesController", function ($scope, $rootScope, httpService, $mdDialog, $http) {
+    $scope.isEditing = false; //default => adding new 
+    $scope.isFetching = true;
+    $scope.nodes = [];
     $scope.nodeForm = {};
-    $scope.status = '  ';
 
-    $scope.showAdvanced = function (ev) {
-        $scope.nodeForm.email = "123@o2.pl";
+    $scope.initController = function () {
+        getAllNodes();
+    };
+
+    /* add/edit form and modal */
+    $scope.formModalFired = function (e, isUpdating, id) {
+        $scope.isEditing = isUpdating;
+        $scope.nodeForm = $scope.nodes.filter(n => n.id === id)[0] || {};
+        $scope.showNodeForm(e);
+    };
+
+    $scope.showNodeForm = function (ev) {
         $mdDialog.show({
             controller: DialogController,
-            locals: { dataToPass: $scope.nodeForm },
+            locals: {
+                isEditing: $scope.isEditing,
+                dataToPass: $scope.nodeForm,
+                nodeDictionary: $rootScope.nodeTypeDictionary,
+                sensorDictionary: $rootScope.sensorTypeDictionary,
+                actuatorDictionary: $rootScope.actuatorTypeDictionary
+            },
             templateUrl: './modals/node-edit-modal.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: false,
             fullscreen: false // Only for -xs, -sm breakpoints.
         })
-            .then(event => {
-                console.log('YEP');
+            .then(() => {
+                updateNodeData();
             }, () => {
-                console.log('NOPE');
+                console.log('Clicked cancel');
             });
     };
 
-    function DialogController($scope, $mdDialog, dataToPass) {
+    function DialogController($scope, $mdDialog, dataToPass, nodeDictionary, sensorDictionary, actuatorDictionary, isEditing) {
         //inject data to form (2 way binding)
         $scope.form = dataToPass;
-        
-        $scope.hide = function () {
+        $scope.nodeDictionary = nodeDictionary;
+        $scope.sensorDictionary = sensorDictionary;
+        $scope.actuatorDictionary = actuatorDictionary;
+        $scope.isEditing = isEditing;
+
+        $scope.hideForm = function () {
             $mdDialog.hide();
         };
 
-        $scope.cancel = function () {
+        $scope.cancelForm = function () {
             $mdDialog.cancel();
         };
 
-        $scope.answer = function (answer) {
+        $scope.submitForm = function (answer) {
             $mdDialog.hide(answer);
         };
     }
 
+    /* CRUD http operations */
+    const updateNodeData = function () {
+        $scope.isFetching = true;
+        if ($scope.isEditing === true) { //PUT
+            httpService.putData('/api/nodes/'.concat($scope.nodeForm.id), JSON.stringify($scope.nodeForm))
+                .then(resp => {
+                    $scope.isFetching = false;
+                    console.log(resp.data);
+                }).catch(error => console.error("Error while puting data: " + error.data));
+        } else { //POST
+            let formData = $scope.nodeForm;
+            delete formData.id;
+            httpService.postData('/api/nodes', JSON.stringify(formData))
+                .then(resp => {
+                    $scope.isFetching = false;
+                }).catch(error => console.error("Error while puting data: " + error.data));
+        }
+    };
+
+    $scope.deleteNode = function (nodeId) {
+        if (confirm("Czy na pewno chcesz usunąć wybrane urządzenie?")) {
+            httpService.deleteData('/api/nodes/'.concat(nodeId))
+                .then(() => getAllNodes())
+                .catch(error => console.error("Error while puting data: " + error.data));
+        }
+    };
+
+    getAllNodes = function () {
+        httpService.getData('/api/nodes')
+            .then(resp => {
+                $scope.nodes = resp.data;
+                $scope.isFetching = false;
+            }).catch(error => console.error("Error while getting data: " + error.data));
+    };
 
 
 
@@ -47,7 +102,8 @@
 
 
 
-    $scope.nodes = [];
+
+
 
     $scope.onToggle = function (nodeId) {
         let state;
@@ -237,38 +293,7 @@
     };
 
 
-    //ok
-    $scope.getNodes = function () {
-        const token = localStorage.getItem('token');
-        $http({
-            method: 'GET',
-            url: '/api/nodes',
-            headers: {
-                'Content-Type': 'application-json; charset=UTF-8',
-                'Authorization': 'Bearer '.concat(token)
-            }
-        }).then(function successCallback(response) {
-            $scope.nodes = response.data;
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-    };
 
-    //ok
-    $scope.deleteNode = function (nodeId) {
-        var result = confirm("Czy na pewno chcesz usunąć wybrane urządzenie?");
-        if (result) {
-            $http.delete('/api/nodes/'.concat(nodeId), {
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                'Accept': 'application/json'
-            }).then(function onSuccess(data) {
-                $('#nodes-info-sucessfully-deleted').show();
-                $scope.getNodes(); //refresh area
-            }, function onError(err) {
-                $('#nodes-info-error-not-deleted').show();
-            });
-        }
-    };
+
+
 });

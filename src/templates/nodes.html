@@ -1,5 +1,5 @@
-﻿<div class="container-fluid" ng-controller="NodesController" data-ng-init="getNodes()">
-
+﻿<div class="container-fluid" ng-controller="NodesController" data-ng-init="initController()">
+    <!-- message bars -->
     <div id="nodes-info-error-not-deleted" class="alert alert-danger alert-dismissible fade in" style="display: none">
         <a class="close" onclick="$('#nodes-info-error-not-deleted').hide()">×</a>
         <strong>Błąd!</strong> Spróbuj ponownie.
@@ -16,127 +16,19 @@
         <span id="nodes-info-error-text"></span>
     </div>
 
+    <!--refresh / add buttons-->
     <div class="container-fluid" style="margin-bottom: 15px;">
-        <button type="submit" class="btn-success btn-sm btn" ng-click="getNodes()">Odśwież listę</button>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newNodeModal" ng-click="clearNodeForm()">Dodaj nowe urządzenie</button>
+        <md-button class="md-raised" ng-click="getNodes()">Odśwież listę</md-button>
+        <md-button class="md-primary md-raised" ng-click="formModalFired($event, false, null)">Dodaj nowe urządzenie</md-button>
     </div>
 
-
-
-            <md-button class="md-primary md-raised" ng-click="showAdvanced()">
-                Custom Dialog
-            </md-button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="newNodeModal" tabindex="-1" role="dialog" aria-labelledby="addEditNodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addEditNodeModalLabel">Dodaj nowe urządzenie</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body container-fluid">
-                    <!--contnt begin-->
-
-                    <form class="form-horizontal container-fluid" name="serverForm">
-
-                        <div class="row form-group">
-                            <label for="nodeName" class="control-label col-xs-3">Nazwa</label>
-                            <div class="col-xs-9">
-                                <input id="nodeName" name="nodeName" placeholder="Wpisz nazwę..." type="text" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <label for="nodeIdentifier" class="control-label col-xs-3">Identyfikator</label>
-                            <div class="col-xs-9">
-                                <input id="nodeIdentifier" name="nodeIdentifier" placeholder="Podaj identyfikator...." type="text" class="form-control" aria-describedby="nodeIfentifierHelpBlock">
-                                <span id="nodeIfentifierHelpBlock" class="help-block">Identyfikator powinien być unikalny oraz powinien zgadzać się z identyfikatorem urządzenia.</span>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <label for="nodeLogin" class="control-label col-xs-3">Login urządzenia</label>
-                            <div class="col-xs-9">
-                                <input id="nodeLogin" name="nodeLogin" placeholder="Wpisz login urządzenia..." type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <label for="nodePassword" class="control-label col-xs-3">Hasło urządzenia</label>
-                            <div class="col-xs-9">
-                                <input id="nodePassword" name="nodePassword" placeholder="Wpisz hasło urządzenia..." type="text" class="form-control">
-                            </div>
-                        </div>
-                        <!--TODO migrate select to angular-->
-                        <div class="frow form-group">
-                            <label for="nodeType" class="control-label col-xs-3">Wybierz rodzaj</label>
-                            <div class="col-xs-9">
-                                <select id="nodeType" name="nodeType" class="select form-control" ng-model="nodeType" ng-change="nodeTypeChanged()">
-                                    <option value="nodeSensor">Czujnik</option>
-                                    <option value="nodeActuator">Sterownik</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group" id="selectSensorType" style="display: none;">
-                                <label for="sensorType" class="control-label col-xs-3">Sprecyzuj:</label>
-                                <div class="col-xs-9">
-                                    <select id="sensorType" name="sensorType" class="select form-control" ng-model="sensorType" ng-change="exactNodeTypeChanged()">
-                                        <option value="nodeSensorTemperature">Czujnik temperatury</option>
-                                        <option value="nodeSensorSun">Czujnik oświetlenia</option>
-                                        <option value="nodeSensorPir">Czujnik ruchu</option>
-                                        <option value="nodeSensorHumidity">Czujnik wilgotności</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group" id="selectActuatorType" style="display: none;">
-                                <label for="actuatorType" class="control-label col-xs-3">Sprecyzuj:</label>
-                                <div class="col-xs-9">
-                                    <select id="actuatorType" name="actuatorType" class="select form-control" ng-model="actuatorType" ng-change="exactNodeTypeChanged()">
-                                        <option value="nodeActuatorRelay1">Przekaźnik 1</option>
-                                        <option value="nodeActuatorRelay2">Przekaźnik 2</option>
-                                        <option value="nodeActuatorRelay4">Przekaźnik 4</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div class="row form-group">
-                                <label for="nodeIP" class="control-label col-xs-3">Adres IP</label>
-                                <div class="col-xs-9">
-                                    <input id="nodeIP" name="nodeIP" placeholder="Wpisz adres IP..." type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <label for="nodeGatewayIP" class="control-label col-xs-3">Adres IP bramy</label>
-                                <div class="col-xs-9">
-                                    <input id="nodeGatewayIP" name="nodeGatewayIP" placeholder="Wpisz adres IP..." type="text" class="form-control">
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </form>
-
-                    <!--content end-->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-                    <button type="button" class="btn btn-primary" ng-click="processAddEditNodeButton();" data-dismiss="modal">Wyślij</button>
-                </div>
-            </div>
-        </div>
+    <!-- loading spinner-->
+    <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isFetching">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
 
-
-
+    <!-- table -->
+    <!--TODO osobne tabele do sensor i actuators-->
     <div class="container-fluid">
         <table class="table table-hover">
             <tr>
@@ -156,8 +48,8 @@
                 <td>{{ node.ipAddress }}</td>
                 <td>{{ node.gatewayAddress }}</td>
                 <td>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="editNodePrefillForm(node.id)" data-toggle="modal" data-target="#newNodeModal">Edytuj</button>
-                    <button type="submit" class="btn btn-sm btn-danger" ng-click="deleteNode(node.id)">Usuń</button>
+                        <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
+                        <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
                 </td>
             </tr>
         </table>

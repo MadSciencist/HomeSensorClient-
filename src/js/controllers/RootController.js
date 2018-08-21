@@ -1,41 +1,44 @@
-﻿app.controller("RootController", function ($rootScope, $http, httpService, $scope, $window, $route, $location) {
-    $rootScope.genderDictionary = [];
-    $rootScope.roleDictionary = [];
+﻿app.controller("RootController", function ($rootScope, httpService, $q, $scope, $window, $route) {
     $rootScope.isDictionaryDataFetched = false;
     $scope.isUserAdmin = false;
 
     $scope.initController = function () {
-        if (localStorage.getItem('role') === "Admin") {
-            $scope.isUserAdmin = true;
-        }
+        localStorage.getItem('role') === "Admin" ? $scope.isUserAdmin = true : $scope.isUserAdmin = false;
 
-        const rolesDictionaryUrl = '/api/dictionaries/roles';
-        const gendersDictionaryUrl = '/api/dictionaries/genders';
+        /* parallel fetching, than wait for resolving the promise (all fetches have to be done */
+        let fetch1 = httpService.getData('/api/dictionaries/roles')
+            .then(r => { $rootScope.roleDictionary = r.data; });
 
-        httpService.getData(rolesDictionaryUrl)
-            .then(function (response) {
-                $rootScope.roleDictionary = response.data;
-            })
-            .then(httpService.getData(gendersDictionaryUrl)
-                .then(function (response) {
-                    $rootScope.genderDictionary = response.data;
-                    $rootScope.isDictionaryDataFetched = true;
-                })
-            ).catch(error => console.log("Error while retrieving data: " + error));
+        let fetch2 = httpService.getData('/api/dictionaries/genders')
+            .then(r => { $rootScope.genderDictionary = r.data; });
+
+        let fetch3 = httpService.getData('/api/dictionaries/types/node')
+            .then(r => { $rootScope.nodeTypeDictionary = r.data; });
+
+        let fetch4 = httpService.getData('/api/dictionaries/types/sensor')
+            .then(r => { $rootScope.sensorTypeDictionary = r.data; });
+
+        let fetch5 = httpService.getData('/api/dictionaries/types/actuator')
+            .then(r => { $rootScope.actuatorTypeDictionary = r.data; });
+
+        $q.all([fetch1, fetch2, fetch3, fetch4, fetch5]).then(() => {
+            console.log('All dictionaries data fetched.');
+            $rootScope.isDictionaryDataFetched = true;
+        });
     };
 
     $rootScope.getUserRoleFromDictionary = function (roleId) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.roleDictionary.filter(r => r.value === roleId))[0].dictionary;
+        return ($rootScope.roleDictionary.filter(r => r.key === roleId))[0].value;
     };
 
     $rootScope.getUserGenderFromDictionary = function (genderId) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.genderDictionary.filter(g => g.value === genderId))[0].dictionary;
+        return ($rootScope.genderDictionary.filter(g => g.key === genderId))[0].value;
     };
 
     $scope.logout = function () {

@@ -10,7 +10,7 @@
 
     $scope.initController = function () {
         $scope.getUser()
-            .then(function () {
+            .then(() => {
                 initDatePicker();
             });
     };
@@ -49,14 +49,12 @@
 
         //update edited extra fields
         $scope.userToEdit.photoUrl = $scope.uploadedAvatarUrl;
-
-        //TODO: brithdate is one day off, DAMN YOU JS
         $scope.userToEdit.birthdate = picker.dateSelected;
 
         const payload = JSON.stringify($scope.userToEdit);
 
         httpService.putData(updateUrl, payload)
-            .then(function (response) {
+            .then(() => {
                 $location.path('/my-profile');
                 $scope.getUser();
             }).catch(error => console.log("Error while puting data: " + error));
@@ -69,7 +67,7 @@
     $scope.getUser = function () {
         const userUrl = '/api/users/'.concat(localStorage.getItem('userId'));
         return httpService.getData(userUrl)
-            .then(function (response) {
+            .then(response => {
                 $scope.userData = getFullNamesOfUserAttibutes(response.data);
                 $scope.userData.roleDictionary = $scope.scopeGetUserRoleFromDictionary($scope.userData.role);
                 $scope.userData.genderDictionary = $scope.scopeGetUserGenderFromDictionary($scope.userData.gender);
@@ -93,7 +91,6 @@
             cache: false,
             contentType: false,
             processData: false,
-
         }).then(function (response) {
             const splitedUrl = response.url.split("\\")[8];
             const avatarFullUrl = getAvatarFullUrl(splitedUrl);

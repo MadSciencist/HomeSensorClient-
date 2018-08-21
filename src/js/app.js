@@ -1,6 +1,7 @@
 ﻿var app = angular.module("smartHomeApp", [
     'ngRoute',
-    'ngMaterial'
+    'ngMaterial',
+    'ngMessages'
 ]);
 
 app.run(function ($rootScope, constants) {

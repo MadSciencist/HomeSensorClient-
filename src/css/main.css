@@ -1,9 +1,14 @@
-﻿body {
-    margin: 0;
-    padding: 0;
+﻿html {
+    height: 100%
 }
 
-.footer {
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%
+}
+
+.user-footer {
     background-color:#23282e;
     height: 40px;
     text-align: center;

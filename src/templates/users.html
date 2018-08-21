@@ -71,7 +71,7 @@
                         <div class="row form-group">
                             <label for="userRole" class="control-label col-xs-3">Rola: </label>
                             <div class="col-xs-9">
-                                <select name="userRole" class="form-control" ng-model="userToEdit.role" ng-options="option.value as option.dictionary for option in roleDictionary"></select>
+                                <select name="userRole" class="form-control" ng-model="userToEdit.role" ng-options="option.key as option.value for option in roleDictionary"></select>
                             </div>
                         </div>
                     </form>
