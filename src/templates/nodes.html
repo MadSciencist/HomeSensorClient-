@@ -1,57 +1,80 @@
 ﻿<div class="container-fluid" ng-controller="NodesController" data-ng-init="initController()">
     <!-- message bars -->
-    <div id="nodes-info-error-not-deleted" class="alert alert-danger alert-dismissible fade in" style="display: none">
-        <a class="close" onclick="$('#nodes-info-error-not-deleted').hide()">×</a>
-        <strong>Błąd!</strong> Spróbuj ponownie.
+    <div class="alert alert-danger alert-dismissible fade in" ng-show="isNodeErrorMessageVisible">
+        <a class="close" ng-click="isNodeErrorMessageVisible = false;">×</a>
+        <strong>Błąd :( </strong>
+        <span ng-bind="nodeErrorMessage"></span>
     </div>
-
-    <div id="nodes-info-sucessfully-deleted" class="alert alert-success alert-dismissible fade in" style="display: none">
-        <a class="close" onclick="$('#nodes-info-sucessfully-deleted').hide()">×</a>
-        <strong>Sukces!</strong> Pomyślnie usunięto.
-    </div>
-
-    <div id="nodes-info-error" class="alert alert-danger alert-dismissible fade in" style="display: none">
-        <a class="close" onclick="$('#nodes-info-error').hide()">×</a>
-        <strong>Błąd!</strong>
-        <span id="nodes-info-error-text"></span>
+    <div class="alert alert-success alert-dismissible fade in" ng-show="isNodeSuccessMessageVisible">
+        <a class="close" ng-click="isNodeSuccessMessageVisible = false;">×</a>
+        <strong>Sukces! </strong>
+        <span ng-bind="nodeSuccessMessage"></span>
     </div>
 
     <!--refresh / add buttons-->
     <div class="container-fluid" style="margin-bottom: 15px;">
-        <md-button class="md-raised" ng-click="getNodes()">Odśwież listę</md-button>
+        <md-button class="md-raised" ng-click="isFetching = true; getAllNodes();">Odśwież listę</md-button>
         <md-button class="md-primary md-raised" ng-click="formModalFired($event, false, null)">Dodaj nowe urządzenie</md-button>
     </div>
 
     <!-- loading spinner-->
-    <div layout="row" layout-sm="column" layout-align="space-around" ng-if="isFetching">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    <div ng-if="isFetching" class="spinner-wrapper">
+        <div class="centered-spinner">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
     </div>
 
     <!-- table -->
     <!--TODO osobne tabele do sensor i actuators-->
     <div class="container-fluid">
-        <table class="table table-hover">
-            <tr>
-                <th>Nazwa</th>
-                <th>Identyfikator</th>
-                <th>Typ</th>
-                <th>Rodzaj urządzenia</th>
-                <th>Adres IP</th>
-                <th>Adres IP gateway</th>
-                <th>Akcje</th>
-            </tr>
-            <tr ng-repeat="node in nodes | orderBy: 'id'">
-                <td>{{ node.name }}</td>
-                <td>{{ node.identifier }}</td>
-                <td>{{ node.type }}</td>
-                <td>{{ node.exactType }}</td>
-                <td>{{ node.ipAddress }}</td>
-                <td>{{ node.gatewayAddress }}</td>
-                <td>
+        <h3 class="md-headline">Czujniki:</h3>
+        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th class="center">Nazwa</th>
+                    <th>Opis</th>
+                    <th class="center">Identyfikator</th>
+                    <th class="center">Rodzaj urządzenia</th>
+                    <th class="center">Akcje</th>
+                </tr>
+                <tr ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '0'}">
+                    <td class="col-sm-2 center thick" ng-bind="node.name"></td>
+                    <td class="col-sm-5" ng-bind="node.description"></td>
+                    <td class="col-sm-1 center" ng-bind="node.identifier"></td>
+                    <td class="col-sm-1 center" ng-bind="getSensorTypeFromDictionary(node.sensorType)"></td>
+                    <td class="col-sm-3 center">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
-                </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <h3 class="md-headline top-margin-sm">Sterowniki:</h3>
+        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th class="center">Nazwa</th>
+                    <th>Opis</th>
+                    <th class="center">Adres IP</th>
+                    <th class="center">Adres IP gateway</th>
+                    <th class="center">Identyfikator</th>
+                    <th class="center">Rodzaj urządzenia</th>
+                    <th class="center">Akcje</th>
+                </tr>
+                <tr ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '1'}">
+                    <td class="col-sm-2 center thick" ng-bind="node.name"></td>
+                    <td class="col-sm-3" ng-bind="node.description"></td>
+                    <td class="col-sm-1 center" ng-bind="node.ipAddress"></td>
+                    <td class="col-sm-1 center" ng-bind="node.gatewayAddress"></td>
+                    <td class="col-sm-1 center" ng-bind="node.identifier"></td>
+                    <td class="col-sm-1 center" ng-bind="getActuatorTypeFromDictionary(node.actuatorType)"></td>
+                    <td class="col-sm-3 center">
+                        <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
+                        <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

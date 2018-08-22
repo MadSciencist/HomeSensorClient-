@@ -8,12 +8,45 @@ body {
     height: 100%
 }
 
+.table-vertical-align-center > .table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.table-head-vertical-align-center > .table > tbody > tr > th {
+    vertical-align: middle;
+}
+
+.thick {
+    font-weight: 600;
+}
+
+.spinner-wrapper {
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    background-color: rgb(100, 100, 100, 0.2); 
+}
+
+.centered-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.center {
+    text-align: center;
+}
+
 .user-footer {
     background-color:#23282e;
-    height: 40px;
+    vertical-align: middle;
+    height: 58px;
     text-align: center;
     color: #dddddd;
-    padding-top: 10px;
+    padding-top: 8px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -41,6 +74,10 @@ body {
 
 .top-padding {
     padding-top: 20px;
+}
+
+.top-margin-sm {
+    margin-top: 15px;
 }
 
 .vertical-spacer {

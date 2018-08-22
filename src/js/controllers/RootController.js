@@ -27,18 +27,39 @@
         });
     };
 
-    $rootScope.getUserRoleFromDictionary = function (roleId) {
+    $rootScope.getNodeTypeFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.roleDictionary.filter(r => r.key === roleId))[0].value;
+        return ($rootScope.nodeTypeDictionary.filter(n => n.key === key))[0].value;
     };
 
-    $rootScope.getUserGenderFromDictionary = function (genderId) {
+    $rootScope.getSensorTypeFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.genderDictionary.filter(g => g.key === genderId))[0].value;
+        return ($rootScope.sensorTypeDictionary.filter(n => n.key === key))[0].value;
+    };
+
+    $rootScope.getActuatorTypeFromDictionary = function (key) {
+        if (!$rootScope.isDictionaryDataFetched) {
+            return;
+        }
+        return ($rootScope.actuatorTypeDictionary.filter(n => n.key === key))[0].value;
+    };
+
+    $rootScope.getUserRoleFromDictionary = function (key) {
+        if (!$rootScope.isDictionaryDataFetched) {
+            return;
+        }
+        return ($rootScope.roleDictionary.filter(r => r.key === key))[0].value;
+    };
+
+    $rootScope.getUserGenderFromDictionary = function (key) {
+        if (!$rootScope.isDictionaryDataFetched) {
+            return;
+        }
+        return ($rootScope.genderDictionary.filter(g => g.key === key))[0].value;
     };
 
     $scope.logout = function () {

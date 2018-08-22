@@ -16,7 +16,7 @@
             $scope.isAuthorizedToViewAllUsers = true;
 
             httpService.getData(baseUsersUrl)
-                .then(function (response) {
+                .then(response => {
                     $scope.users = response.data;
                 }).catch(error => {
                     $scope.isAuthorizedToViewAllUsers = false;
@@ -31,16 +31,15 @@
     };
 
     $scope.editUserRoleSubmit = function () {
+        const url = baseUsersUrl + $scope.userToEdit.id;
         if (IsAdminTryingToDeleteItselfOrRemovePriviledges($scope.userToEdit.id)) {
             $scope.isUpdateFailed = true;
             $scope.resultMessage = "Admin nie może zmniejszyć sam swojej roli."
             return;
         }
 
-        const url = baseUsersUrl + $scope.userToEdit.id;
-
         httpService.putData(url, JSON.stringify($scope.userToEdit))
-            .then(function (response) {
+            .then(() => {
                 $scope.isUpdateSuccess = true;
                 $scope.isUpdateFailed = false;
                 $scope.resultMessage = "Udało się! Użytkownik " +
@@ -56,6 +55,7 @@
     };
 
     $scope.deleteUser = function (id) {
+        const url = baseUsersUrl + id;
         $scope.userToEdit = ($scope.users.filter(u => u.id === id))[0];
 
         if (IsAdminTryingToDeleteItselfOrRemovePriviledges(id)) {
@@ -63,8 +63,6 @@
             $scope.resultMessage = "Admin nie może się sam usunąć."
             return;
         }
-
-        const url = baseUsersUrl + id;
 
         httpService.deleteData(url)
             .then(function (response) {

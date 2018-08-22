@@ -1,14 +1,14 @@
 ﻿<div class="container-fluid" ng-controller="NodesController" data-ng-init="getActuators()">
-
-    <div id="devices-info-error-not-send" class="alert alert-danger alert-dismissible fade in" style="display: none">
-        <a class="close" onclick="$('#devices-info-error-not-send').hide()">×</a>
-        <strong>Błąd!</strong>
-        <span id="devices-info-error-text"></span>
+    <!-- message bars -->
+    <div class="alert alert-danger alert-dismissible fade in" ng-show="isControlErrorMessageVisible">
+        <a class="close" ng-click="isControlErrorMessageVisible = false;">×</a>
+        <strong>Błąd :( </strong>
+        <span ng-bind="controlErrorMessage"></span>
     </div>
-    <div id="devices-info-sucessfully-send" class="alert alert-success alert-dismissible fade in" style="display: none">
-        <a class="close" onclick="$('#devices-info-sucessfully-send').hide()">×</a>
-        <strong>Sukces!</strong>
-        <span id="devices-info-success-text"></span>
+    <div class="alert alert-success alert-dismissible fade in" ng-show="isControlSuccessMessageVisible">
+        <a class="close" ng-click="isControlSuccessMessageVisible = false;">×</a>
+        <strong>Sukces! </strong>
+        <span ng-bind="controlSuccessMessage"></span>
     </div>
 
     <div class="row">

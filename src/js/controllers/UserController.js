@@ -1,4 +1,4 @@
-﻿app.controller("UserController", function ($scope, $rootScope, constants, $location, httpService) {
+﻿app.controller("UserController", function ($scope, $rootScope, $location, httpService) {
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.scopeGetUserGenderFromDictionary = $rootScope.getUserGenderFromDictionary;
     $scope.userData = {};
