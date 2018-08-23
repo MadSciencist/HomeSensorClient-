@@ -52,6 +52,8 @@
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
+        console.log('filtering key: ' + key);
+        console.log($rootScope.roleDictionary);
         return ($rootScope.roleDictionary.filter(r => r.key === key))[0].value;
     };
 

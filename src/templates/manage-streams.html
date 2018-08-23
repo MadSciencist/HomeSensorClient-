@@ -1,112 +1,52 @@
 <div class="container-fluid" ng-controller="ManageStreamsController" data-ng-init="initController()">
-
+    <!--message bars-->
     <div class="alert alert-success alert-dismissible fade in" ng-show="isOpertionSuccess">
         <a class="close" ng-click="isOpertionSuccess = false">×</a>
-        <strong>Sukces!</strong><span ng-bind="successMessage" class="left-padding-sm"></span>
+        <strong>Sukces!</strong>
+        <span ng-bind="successMessage" class="left-padding-sm"></span>
     </div>
 
     <div class="alert alert-danger alert-dismissible fade in" ng-show="isOperationFail">
         <a class="close" ng-click="isOperationFail = false;">×</a>
-        <strong>Błąd!</strong><span ng-bind="errorMessage" class="left-padding-sm"></span>
+        <strong>Błąd!</strong>
+        <span ng-bind="errorMessage" class="left-padding-sm"></span>
     </div>
 
-    <div class="container-fluid">
-        <button type="button" class="btn btn-success btn-sm" ng-click="getAllStreams();">Odśwież listę</button>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewStreamModal" ng-click="isUpdating = false; clearFormInputs();">
-            Dodaj nowy stream
-        </button>
+    <!--refresh / add buttons-->
+    <div class="container-fluid" style="margin-bottom: 15px;">
+        <md-button class="md-raised" ng-click="getAllStreams();">Odśwież listę</md-button>
+        <md-button class="md-primary md-raised" ng-click="formModalFired($event, false, null)">Dodaj nowy stream</md-button>
+    </div>
 
-        <!-- display streams table -->
-        <div class="vertical-spacer"></div>
-        <table class="table table-responsive table-hover top-padding" ng-show="streams.length > 0">
-            <tr>
-                <th>Nazwa</th>
-                <th>Opis</th>
-                <th>Akcje</th>
-            </tr>
-            <tr ng-repeat="stream in streams | orderBy: 'id'">
-                <td ng-bind="stream.name"></td>
-                <td ng-bind="stream.description"></td>
-                <td>
-                    <button type="button" class="btn btn-secondary btn-sm" ng-click="editStreamModalFired(stream.id);" data-toggle="modal" data-target="#addNewStreamModal">
-                        Edytuj
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="deleteStream(stream.id)">
-                        Usuń
-                    </button>
-                </td>
-            </tr>
-        </table>
-        
-        <div class="container-fluid well" ng-show="!streams.length">Aktualnie brak dodanych streamów.</div>
-
-        <!-- Modal add new stream user -->
-        <div class="modal fade" id="addNewStreamModal" tabindex="-1" role="dialog" aria-labelledby="addNewStreamModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userEditModalLabel">Podaj dane</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!--modal body begin-->
-                        <form class="form-horizontal container-fluid" name="addnewStreamForm" novalidate>
-                            <!--novalidate prevents HTML5 validation-->
-
-                            <div class="row form-group" ng-class="{ 'has-error' : addnewStreamForm.name.$invalid && !addnewStreamForm.name.$pristine }">
-                                <label for="name" class="control-label col-xs-3">Nazwa</label>
-                                <div class="col-xs-9">
-                                    <input name="name" ng-model="formData.name" type="text" class="form-control" required>
-                                    <p ng-show="addnewStreamForm.name.$invalid && !addnewStreamForm.name.$pristine" class="help-block edit-user-form-validation-message">Musisz podać nazwę.
-                                        <span class="glyphicon glyphicon-exclamation-sign red"></span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="row form-group" ng-class="{ 'has-error' : addnewStreamForm.description.$invalid && !addnewStreamForm.description.$pristine }">
-                                <label for="description" class="control-label col-xs-3">Opis</label>
-                                <div class="col-xs-9">
-                                    <input name="description" ng-model="formData.description" type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row form-group" ng-class="{ 'has-error' : addnewStreamForm.url.$invalid && !addnewStreamForm.url.$pristine }">
-                                <label for="url" class="control-label col-xs-3">Adres URL RTSP</label>
-                                <div class="col-xs-9">
-                                    <input name="url" ng-model="formData.connectionString" type="text" class="form-control" required>
-                                    <p ng-show="addnewStreamForm.url.$invalid && !addnewStreamForm.url.$pristine" class="help-block edit-user-form-validation-message">Musisz podać poprawny adres URL.
-                                        <span class="glyphicon glyphicon-exclamation-sign red"></span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <label for="login" class="control-label col-xs-3">Login RTSP</label>
-                                <div class="col-xs-9">
-                                    <input name="login" ng-model="formData.login" type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <label for="password" class="control-label col-xs-3">Hasło RTSP</label>
-                                <div class="col-xs-9">
-                                    <input name="password" ng-model="formData.password" type="text" class="form-control">
-                                </div>
-                            </div>
-
-                        </form>
-                        <!--modal body end-->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                        <button type="button" class="btn btn-primary" ng-disabled="addnewStreamForm.$invalid" ng-click="createEditFormSubmit()" data-dismiss="modal">Zapisz zmiany</button>
-                    </div>
-                </div>
-            </div>
+    <!-- loading spinner-->
+    <div ng-if="isFetching" class="spinner-wrapper">
+        <div class="centered-spinner">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
     </div>
 
+    <div class="container-fluid">
+        <!-- display streams table -->
+        <h3 class="md-headline">Dodane streamy:</h3>
+        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
+            <table class="table table-condensed table-hover" ng-show="streams.length > 0">
+                <tr>
+                    <th class="center">Nazwa</th>
+                    <th>Opis</th>
+                    <th>URL</th>
+                    <th class="center">Akcje</th>
+                </tr>
+                <tr ng-repeat="stream in streams | orderBy: 'id'">
+                    <td class="center col-sm-2 thick" ng-bind="stream.name"></td>
+                    <td class="col-sm-3" ng-bind="stream.description"></td>
+                    <td class="col-sm-4" ng-bind="stream.connectionString"></td>
+                    <td class="center col-sm-3">
+                        <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, stream.id)">Edytuj</md-button>
+                        <md-button class="md-warn md-raised" ng-click="deleteStream(stream.id)">Usuń</md-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="container-fluid well" ng-show="!streams.length">Aktualnie brak dodanych streamów.</div>
+    </div>
 </div>

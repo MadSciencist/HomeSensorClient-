@@ -1,4 +1,4 @@
-﻿app.controller("NodesController", function ($scope, $rootScope, httpService, $mdDialog) {
+﻿app.controller("ManageNodesController", function ($scope, $rootScope, httpService, $mdDialog) {
     $scope.getNodeTypeFromDictionary = $rootScope.getNodeTypeFromDictionary;
     $scope.getSensorTypeFromDictionary = $rootScope.getSensorTypeFromDictionary;
     $scope.getActuatorTypeFromDictionary = $rootScope.getActuatorTypeFromDictionary;
@@ -107,6 +107,7 @@
 
     $scope.deleteNode = function (nodeId) {
         if (confirm("Czy na pewno chcesz usunąć wybrane urządzenie?")) {
+            $scope.isFetching = true;
             httpService.deleteData('/api/nodes/'.concat(nodeId))
                 .then(() => {
                     $scope.isNodeSuccessMessageVisible = true;
@@ -123,6 +124,7 @@
     };
 
     $scope.getAllNodes = function () {
+        $scope.isFetching = true;
         httpService.getData('/api/nodes')
             .then(resp => {
                 $scope.nodes = resp.data;
@@ -141,7 +143,6 @@
             .then(resp => {
                 $scope.nodes = resp.data;
             }).catch(error => {
-                $scope.isFetching = false;
                 console.error("Error while getting data: " + error.data);
             });
     };

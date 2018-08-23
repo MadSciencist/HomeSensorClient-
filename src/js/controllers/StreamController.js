@@ -32,7 +32,7 @@ app.controller("StreamController", function ($scope, httpService) {
                 $scope.selectedStreamKey = $scope.streams[0].key;
                 $scope.streamDescription = $scope.streams[0].description;
             }).catch(error => {
-                console.log('Wystapił błąd: ' + error);
+                console.log('Wystapił błąd: ' + error.data);
             });
     };
 
@@ -49,7 +49,7 @@ app.controller("StreamController", function ($scope, httpService) {
             }).catch(error => {
                 $scope.isMessagebarVisible = true;
                 $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
-                console.log("Error while retrieving data: " + error)
+                console.log("Error while retrieving data: " + error.data)
             });
     };
 
@@ -59,7 +59,7 @@ app.controller("StreamController", function ($scope, httpService) {
             .catch(error => {
                 $scope.isMessagebarVisible = true;
                 $scope.messagebarMessage = "Ups! Coś poszło nie tak. Sprawdź połączenie sieciowe."
-                console.log("Error while retrieving data: " + error)
+                console.log("Error while retrieving data: " + error.data)
             });
     };
 });

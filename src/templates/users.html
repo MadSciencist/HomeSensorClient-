@@ -11,32 +11,37 @@
         <span ng-bind="resultMessage"></span>
     </div>
 
-    <div class="container-fluid" ng-show="isAuthorizedToViewAllUsers">
-        <table class="table table-responsive table-hover">
-            <tr>
-                <th>Imie</th>
-                <th>Nazwisko</th>
-                <th>E-Mail</th>
-                <th>Data dołączenia</th>
-                <th>Rola</th>
-                <th>Akcje</th>
-            </tr>
-            <tr ng-repeat="user in users | orderBy: 'id'">
-                <td ng-bind="user.name"></td>
-                <td ng-bind="user.lastname"></td>
-                <td ng-bind="user.email"></td>
-                <td ng-bind="formatDate(user.joinDate)"></td>
-                <td ng-bind="scopeGetUserRoleFromDictionary(user.role)"></td>
-                <td>
-                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editPrivillagedModal" ng-click="editUserRole(user.id)">
-                        Uprawnienia
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-click="deleteUser(user.id)">
-                        Usuń
-                    </button>
-                </td>
-            </tr>
-        </table>
+    <!-- loading spinner-->
+    <div ng-if="isFetching" class="spinner-wrapper">
+        <div class="centered-spinner">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h3 class="md-headline">Użytkownicy systemu:</h3>
+        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center" ng-show="isAuthorizedToViewAllUsers">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th class="center">Imie</th>
+                    <th class="center">Nazwisko</th>
+                    <th class="center">E-Mail</th>
+                    <th class="center">Data dołączenia</th>
+                    <th class="center">Rola</th>
+                    <th class="center">Akcje</th>
+                </tr>
+                <tr ng-repeat="user in users | orderBy: 'id'">
+                    <td class="col-sm-1 center thick" ng-bind="user.name"></td>
+                    <td class="col-sm-1 center thick" ng-bind="user.lastname"></td>
+                    <td class="col-sm-2 center" ng-bind="user.email"></td>
+                    <td class="col-sm-3 center" ng-bind="formatDate(user.joinDate)"></td>
+                    <td class="col-sm-1 center" ng-bind="scopeGetUserRoleFromDictionary(user.role)"></td>
+                    <td class="col-sm-4 center">
+                        <md-button class="md-primary md-raised" ng-click="formModalFired($event, user.id)">Uprawnienia</md-button>
+                        <md-button class="md-warn md-raised" ng-click="deleteUser(user.id)">Usuń</md-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div class="container-fluid" ng-hide="isAuthorizedToViewAllUsers">

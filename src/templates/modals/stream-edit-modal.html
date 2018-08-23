@@ -1,0 +1,53 @@
+<md-dialog style="min-width: 50%;">
+    <form name="streamForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-if="isEditing">Edytuj stream</h2>
+                <h2 ng-if="!isEditing">Dodaj stream</h2>
+                <span flex></span>
+                <md-button ng-click="cancelForm()">×</md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content form-horizontal container-fluid">
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Nazwa</label>
+                        <input required name="name" ng-model="form.name" type="text">
+                        <div ng-messages="streamForm.name.$error">
+                            <div ng-message="required">Musisz podać nazwę.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Opis</label>
+                        <input name="description" ng-model="form.description" type="text">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="100">
+                        <label>Adres URL RTSP</label>
+                        <input required name="connectionString" ng-model="form.connectionString" type="text">
+                        <div ng-messages="streamForm.name.$error">
+                            <div ng-message="required">Musisz podać poprawny adres.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Login RTSP</label>
+                        <input name="login" ng-model="form.login" type="text">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Hasło RTSP</label>
+                        <input name="password" ng-model="form.password" type="password">
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelForm()">Anuluj</md-button>
+            <md-button ng-disabled="streamForm.$invalid" ng-click="submitForm()">Wyślij</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

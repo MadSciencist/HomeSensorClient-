@@ -14,7 +14,7 @@ app.config(function ($routeProvider, $locationProvider, constants) {
         })
         .when("/control", {
             templateUrl: "control.html",
-            controller: "NodesController",
+            controller: "ManageNodesController",
             pageTitle: constants.dict[0].pageTitle.control,
             auth: true
         })
@@ -26,7 +26,7 @@ app.config(function ($routeProvider, $locationProvider, constants) {
         })
         .when("/nodes", {
             templateUrl: "nodes.html",
-            controller: "NodesController",
+            controller: "ManageNodesController",
             pageTitle: constants.dict[0].pageTitle.nodes,
             auth: true
         })

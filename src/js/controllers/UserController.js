@@ -36,7 +36,6 @@
     };
 
     $scope.editUser = function () {
-        const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
         const updateUrl = '/api/users/'.concat(userId);
 
@@ -57,7 +56,7 @@
             .then(() => {
                 $location.path('/my-profile');
                 $scope.getUser();
-            }).catch(error => console.log("Error while puting data: " + error));
+            }).catch(error => console.log("Error while puting data: " + error.data));
     };
 
     $scope.createCopyOfUserToEdit = function () {
@@ -71,7 +70,7 @@
                 $scope.userData = getFullNamesOfUserAttibutes(response.data);
                 $scope.userData.roleDictionary = $scope.scopeGetUserRoleFromDictionary($scope.userData.role);
                 $scope.userData.genderDictionary = $scope.scopeGetUserGenderFromDictionary($scope.userData.gender);
-            }).catch(error => console.log("Error while retrieving data: " + error));
+            }).catch(error => console.log("Error while retrieving data: " + error.data));
     };
 
     const getFullNamesOfUserAttibutes = function (user) {

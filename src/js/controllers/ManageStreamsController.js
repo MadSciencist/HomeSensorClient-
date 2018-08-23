@@ -1,4 +1,4 @@
-app.controller("ManageStreamsController", function ($scope, httpService) {
+app.controller("ManageStreamsController", function ($scope, $mdDialog, httpService) {
     const baseUrl = '/api/streamingdevices/';
     $scope.formData = {};
     $scope.streams = null;
@@ -6,70 +6,124 @@ app.controller("ManageStreamsController", function ($scope, httpService) {
     $scope.isOperationFail = false;
     $scope.successMessage = '';
     $scope.errorMessage = '';
-    $scope.isUpdating = false; //(PUT) if false -> is creating (POST) (default post, creating new)
+    $scope.isEditing = false; //default => adding new 
+    $scope.isFetching = true;
 
     $scope.initController = function () {
         $scope.getAllStreams();
     };
 
-    $scope.editStreamModalFired = function (id) {
-        $scope.isUpdating = true;
-        $scope.formData = $scope.streams.filter(s => s.id === id)[0];
+    /* add/edit form and modal */
+    $scope.formModalFired = function (e, isUpdating, id) {
+        $scope.isEditing = isUpdating;
+        $scope.formData = $scope.streams.filter(s => s.id === id)[0] || {};
+        $scope.showNodeForm(e);
     };
 
-    $scope.createEditFormSubmit = function () {
-        if ($scope.isUpdating === false) {
+    $scope.showNodeForm = function (ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            locals: {
+                isEditing: $scope.isEditing,
+                dataToPass: $scope.formData
+            },
+            templateUrl: './modals/stream-edit-modal.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            fullscreen: false // Only for -xs, -sm breakpoints.
+        }).then(() => {
+            createEditFormSubmit();
+        }, () => {
+            console.log('Clicked cancel');
+        });
+    };
+
+    function DialogController($scope, $mdDialog, dataToPass, isEditing) {
+        //inject data to form (2 way binding)
+        $scope.form = dataToPass;
+        $scope.isEditing = isEditing;
+
+        $scope.hideForm = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancelForm = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.submitForm = function (answer) {
+            $mdDialog.hide(answer);
+        };
+    }
+
+    const createEditFormSubmit = function () {
+        $scope.isFetching = true;
+        if ($scope.isEditing === true) {
+            const updatingId = $scope.formData.id;
+            const putUrl = baseUrl.concat(updatingId);
+
+            httpService.putData(putUrl, getFormInputsData())
+                .then(() => {
+                    $scope.getAllStreams();
+                    $scope.isFetching = false;
+                    $scope.successMessage = `Stream ${$scope.formData.name} został edytowany!`;
+                    $scope.isOpertionSuccess = true;
+                })
+                .catch(error => {
+                    console.log('Wystapił błąd: ' + error.data);
+                    $scope.isFetching = false;
+                    $scope.isOperationFail = true;
+                    $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy edytowaniu streamu ${$scope.formData.name}. Sprawdź połączenie sieciowe.`;
+                });
+        } else {
             let data = getFormInputsData();
             delete data.id;
 
             httpService.postData(baseUrl, data)
                 .then(() => {
                     $scope.getAllStreams();
+                    $scope.isFetching = false;
                     $scope.successMessage = `Stream ${$scope.formData.name} dodany!`;
                     $scope.isOpertionSuccess = true;
                 })
                 .catch(error => {
-                    console.log('Wystapił błąd: ' + error);
+                    console.log('Wystapił błąd: ' + error.data);
+                    $scope.isFetching = false;
                     $scope.isOperationFail = true;
                     $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy dodawaniu streamu ${$scope.formData.name}. Sprawdź połączenie sieciowe.`;
-                });
-        } else { 
-            const updatingId = $scope.formData.id;
-            const putUrl = baseUrl.concat(updatingId);
-            httpService.putData(putUrl, getFormInputsData())
-                .then(() => {
-                    $scope.getAllStreams();
-                    $scope.successMessage = `Stream ${$scope.formData.name} został edytowany!`;
-                    $scope.isOpertionSuccess = true;
-                })
-                .catch(error => {
-                    console.log('Wystapił błąd: ' + error);
-                    $scope.isOperationFail = true;
-                    $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy edytowaniu streamu ${$scope.formData.name}. Sprawdź połączenie sieciowe.`;
                 });
         }
     };
 
     $scope.deleteStream = function (id) {
+        $scope.isFetching = true;
         httpService.deleteData(baseUrl.concat(id))
             .then(() => {
                 $scope.successMessage = "Stream usunięty!";
                 $scope.isOpertionSuccess = true;
-                $scope.getAllStreams()
+                $scope.getAllStreams();
+                $scope.isFetching = false;
             })
             .catch(error => {
-                console.log('Wystapił błąd: ' + error);
+                console.log('Wystapił błąd: ' + error.data);
+                $scope.isFetching = false;
                 $scope.isOperationFail = true;
                 $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy usuwaniu streamu ${$scope.streams.filter(n => n.id === id)[0].name}. Sprawdź połączenie sieciowe.`;
             });
     };
 
     $scope.getAllStreams = function () {
+        $scope.isFetching = true;
         httpService.getData(baseUrl)
-            .then(response => $scope.streams = response.data)
+            .then(response => {
+                $scope.streams = response.data;
+                $scope.isFetching = false;
+            })
             .catch(error => {
                 console.log('Wystapił błąd: ' + error);
                 $scope.isOperationFail = true;
+                $scope.isFetching = false;
                 $scope.errorMessage = 'Wystąpił nieoczekiwany błąd przy pobieraniu danych. Sprawdź połączenie sieciowe.';
             });
     };

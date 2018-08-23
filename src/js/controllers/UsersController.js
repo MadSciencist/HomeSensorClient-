@@ -1,4 +1,4 @@
-﻿app.controller("UsersController", function ($scope, $rootScope, httpService) {
+﻿app.controller("UsersController", function ($scope, $rootScope, $mdDialog, httpService) {
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.formatDate = formatDate;
     $scope.userToEdit = null;
@@ -20,17 +20,56 @@
                     $scope.users = response.data;
                 }).catch(error => {
                     $scope.isAuthorizedToViewAllUsers = false;
-                    console.log("Error while retrieving data: " + error)
+                    console.log("Error while retrieving data: " + error.data)
                 });
         }
     };
 
-    //on click priviledges, update current watched user to PUT
-    $scope.editUserRole = function (id) {
-        $scope.userToEdit = ($scope.users.filter(u => u.id === id))[0];
+    /* add/edit form and modal */
+    $scope.formModalFired = function (e, id) {
+        $scope.userToEdit = $scope.users.filter(u => u.id === id)[0] || {};
+        $scope.showUserEditModal(e);
     };
 
-    $scope.editUserRoleSubmit = function () {
+    $scope.showUserEditModal = function (ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            locals: {
+                dataToPass: $scope.userToEdit,
+                roleDictionary: $rootScope.roleDictionary
+            },
+            templateUrl: './modals/users-priviledges-modal.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            fullscreen: false // Only for -xs, -sm breakpoints.
+        }).then(() => {
+            editUserRoleSubmit();
+        }, () => {
+            console.log('Clicked cancel');
+        });
+    };
+
+    function DialogController($scope, $mdDialog, dataToPass, roleDictionary) {
+        //inject data to form (2 way binding)
+        $scope.form = dataToPass;
+        $scope.roleDictionary = roleDictionary;
+        console.log($scope.roleDictionary);
+
+        $scope.hideForm = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.cancelForm = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.submitForm = function (answer) {
+            $mdDialog.hide(answer);
+        };
+    }
+
+    const editUserRoleSubmit = function () {
         const url = baseUsersUrl + $scope.userToEdit.id;
         if (IsAdminTryingToDeleteItselfOrRemovePriviledges($scope.userToEdit.id)) {
             $scope.isUpdateFailed = true;
@@ -50,7 +89,7 @@
                 $scope.isUpdateFailed = true;
                 $scope.isUpdateSuccess = false;
                 $scope.resultMessage = "Wystąpił błąd :("
-                console.log("Error while retrieving data: ", error);
+                console.log("Error while retrieving data: ", error.data);
             });
     };
 
@@ -75,7 +114,7 @@
                 $scope.isDeleteSuccess = false;
                 $scope.isDeleteFailed = true;
                 $scope.resultMessage = "Nie udało się usunąć użytkowika."
-                console.log("Error while retrieving data: " + error)
+                console.log("Error while retrieving data: " + error.data)
             });
     };
 

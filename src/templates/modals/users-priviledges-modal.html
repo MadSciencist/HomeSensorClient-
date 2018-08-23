@@ -1,0 +1,28 @@
+<md-dialog style="min-width: 50%;">
+    <form name="usersForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edytuj uprawnienia</h2>
+                <span flex></span>
+                <md-button ng-click="cancelForm()">×</md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content form-horizontal container-fluid">
+                <div layout="row">
+                    <md-input-container style="width: 200px;">
+                        <label>Rola</label>
+                        <md-select ng-model="form.role">
+                            <md-option ng-repeat="role in roleDictionary" value="{{role.key}}" ng-bind="role.value"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelForm()">Anuluj</md-button>
+            <md-button ng-disabled="usersForm.$invalid" ng-click="submitForm()">Wyślij</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

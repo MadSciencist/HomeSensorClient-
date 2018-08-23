@@ -2,17 +2,19 @@
   <div clas="row">
     <div id="users-info-error" ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade in">
       <a class="close" ng-click="isMessagebarVisible = false">×</a>
-      <strong>Błąd!</strong> {{ messagebarMessage }}
+      <strong>Błąd! </strong><span ng-bind="messagebarMessage"></span>
     </div>
   </div>
   <div class="row">
-    <div style="width: 200px; display: inline-block;">
-      <p>Wybierz kamerę:</p>
-      <select class="form-control" ng-model="selectedStreamKey" ng-change="streamChanged()" ng-options="option.key as option.dictionary for option in streams"></select>
-    </div>
+    <md-input-container style="width: 200px;">
+        <label>Wybierz stream:</label>
+        <md-select ng-model="selectedStreamKey" ng-change="streamChanged()">
+            <md-option ng-repeat="stream in streams" value="{{stream.key}}" ng-bind="stream.dictionary"></md-option>
+        </md-select>
+    </md-input-container>
     <div style="display: inline-block;">
-      <button type="button" class="btn btn-secondary" ng-click="startStream()">Odtwarzaj</button>
-      <button type="button" class="btn btn-danger" ng-click="stopStream()">Zatrzymaj</button>
+      <md-button class="md-secondary md-raised" ng-click="startStream()">Odtwarzaj</md-button>
+      <md-button class="md-warn md-raised" ng-click="stopStream()">Zatrzymaj</md-button>
     </div>
     <div class="top-padding"></div>
   </div>
@@ -20,7 +22,7 @@
   <div class="row" style="max-width: 900px;">
     <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480"
       data-setup={{playerSettings}}>
-      <source src="{{streamUrl}}" " type="application/x-mpegURL>
+      <source src="{{streamUrl}}" type="application/x-mpegURL">
       <p class="vjs-no-js">To view this video please enable JavaScript</p>
   </div>
 </div>
