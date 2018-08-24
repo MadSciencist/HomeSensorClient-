@@ -31,37 +31,37 @@
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.nodeTypeDictionary.filter(n => n.key === key))[0].value;
+        return ($rootScope.nodeTypeDictionary.filter(n => n.key == key))[0].value;
     };
 
     $rootScope.getSensorTypeFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.sensorTypeDictionary.filter(n => n.key === key))[0].value;
+        return ($rootScope.sensorTypeDictionary.filter(n => n.key == key))[0].value;
     };
 
     $rootScope.getActuatorTypeFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.actuatorTypeDictionary.filter(n => n.key === key))[0].value;
+        return ($rootScope.actuatorTypeDictionary.filter(n => n.key == key))[0].value;
     };
 
     $rootScope.getUserRoleFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        console.log('filtering key: ' + key);
-        console.log($rootScope.roleDictionary);
-        return ($rootScope.roleDictionary.filter(r => r.key === key))[0].value;
+
+        const dict = $rootScope.roleDictionary.filter(r => r.key == key)[0].value;
+        return dict;
     };
 
     $rootScope.getUserGenderFromDictionary = function (key) {
         if (!$rootScope.isDictionaryDataFetched) {
             return;
         }
-        return ($rootScope.genderDictionary.filter(g => g.key === key))[0].value;
+        return ($rootScope.genderDictionary.filter(g => g.key == key))[0].value;
     };
 
     $scope.logout = function () {

@@ -58,17 +58,9 @@
         $scope.actuatorDictionary = actuatorDictionary;
         $scope.isEditing = isEditing;
 
-        $scope.hideForm = function () {
-            $mdDialog.hide();
-        };
-
-        $scope.cancelForm = function () {
-            $mdDialog.cancel();
-        };
-
-        $scope.submitForm = function (answer) {
-            $mdDialog.hide(answer);
-        };
+        $scope.hideForm = () => $mdDialog.hide();
+        $scope.cancelForm = () => $mdDialog.cancel();
+        $scope.submitForm = () => $mdDialog.hide();
     }
 
     /* CRUD http operations */

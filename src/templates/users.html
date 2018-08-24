@@ -34,7 +34,7 @@
                     <td class="col-sm-1 center thick" ng-bind="user.lastname"></td>
                     <td class="col-sm-2 center" ng-bind="user.email"></td>
                     <td class="col-sm-3 center" ng-bind="formatDate(user.joinDate)"></td>
-                    <td class="col-sm-1 center" ng-bind="scopeGetUserRoleFromDictionary(user.role)"></td>
+                    <td class="col-sm-1 center" ng-bind="getUserRoleFromDictionary(user.role)"></td>
                     <td class="col-sm-4 center">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, user.id)">Uprawnienia</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteUser(user.id)">Usuń</md-button>
@@ -52,41 +52,8 @@
                 </p>
                 <p style="font-weight: 400; font-size: 2em;">Tylko administrator może wyświetlić tę stronę :(</p>
                 <p style="font-size: 1.45em">
-                    <a href="#!">Wróć na stronę główną</a>
+                    <a href="#">Wróć na stronę główną</a>
                 </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal edit user -->
-    <div class="modal fade" id="editPrivillagedModal" tabindex="-1" role="dialog" aria-labelledby="editPrivillagedModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPrivillagedModalLabel">Edytuj uprawnienia użytkownika</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!--modal body begin-->
-                    <form class="form-horizontal container-fluid" name="editUserForm" novalidate>
-                        <!--novalidate prevents HTML5 validation-->
-
-                        <div class="row form-group">
-                            <label for="userRole" class="control-label col-xs-3">Rola: </label>
-                            <div class="col-xs-9">
-                                <select name="userRole" class="form-control" ng-model="userToEdit.role" ng-options="option.key as option.value for option in roleDictionary"></select>
-                            </div>
-                        </div>
-                    </form>
-                    <!--modal body end-->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                    <button type="button" class="btn btn-primary" ng-click="editUserRoleSubmit()" data-dismiss="modal">Zapisz zmiany</button>
-                </div>
             </div>
         </div>
     </div>

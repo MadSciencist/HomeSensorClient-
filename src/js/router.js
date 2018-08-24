@@ -37,7 +37,8 @@ app.config(function ($routeProvider, $locationProvider, constants) {
             auth: true
         })
         .when("/new-device-type", {
-            templateUrl: "manage-device-type.html",
+            //templateUrl: "manage-device-type.html",
+            templateUrl: "not-found.html",
             controller: "ManageDeviceTypeController",
             pageTitle: "Zarządzaj dostępnymi typami urządzeń",
             auth: true

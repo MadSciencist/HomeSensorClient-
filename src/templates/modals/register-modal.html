@@ -1,0 +1,71 @@
+<md-dialog style="min-width: 40%;">
+    <form name="registerForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Zarejestruj się</h2>
+                <span flex></span>
+                <md-button ng-click="cancelForm()">×</md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content form-horizontal container-fluid">
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Login</label>
+                        <input required name="login" ng-model="form.login" type="text">
+                        <div ng-messages="registerForm.login.$error">
+                            <div ng-message="required">Musisz podać login.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>E-Mail</label>
+                        <input required name="email" ng-model="form.email" type="text">
+                        <div ng-messages="registerForm.email.$error">
+                            <div ng-message="required">Musisz podać adres E-mail.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Hasło</label>
+                        <input required name="password" ng-model="form.password" type="password">
+                        <div ng-messages="registerForm.password.$error">
+                            <div ng-message="required">Musisz podać hasło.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Powtórz hasło</label>
+                        <input name="passwordRepeat" ng-model="form.passwordRepeat" type="password">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Imie</label>
+                        <input name="name" ng-model="form.name" type="text">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Nazwisko</label>
+                        <input name="lastname" ng-model="form.lastname" type="text">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Data urodzenia</label>
+                        <md-datepicker md-current-view="year" ng-model="form.birthdate" md-placeholder="Wybierz datę..."></md-datepicker>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Płeć</label>
+                        <md-select ng-model="form.gender">
+                                <md-option ng-repeat="gender in genderDictionary" value="{{gender.key}}" ng-bind="gender.value"></md-option>
+                            </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelForm()">Anuluj</md-button>
+            <md-button ng-disabled="registerForm.$invalid" ng-click="submitForm()">Wyślij</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

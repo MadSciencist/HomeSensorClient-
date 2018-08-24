@@ -16,7 +16,7 @@ app.controller("ManageStreamsController", function ($scope, $mdDialog, httpServi
     /* add/edit form and modal */
     $scope.formModalFired = function (e, isUpdating, id) {
         $scope.isEditing = isUpdating;
-        $scope.formData = $scope.streams.filter(s => s.id === id)[0] || {};
+        $scope.formData = $scope.streams.filter(s => s.id == id)[0] || {};
         $scope.showNodeForm(e);
     };
 
@@ -44,17 +44,11 @@ app.controller("ManageStreamsController", function ($scope, $mdDialog, httpServi
         $scope.form = dataToPass;
         $scope.isEditing = isEditing;
 
-        $scope.hideForm = function () {
-            $mdDialog.hide();
-        };
+        $scope.hideForm = f$mdDialog.hide();
 
-        $scope.cancelForm = function () {
-            $mdDialog.cancel();
-        };
-
-        $scope.submitForm = function (answer) {
-            $mdDialog.hide(answer);
-        };
+        $scope.hideForm = () => $mdDialog.hide();
+        $scope.cancelForm = () => $mdDialog.cancel();
+        $scope.submitForm = () => $mdDialog.hide();
     }
 
     const createEditFormSubmit = function () {

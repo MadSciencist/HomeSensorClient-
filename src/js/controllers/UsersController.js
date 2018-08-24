@@ -1,5 +1,5 @@
 ﻿app.controller("UsersController", function ($scope, $rootScope, $mdDialog, httpService) {
-    $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
+    $scope.getUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.formatDate = formatDate;
     $scope.userToEdit = null;
     $scope.users = [];
@@ -20,14 +20,14 @@
                     $scope.users = response.data;
                 }).catch(error => {
                     $scope.isAuthorizedToViewAllUsers = false;
-                    console.log("Error while retrieving data: " + error.data)
+                    console.warn(message, optionalParams)("Error while retrieving data: " + error.data)
                 });
         }
     };
 
     /* add/edit form and modal */
     $scope.formModalFired = function (e, id) {
-        $scope.userToEdit = $scope.users.filter(u => u.id === id)[0] || {};
+        $scope.userToEdit = $scope.users.filter(u => u.id == id)[0] || {};
         $scope.showUserEditModal(e);
     };
 
@@ -54,7 +54,6 @@
         //inject data to form (2 way binding)
         $scope.form = dataToPass;
         $scope.roleDictionary = roleDictionary;
-        console.log($scope.roleDictionary);
 
         $scope.hideForm = function () {
             $mdDialog.hide();
@@ -81,15 +80,15 @@
             .then(() => {
                 $scope.isUpdateSuccess = true;
                 $scope.isUpdateFailed = false;
-                $scope.resultMessage = "Udało się! Użytkownik " +
-                    $scope.userToEdit.name + " " + $scope.userToEdit.lastname
-                    + " ma teraz rolę: " + $scope.getUserRoleFromDictionary($scope.userToEdit.role);
+                 $scope.resultMessage = "Udało się! Użytkownik " +
+                     $scope.userToEdit.name + " " + $scope.userToEdit.lastname
+                     + " ma teraz rolę: " + $scope.getUserRoleFromDictionary($scope.userToEdit.role);
                 $scope.getUsers();
             }).catch(error => {
                 $scope.isUpdateFailed = true;
                 $scope.isUpdateSuccess = false;
                 $scope.resultMessage = "Wystąpił błąd :("
-                console.log("Error while retrieving data: ", error.data);
+                console.warn(message, optionalParams)("Error while retrieving data: ", error.data);
             });
     };
 
@@ -114,7 +113,7 @@
                 $scope.isDeleteSuccess = false;
                 $scope.isDeleteFailed = true;
                 $scope.resultMessage = "Nie udało się usunąć użytkowika."
-                console.log("Error while retrieving data: " + error.data)
+                console.warn(message, optionalParams)("Error while retrieving data: " + error.data)
             });
     };
 

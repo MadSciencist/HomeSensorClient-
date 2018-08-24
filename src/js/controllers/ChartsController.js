@@ -20,12 +20,12 @@
             $scope.createChart(name, response.data);
         })
         .catch(error => {
-            console.log("Error while retrieving data: ", error);
+            console.log("Error while retrieving data: ", error.data);
         });
      };
 
     $scope.createChart = function (container, dataArray) {
-        const currentSensor = ($scope.sensorsIdentifiers.filter(s => s.identifier === dataArray[0].identifier))[0];
+        const currentSensor = $scope.sensorsIdentifiers.filter(s => s.identifier === dataArray[0].identifier)[0];
         const processedStamps = processTimestamps(dataArray);
         const sensorValues_Y = getValuesArray(dataArray);
 
