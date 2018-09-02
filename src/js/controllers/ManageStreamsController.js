@@ -44,20 +44,19 @@ app.controller("ManageStreamsController", function ($scope, $mdDialog, httpServi
         $scope.form = dataToPass;
         $scope.isEditing = isEditing;
 
-        $scope.hideForm = f$mdDialog.hide();
-
         $scope.hideForm = () => $mdDialog.hide();
         $scope.cancelForm = () => $mdDialog.cancel();
         $scope.submitForm = () => $mdDialog.hide();
     }
 
     const createEditFormSubmit = function () {
+        let data = getFormInputsData();
         $scope.isFetching = true;
         if ($scope.isEditing === true) {
             const updatingId = $scope.formData.id;
             const putUrl = baseUrl.concat(updatingId);
 
-            httpService.putData(putUrl, getFormInputsData())
+            httpService.putData(putUrl, data)
                 .then(() => {
                     $scope.getAllStreams();
                     $scope.isFetching = false;
@@ -71,7 +70,6 @@ app.controller("ManageStreamsController", function ($scope, $mdDialog, httpServi
                     $scope.errorMessage = `Wystąpił nieoczekiwany błąd przy edytowaniu streamu ${$scope.formData.name}. Sprawdź połączenie sieciowe.`;
                 });
         } else {
-            let data = getFormInputsData();
             delete data.id;
 
             httpService.postData(baseUrl, data)

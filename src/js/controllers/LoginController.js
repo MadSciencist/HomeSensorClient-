@@ -60,7 +60,7 @@
     function onFormSubmit() {
         const registerUrl = '/api/users'
         httpService.postData(registerUrl, getRegisterFormData())
-            .then(response => {
+            .then(() => {
                 $scope.isRegisterSuccess = true;
             }).catch(error => {
                 $scope.isRegisterSuccess = false;
