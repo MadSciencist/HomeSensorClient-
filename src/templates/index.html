@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Smart home controller - beta 1.00 development</title>
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart home controller - beta 1.00 development</title>
     <link href="css/bundle.css" rel="stylesheet" />
+    <!-- <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js" ></script> -->
 </head>
 
 <body ngCloak>
@@ -35,7 +37,7 @@
                     </li>
                     <ul class="sub-menu collapse" id="admin-panel">
                         <li>
-                            <a href="#nodes">
+                            <a href="#manage-nodes">
                                 <i class="fas fa-caret-right"></i> Dodaj urządzenie</a>
                         </li>
                         <li>
@@ -47,7 +49,7 @@
                                 <i class="fas fa-caret-right"></i> Zarządzaj streamami</a>
                         </li>
                         <li>
-                            <a href="#users">
+                            <a href="#manage-users">
                                 <i class="fas fa-caret-right"></i> Użytkownicy systemu</a>
                         </li>
                     </ul>
@@ -55,21 +57,6 @@
                         <a href="#my-profile">
                             <i class="fa fa-user fa-lg"></i> Mój profil</a>
                     </li>
-                    <!-- <li data-toggle="collapse" data-target="#language-panel-wrapper" class="collapsed">
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-globe fa-lg"></i>Opcje
-                            <i class="fa fa-sort-down fa-lg" style="float: right;"></i>
-                        </a>
-                    </li>
-                    <ul class="sub-menu collapse" id="language-panel-wrapper">
-                        <li id="language-panel">
-                            <a href="javascript:void(0)">
-                                <i class="fas fa-caret-right"></i>Język: 
-                                <select name="language" id="language-picker" ng-model="choosenLanguage"
-                                ng-options="option.value as option.dictionary for option in languageChoices"></select>
-                            </a>
-                        </li>
-                    </ul> -->
                     <li>
                         <a href="javascript:void(0)" ng-click="logout()">
                             <i class="fa fa-sign-out-alt fa-lg"></i> Wyloguj</a>

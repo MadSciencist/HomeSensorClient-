@@ -1,4 +1,4 @@
-﻿app.controller("ChartsController", function ($scope, $rootScope, httpService, $window, $document) {
+﻿app.controller("ChartsController", function ($scope, httpService) {
     $scope.sensorsIdentifiers = [];
 
     $scope.initController = function () {
@@ -9,19 +9,24 @@
                 }
             })
             .catch(error => {
-                console.log("Error while retrieving data: ", error);
+                console.log("Error while retrieving data: ", error.data);
             });
     };
 
     $scope.getSpecifiedSesorData = function (identifier) {
-        httpService.getData('/api/sensors/'.concat(identifier))
-        .then(response => {
-            const name = 'canvas-chart-'.concat(identifier);
-            $scope.createChart(name, response.data);
-        })
-        .catch(error => {
-            console.log("Error while retrieving data: ", error.data);
-        });
+        if(identifier === undefined) return;
+            httpService.getData('/api/sensors/'.concat(identifier))
+            .then(response => {
+                if(response.data.length > 0){
+                    const name = 'canvas-chart-'.concat(identifier);
+                    $scope.createChart(name, response.data);
+                }else {
+                    console.warn(`Sensor '${identifier}' has no data, so its skiped.`);
+                }
+            })
+            .catch(error => {
+                console.log("Error while retrieving data: ", error.data);
+            });
      };
 
     $scope.createChart = function (container, dataArray) {

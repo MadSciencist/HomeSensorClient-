@@ -1,9 +1,11 @@
-﻿app.controller("RootController", function ($rootScope, httpService, $q, $scope, $window, $route) {
+﻿app.controller("RootController", function ($rootScope, httpService, $q, $scope, $window, $location) {
     $rootScope.isDictionaryDataFetched = false;
     $scope.isUserAdmin = false;
 
     $scope.initController = function () {
-        localStorage.getItem('role') === "Admin" ? $scope.isUserAdmin = true : $scope.isUserAdmin = false;
+        const userRole = localStorage.getItem('role');
+        userRole === "Admin" || userRole === "Manager" ? $scope.isUserAdmin = true : $scope.isUserAdmin = false;
+        $scope.isUserAdmin = true;
 
         /* parallel fetching, than wait for resolving the promise (all fetches have to be done */
         let fetch1 = httpService.getData('/api/dictionaries/roles')
@@ -71,6 +73,6 @@
         $rootScope.badAuthentication = false;
         $rootScope.badAuthenticationMessage = '';
 
-        $route.reload();
+        $location.path('/login');
     };
 });

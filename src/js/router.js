@@ -1,69 +1,81 @@
-app.config(function ($routeProvider, $locationProvider, constants) {
+app.config(function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
     $routeProvider
         .when("/", {
             templateUrl: "charts.html",
             controller: "ChartsController",
-            auth: true
+            auth: true,
+            requiredRoles: ["Admin", "Manager", "Viewer"] //user should be in one of these groups
         })
         .when("/charts", {
             templateUrl: "charts.html",
             controller: "ChartsController",
-            pageTitle: constants.dict[0].pageTitle.sensors,
-            auth: true
+            pageTitle: "Wykresy z danych wszystkich czujników",
+            auth: true,
+            requiredRoles: ["Admin", "Manager", "Viewer"]
         })
         .when("/control", {
             templateUrl: "control.html",
             controller: "ManageNodesController",
-            pageTitle: constants.dict[0].pageTitle.control,
-            auth: true
+            pageTitle: "Steruj swoimi urządzeniami",
+            auth: true,
+            requiredRoles: ["Admin", "Manager", "Viewer"]
         })
         .when("/stream", {
             templateUrl: "stream.html",
             controller: "StreamController",
             pageTitle: "Podgląd kamer",
-            auth: true
+            auth: true,
+            requiredRoles: ["Admin", "Manager", "Viewer"]
         })
-        .when("/nodes", {
-            templateUrl: "nodes.html",
+        .when("/manage-nodes", {
+            templateUrl: "manage-nodes.html",
             controller: "ManageNodesController",
-            pageTitle: constants.dict[0].pageTitle.nodes,
-            auth: true
+            pageTitle: "'Zarządzaj swoimi urządzeniami",
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
         })
-        .when("/users", {
-            templateUrl: "users.html",
+        .when("/manage-users", {
+            templateUrl: "manage-users.html",
             controller: "UsersController",
-            pageTitle: constants.dict[0].pageTitle.users,
-            auth: true
+            pageTitle: "Zarządzaj użytkownikami systemu",
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
         })
         .when("/new-device-type", {
-            //templateUrl: "manage-device-type.html",
-            templateUrl: "not-found.html",
+            templateUrl: "manage-device-type.html",
             controller: "ManageDeviceTypeController",
             pageTitle: "Zarządzaj dostępnymi typami urządzeń",
-            auth: true
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
         })
         .when("/manage-streams", {
             templateUrl: "manage-streams.html",
             controller: "ManageStreamsController",
             pageTitle: "Zarządzaj dostępnymi streamami",
-            auth: true
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
         })
         .when("/my-profile", {
             templateUrl: "user.html",
             controller: "UserController",
-            pageTitle: constants.dict[0].pageTitle.myProfile,
+            pageTitle: "Mój profil",
             auth: true
         })
         .when("/login", {
             templateUrl: "login.html",
             controller: "LoginController",
-            pageTitle: constants.dict[0].pageTitle.login,
+            pageTitle: "Zaloguj się",
             auth: false
         })
-        .when('not-found', {
+        .when('/not-found', {
             templateUrl: 'not-found.html',
-            pageTitle: constants.dict[0].pageTitle.default,
+            pageTitle: "Nie znaleziono",
+            auth: false
+        })
+        .when('/not-authorized', {
+            templateUrl: 'not-authorized.html',
+            pageTitle: "Nie masz wystarczających uprawnień",
             auth: false
         })
         .otherwise({
@@ -72,24 +84,39 @@ app.config(function ($routeProvider, $locationProvider, constants) {
         });
 });
 
-app.run(function ($rootScope, $location, $window, constants) {
+app.run(function ($rootScope, $location, $window) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         const nextRoute = next.$$route;
         if (nextRoute === undefined) {
-            $rootScope.pageTitle = constants.dict[0].pageTitle.default;
-            $location.path('not-found');
+            $rootScope.pageTitle = "Nie znaleziono";
+            $location.path('/not-found');
         } else {
             $rootScope.pageTitle = nextRoute.pageTitle;
             if (nextRoute.auth) {
+                /* next route requires user to be authenticated, check if the token is valid */
                 const tokenValidTo = $window.localStorage.getItem('validTo');
                 const tokenValidToObject = new Date(tokenValidTo);
-                if (new Date().getTime() > tokenValidToObject.getTime()) { //token is no longer valid
+                if (new Date().getTime() > tokenValidToObject.getTime()) {
+                    /* the token has expired */
                     if (tokenValidTo != null) {
                         $rootScope.badAuthentication = true;
-                        $rootScope.badAuthenticationMessage = constants.dict[0].forms.login.badAuthenticationMessage;
+                        $rootScope.badAuthenticationMessage = "Twoja sesja wygasła. Zaloguj się ponownie.";
                     }
+                    /* clear user info, redirect to login */
+                    console.warn("Token expired.");
                     $window.localStorage.clear();
                     $location.path('/login');
+                    return;
+                }
+
+                /* token is valid, check if user has required role */
+                const loggedUserRole = $window.localStorage.getItem('role');
+                /* next route has required roles to match */
+                if(nextRoute.requiredRoles){
+                    if(!nextRoute.requiredRoles.includes(loggedUserRole)){
+                        console.warn("User not authorized.");
+                        $location.path('/not-authorized');
+                    }
                 }
             }
         }
