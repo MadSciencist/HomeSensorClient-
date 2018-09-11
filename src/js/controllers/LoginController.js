@@ -58,7 +58,7 @@
     }
 
     function onFormSubmit() {
-        const registerUrl = '/api/users'
+        const registerUrl = '/api/users/new'
         httpService.postData(registerUrl, getRegisterFormData())
             .then(() => {
                 $scope.isRegisterSuccess = true;

@@ -19,7 +19,7 @@
     </div>
     <div class="container-fluid">
         <h3 class="md-headline">Użytkownicy systemu:</h3>
-        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center" ng-show="isAuthorizedToViewAllUsers">
+        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
             <table class="table table-condensed table-hover">
                 <tr>
                     <th class="center">Imie</th>
@@ -41,20 +41,6 @@
                     </td>
                 </tr>
             </table>
-        </div>
-    </div>
-
-    <div class="container-fluid" ng-hide="isAuthorizedToViewAllUsers">
-        <div class="well">
-            <div class="not-found-box">
-                <p>
-                    <b style="font-weight: 700; font-size: 5em;">401</b>
-                </p>
-                <p style="font-weight: 400; font-size: 2em;">Tylko administrator może wyświetlić tę stronę :(</p>
-                <p style="font-size: 1.45em">
-                    <a href="#">Wróć na stronę główną</a>
-                </p>
-            </div>
         </div>
     </div>
 </div>

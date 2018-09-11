@@ -80,6 +80,10 @@ body {
     color: red;
 }
 
+.green {
+    color: green;
+}
+
 .not-found-box {
     padding-top: 50px;
     padding-bottom: 50px;
@@ -104,6 +108,10 @@ body {
 
 .top-margin-sm {
     margin-top: 15px;
+}
+
+.right-margin-sm {
+    margin-right: 15px;
 }
 
 .vertical-spacer {

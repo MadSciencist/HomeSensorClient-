@@ -1,0 +1,66 @@
+<md-list class="md-dense" flex>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-user text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Imie</h3>
+                <h4 ng-bind="userData.name"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-user text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Nazwisko</h3>
+                <h4 ng-bind="userData.lastname"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-user text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Płeć</h3>
+                <h4 ng-bind="userData.genderDictionary"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-envelope text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Adres E-mail</h3>
+                <h4 ng-bind="userData.email"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-cog text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Rola w systemie</h3>
+                <h4 ng-bind="userData.roleDictionary"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-calendar text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Data urodzenia</h3>
+                <h4 ng-bind="userData.birthdateFormated"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-calendar green text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Data ostatniego udanego logowania</h3>
+                <h4 ng-bind="userData.lastValidLogin"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item class="md-2-line" ng-click="null">
+            <span class="glyphicon glyphicon-warning-sign red text-primary right-margin-sm"></span>
+            <div class="md-list-item-text" layout="column">
+                <h3>Data ostatniego nieudanego logowania</h3>
+                <h4 ng-bind="userData.lastInvalidLogin"></h4>
+            </div>
+        </md-list-item>
+        <md-divider></md-divider>
+    </md-list>

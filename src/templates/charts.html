@@ -1,6 +1,7 @@
 ﻿<div ng-controller="ChartsController" data-ng-init="initController()">
     <div class="container-fluid">
-        <div class="row" ng-model="sensorsIdentifiers">
+        <div class="container-fluid well" ng-show="noSensors">There is no sensors.</div>
+        <div ng-hide="noSensors" class="row" ng-model="sensorsIdentifiers">
             <div ng-repeat="item in sensorsIdentifiers">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <canvas ng-init="getSpecifiedSesorData(item.identifier)" id="canvas-chart-{{item.identifier}}"></canvas>

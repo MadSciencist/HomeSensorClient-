@@ -11,7 +11,8 @@
         <span ng-bind="controlSuccessMessage"></span>
     </div>
 
-    <div class="row">
+    <div class="container-fluid well" ng-show="noDevices">There is no devices.</div>
+    <div ng-hide="noDevices" class="row">
         <div ng-repeat="node in nodes | orderBy: 'id'">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                 <md-card class="device-card" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>

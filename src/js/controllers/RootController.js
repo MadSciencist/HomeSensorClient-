@@ -7,8 +7,10 @@
         userRole === "Admin" || userRole === "Manager" ? $scope.isUserAdmin = true : $scope.isUserAdmin = false;
         $scope.isUserAdmin = true;
 
+        /* fetch only of there is logged user to prevent unauthorized errors */
+        if(userRole){
         /* parallel fetching, than wait for resolving the promise (all fetches have to be done */
-        let fetch1 = httpService.getData('/api/dictionaries/roles')
+            let fetch1 = httpService.getData('/api/dictionaries/roles')
             .then(r => { $rootScope.roleDictionary = r.data; });
 
         let fetch2 = httpService.getData('/api/dictionaries/genders')
@@ -27,6 +29,7 @@
             console.log('All dictionaries data fetched.');
             $rootScope.isDictionaryDataFetched = true;
         });
+        }
     };
 
     $rootScope.getNodeTypeFromDictionary = function (key) {

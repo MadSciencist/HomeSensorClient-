@@ -1,4 +1,4 @@
-﻿app.controller("UserController", function ($scope, $rootScope, $location, httpService) {
+﻿app.controller("UserController", function ($scope, $rootScope, $mdDialog, $location, httpService) {
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.scopeGetUserGenderFromDictionary = $rootScope.getUserGenderFromDictionary;
     $scope.userData = {};
@@ -9,33 +9,10 @@
     let picker = null;
 
     $scope.initController = function () {
-        $scope.getUser()
-            .then(() => {
-                initDatePicker();
-            });
+        $scope.getUser();
     };
 
-    const initDatePicker = function () {
-        const options = {
-            position: 'tl',
-            startDay: 0,
-            dateSelected: new Date($scope.userData.birthdate),
-            minDate: new Date(1920, 1, 1),
-            customDays: ['Nd', 'Pon', 'Wt', 'śr', 'Czw', 'Pt', 'Sob'],
-            customMonths: [
-                "Styczeń", "Luty", "Marzec",
-                "Kwiecień", "Maj", "Czerwiec", "Lipiec",
-                "Sierpień", "Wrzesień", "Październik",
-                "Listopad", "Grudzień"
-            ],
-            overlayPlaceholder: 'Wpisz rok',
-            overlayButtom: 'Zatwierdź'
-        };
-
-        picker = datepicker(".date-picker-anchor", options);
-    };
-
-    $scope.editUser = function () {
+    const onFormSubmit = function () {
         const userId = localStorage.getItem('userId');
         const updateUrl = '/api/users/'.concat(userId);
 
@@ -48,7 +25,6 @@
 
         //update edited extra fields
         $scope.userToEdit.photoUrl = $scope.uploadedAvatarUrl;
-        $scope.userToEdit.birthdate = picker.dateSelected;
 
         const payload = JSON.stringify($scope.userToEdit);
 
@@ -59,9 +35,34 @@
             }).catch(error => console.log("Error while puting data: " + error.data));
     };
 
-    $scope.createCopyOfUserToEdit = function () {
+    $scope.showEditUserModal = function (ev) {
         $scope.userToEdit = $scope.userData;
+        $mdDialog.show({
+            controller: DialogController,
+            locals: {
+                data: $scope
+            },
+            templateUrl: './modals/edit-user-modal.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            fullscreen: false // Only for -xs, -sm breakpoints.
+        }).then(() => {
+            onFormSubmit();
+        }, () => {
+            console.log('Clicked cancel');
+        });
     };
+
+    function DialogController($scope, $mdDialog, data) {
+        //inject data to form (2 way binding)
+        $scope.dialog = data;
+
+        $scope.hideForm = () => $mdDialog.hide();
+        $scope.cancelForm = () => $mdDialog.cancel();
+        $scope.submitForm = () => $mdDialog.hide();
+    }
+
 
     $scope.getUser = function () {
         const userUrl = '/api/users/'.concat(localStorage.getItem('userId'));
@@ -85,19 +86,21 @@
         $.ajax({
             url: 'api/photoupload/upload',
             type: 'POST',
-
-            data: new FormData($('#avatarUploadForm')[0]),
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            },
+            data: new FormData($('#userEditForm')[0]),
             cache: false,
             contentType: false,
             processData: false,
-        }).then(function (response) {
+        }).then(response => {
             const splitedUrl = response.url.split("\\")[8];
             const avatarFullUrl = getAvatarFullUrl(splitedUrl);
 
             $scope.uploadedAvatarUrl = avatarFullUrl;
             $scope.isAvatarUploaded = true;
-            $scope.$apply();
-        }).catch(function (error) {
+            $scope.$applyAsync();
+        }).catch(error => {
             console.log("Error while writing data: " + error);
         });
     };

@@ -11,20 +11,28 @@
         </div>
     </div>
     <div class="col-md-6 col-md-offset-3">
-        <h2>Zaloguj się</h2>
+        <h3 class="md-headline">Zaloguj się</h3>
         <form name="loginForm" ng-submit="login()" role="form">
-            <div class="form-group" ng-class="{ 'has-error': loginForm.username.$dirty && loginForm.username.$error.required }">
-                <label for="username">Nazwa użytkownika</label>
-                <input type="text" name="username" class="form-control" ng-model="username" required placeholder="{{::constants.dict[0].forms.login.usernamePlaceholder}}"
-                />
+            <div layout="row">
+                <md-input-container flex="100">
+                    <label>Nazwa użytkownika</label>
+                    <input required name="username" ng-model="username" type="text">
+                    <div ng-messages="loginForm.username.$error">
+                        <div ng-message="required">Musisz podać nazwę użytkownika</div>
+                    </div>
+                </md-input-container>
             </div>
-            <div class="form-group" ng-class="{ 'has-error': loginForm.password.$dirty && loginForm.password.$error.required }">
-                <label for="password">Hasło</label>
-                <input type="password" name="password" class="form-control" ng-model="password" required placeholder="{{::constants.dict[0].forms.login.passwordPlaceholder}}"
-                />
+            <div layout="row">
+                <md-input-container flex="100">
+                    <label>Hasło</label>
+                    <input required name="password" ng-model="password" type="password">
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message="required">Musisz podać swoje hasło</div>
+                    </div>
+                </md-input-container>
             </div>
             <div class="form-actions">
-                <md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="login()" style="margin-left: 0px;">Login</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" style="margin-left: 0px;">Login</md-button>
                 <md-button md-no-ink class="md-primary" ng-click="showRegisterForm($e)">Register</md-button>
             </div>
         </form>

@@ -1,0 +1,82 @@
+<md-dialog style="min-width: 40%;">
+    <form name="editForm" id="userEditForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edytuj swoje dane</h2>
+                <span flex></span>
+                <md-button ng-click="cancelForm()">×</md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content form-horizontal container-fluid">
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Imie</label>
+                        <input name="name" ng-model="dialog.userToEdit.name" type="text">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Nazwisko</label>
+                        <input name="lastname" ng-model="dialog.userToEdit.lastname" type="text">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Hasło</label>
+                        <input required name="password" ng-model="dialog.userToEdit.password" type="password">
+                        <div ng-messages="editForm.password.$error">
+                            <div ng-message="required">Musisz podać hasło.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Powtórz hasło</label>
+                        <input name="passwordRepeat" ng-model="dialog.userToEdit.passwordRepeat" type="password">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Data urodzenia</label>
+                        <md-datepicker md-current-view="year" ng-model="dialog.userToEdit.birthdate" md-placeholder="Wybierz datę..."></md-datepicker>
+                    </md-input-container>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>E-Mail</label>
+                        <input required name="email" ng-model="dialog.userToEdit.email" type="text">
+                        <div ng-messages="editForm.email.$error">
+                            <div ng-message="required">Musisz podać adres E-mail.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <input name="file" type="file" aria-label="Avatar picker" accept=".jpg, .jpeg, .png .gif" required />
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Płeć</label>
+                        <md-select ng-model="dialog.userToEdit.gender">
+                            <md-option ng-repeat="gender in dialog.genderDictionary" value="{{gender.key}}" ng-bind="gender.value"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row" ng-show="dialog.isAvatarUploaded">
+                    <div class="center">
+                        <img alt="User picture" style="width:200px;" title="" class="avatar-edit-thumbnail" ng-src="{{ dialog.uploadedAvatarUrl }}"
+                        />
+                        <div style="display: inline-block;">
+                            <button type="button" class="close" style="margin-top: 20px;" aria-label="Close" ng-click="dialog.isAvatarUploaded = false">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" style="padding-top: 10px">
+            <span flex></span>
+            <md-button ng-click="dialog.cancelForm()">Anuluj</md-button>
+            <md-button ng-click="dialog.uploadFile()">Wyślij zdjęcie</md-button>
+            <md-button ng-disabled="editForm.$invalid" ng-click="dialog.submitForm()">Wyślij</md-button>
+        </md-dialog-actions>
+</md-dialog>

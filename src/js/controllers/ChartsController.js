@@ -1,14 +1,17 @@
 ﻿app.controller("ChartsController", function ($scope, httpService) {
     $scope.sensorsIdentifiers = [];
+    $scope.noSensors = false;
 
     $scope.initController = function () {
-        httpService.getData('/api/nodes/type/nodesensor')
+        httpService.getData('/api/nodes/type/0')
             .then(response => {
+                if(response.data.length === 0) $scope.noSensors = true;
                 for (let i = 0; i < response.data.length; i++) {
                     $scope.sensorsIdentifiers.push({ identifier: response.data[i].identifier, name: response.data[i].name });
                 }
             })
             .catch(error => {
+                $scope.noSensors = true;
                 console.log("Error while retrieving data: ", error.data);
             });
     };

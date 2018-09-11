@@ -5,7 +5,7 @@
             {
                 headers: {
                     'Authorization': 'Bearer '.concat(localStorage.getItem('token')),
-                    'Content-Type': 'application-json; charset=UTF-8'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 }
             });
     };
@@ -16,7 +16,8 @@
         return $http.put(url, data, {
             headers: {
                 'Authorization': 'Bearer '.concat(localStorage.getItem('token')),
-                'Accept': 'application-json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -27,7 +28,8 @@
         return $http.post(url, data, {
             headers: {
                 'Authorization': 'Bearer '.concat(localStorage.getItem('token')),
-                'Accept': 'application-json'
+                'Accept': 'application-json',
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -37,7 +39,7 @@
         return $http.delete(url, {
             headers: {
                 'Authorization': 'Bearer '.concat(localStorage.getItem('token')),
-                'Accept': 'application-json'
+                'Accept': 'application/json'
             }
         });
     };

@@ -14,10 +14,10 @@
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    let dateString = day + ' ' + monthNames[monthIndex] + ' ' + year;
+    let dateString = `${day} ${monthNames[monthIndex]} ${year}`;
 
     if (addTime)
-        dateString = dateString.concat(' ').concat(hour).concat(':').concat(minute);
+        dateString = `${dateString} ${hour}:${minute < 10 ? '0'.concat(minute) : minute}`
 
     return dateString;
 };

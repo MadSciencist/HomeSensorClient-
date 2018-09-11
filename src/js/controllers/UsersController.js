@@ -12,9 +12,6 @@
     const baseUsersUrl = "/api/users/";
 
     $scope.getUsers = function () {
-        if (localStorage.getItem('role') === "Admin") {
-            $scope.isAuthorizedToViewAllUsers = true;
-
             httpService.getData(baseUsersUrl)
                 .then(response => {
                     $scope.users = response.data;
@@ -22,7 +19,6 @@
                     $scope.isAuthorizedToViewAllUsers = false;
                     console.warn(message, optionalParams)("Error while retrieving data: " + error.data)
                 });
-        }
     };
 
     /* add/edit form and modal */
@@ -102,8 +98,9 @@
             return;
         }
 
-        httpService.deleteData(url)
-            .then(function (response) {
+        if(confirm(`Czy na pewno chcesz usunąć użytkownika ${$scope.userToEdit.name}?`)){
+            httpService.deleteData(url)
+            .then(() => {
                 $scope.isDeleteSuccess = true;
                 $scope.isDeleteFailed = false;
                 $scope.resultMessage = "Udało się! Użytkownik " +
@@ -113,8 +110,9 @@
                 $scope.isDeleteSuccess = false;
                 $scope.isDeleteFailed = true;
                 $scope.resultMessage = "Nie udało się usunąć użytkowika."
-                console.warn(message, optionalParams)("Error while retrieving data: " + error.data)
+                console.warn("Error while retrieving data: " + error.data)
             });
+        }
     };
 
     const IsAdminTryingToDeleteItselfOrRemovePriviledges = function (id) {

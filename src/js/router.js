@@ -31,7 +31,7 @@ app.config(function ($routeProvider, $locationProvider) {
         .when("/manage-nodes", {
             templateUrl: "manage-nodes.html",
             controller: "ManageNodesController",
-            pageTitle: "'Zarządzaj swoimi urządzeniami",
+            pageTitle: "Zarządzaj swoimi urządzeniami",
             auth: true,
             requiredRoles: ["Admin", "Manager"]
         })
@@ -53,6 +53,13 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "manage-streams.html",
             controller: "ManageStreamsController",
             pageTitle: "Zarządzaj dostępnymi streamami",
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
+        })
+        .when("/manage-system", {
+            templateUrl: "manage-system.html",
+            controller: "ManageSystemController",
+            pageTitle: "Zarządzaj systemem",
             auth: true,
             requiredRoles: ["Admin", "Manager"]
         })

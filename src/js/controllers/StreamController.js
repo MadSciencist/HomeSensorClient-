@@ -5,6 +5,7 @@ app.controller("StreamController", function ($scope, httpService) {
     $scope.playerSettings = '{"fluid": true}';
     $scope.streams = {};
     $scope.selectedStreamKey = '';
+    $scope.noStreams = false;
 
     $scope.initController = function () {
         getAllStreams();
@@ -23,6 +24,7 @@ app.controller("StreamController", function ($scope, httpService) {
     const getAllStreams = function () {
         httpService.getData(baseUrl)
             .then(response => {
+                if (response.data.length === 0) $scope.noStreams = true;
                 $scope.streams = response.data.map(i => ({
                     dictionary: i.name,
                     key: i.id,
@@ -32,6 +34,7 @@ app.controller("StreamController", function ($scope, httpService) {
                 $scope.selectedStreamKey = $scope.streams[0].key;
                 $scope.streamDescription = $scope.streams[0].description;
             }).catch(error => {
+                $scope.noStreams = true;
                 console.log('Wystapił błąd: ' + error.data);
             });
     };
