@@ -92,7 +92,7 @@ app.config(function ($routeProvider, $locationProvider) {
 });
 
 app.run(function ($rootScope, $location, $window) {
-    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+    $rootScope.$on('$routeChangeStart', function (event, next) {
         const nextRoute = next.$$route;
         if (nextRoute === undefined) {
             $rootScope.pageTitle = "Nie znaleziono";

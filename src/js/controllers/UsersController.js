@@ -1,6 +1,6 @@
-﻿app.controller("UsersController", function ($scope, $rootScope, $mdDialog, httpService) {
+﻿app.controller("UsersController", function ($scope, $rootScope, $mdDialog, httpService, constants) {
     $scope.getUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
-    $scope.formatDate = formatDate;
+    $scope.formatDate = constants.formatDate;
     $scope.userToEdit = null;
     $scope.users = [];
     $scope.isAuthorizedToViewAllUsers = false;
@@ -17,7 +17,7 @@
                     $scope.users = response.data;
                 }).catch(error => {
                     $scope.isAuthorizedToViewAllUsers = false;
-                    console.warn(message, optionalParams)("Error while retrieving data: " + error.data)
+                    console.warn("Error while retrieving data: " + error.data)
                 });
     };
 
@@ -84,7 +84,7 @@
                 $scope.isUpdateFailed = true;
                 $scope.isUpdateSuccess = false;
                 $scope.resultMessage = "Wystąpił błąd :("
-                console.warn(message, optionalParams)("Error while retrieving data: ", error.data);
+                console.warn("Error while retrieving data: ", error.data);
             });
     };
 

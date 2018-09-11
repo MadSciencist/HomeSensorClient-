@@ -69,7 +69,7 @@
         $scope.isFetching = true;
         if ($scope.isEditing === true) { //PUT
             httpService.putData('/api/nodes/'.concat($scope.nodeForm.id), JSON.stringify($scope.nodeForm))
-                .then(resp => {
+                .then(() => {
                     $scope.isFetching = false;
                     $scope.isNodeSuccessMessageVisible = true;
                     $scope.nodeSuccessMessage = 'Zaktualizowano urządzenie ' + $scope.nodeForm.name + '.';

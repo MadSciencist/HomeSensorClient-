@@ -14,7 +14,7 @@ app.controller("StreamController", function ($scope, httpService) {
     $scope.startStream = () => beginStream();
     $scope.stopStream = () => stopStream();
 
-    $scope.streamChanged = function (o) {
+    $scope.streamChanged = () => {
         const selectedStream = $scope.streams.filter(s => s.key === $scope.selectedStreamKey)[0];
         $scope.selectedStreamKey = selectedStream.key;
         $scope.streamUrl = selectedStream.url;
@@ -39,7 +39,7 @@ app.controller("StreamController", function ($scope, httpService) {
             });
     };
 
-    const beginStream = function (streamKey) {
+    const beginStream = () => {
         const url = '/api/rpiprocesses/ffmpeg/start';
         const data = JSON.stringify({
             StreamingDeviceId: $scope.selectedStreamKey,
@@ -56,7 +56,7 @@ app.controller("StreamController", function ($scope, httpService) {
             });
     };
 
-    const stopStream = function () {
+    const stopStream = () => {
         const url = '/api/rpiprocesses/ffmpeg/stop';
         httpService.postData(url, null)
             .catch(error => {

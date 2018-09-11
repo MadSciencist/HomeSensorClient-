@@ -25,7 +25,7 @@ app.controller("ManageSystemController", function ($scope, $mdDialog, httpServic
     $scope.putSettings = function () {
         $scope.isFetching = true;
         httpService.putData(`${baseUrl}/${$scope.serverFormData.id}`, getFormData())
-            .then(response => {
+            .then(() => {
                 $scope.isFetching = false;
                 $scope.successMessage = 'Udało się zaktualizować ustawienia!';
                 $scope.isOpertionSuccess = true;

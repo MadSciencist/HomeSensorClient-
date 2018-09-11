@@ -38,7 +38,7 @@
         const sensorValues_Y = getValuesArray(dataArray);
 
         const ctx = document.getElementById(container).getContext('2d');
-        const stackedLine = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [{
@@ -79,7 +79,7 @@
     const processTimestamps = function (d) {
         const days = ['Nd', 'Pon', 'Wt', 'Sr', 'Czw', 'Pt', 'Sob'];
         let stampsArray = [];
-        for (i = 0; i < d.length; i++) {
+        for (let i = 0; i < d.length; i++) {
             let date = new Date(Date.parse(d[i].timeStamp));
             let dateFormatted = days[date.getDay()] + ' ' + date.getHours() + ':' + date.getMinutes();
             stampsArray.push(dateFormatted);

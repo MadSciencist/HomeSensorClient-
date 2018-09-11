@@ -1,4 +1,4 @@
-﻿app.controller("UserController", function ($scope, $rootScope, $mdDialog, $location, httpService) {
+﻿app.controller("UserController", function ($scope, $rootScope, $mdDialog, $location, httpService, constants) {
     $scope.scopeGetUserRoleFromDictionary = $rootScope.getUserRoleFromDictionary;
     $scope.scopeGetUserGenderFromDictionary = $rootScope.getUserGenderFromDictionary;
     $scope.userData = {};
@@ -6,7 +6,6 @@
     $scope.isAvatarUploaded = false;
     $scope.uploadedAvatarUrl = "";
     $scope.userToEdit = null;
-    let picker = null;
 
     $scope.initController = function () {
         $scope.getUser();
@@ -76,9 +75,9 @@
 
     const getFullNamesOfUserAttibutes = function (user) {
         let expandedUser = user;
-        expandedUser.birthdateFormated = formatDate(user.birthdate, false);
-        expandedUser.lastValidLogin = formatDate(user.lastValidLogin, true);
-        expandedUser.lastInvalidLogin = formatDate(user.lastInvalidLogin, true);
+        expandedUser.birthdateFormated = constants.formatDate(user.birthdate, false);
+        expandedUser.lastValidLogin = constants.formatDate(user.lastValidLogin, true);
+        expandedUser.lastInvalidLogin = constants.formatDate(user.lastInvalidLogin, true);
         return expandedUser;
     };
 

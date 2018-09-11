@@ -1,4 +1,4 @@
-app.controller("ManageDeviceTypeController", function ($scope, httpService) {
+app.controller("ManageDeviceTypeController", function ($scope) {
   $scope.initController = function(){
 
   };
