@@ -1,11 +1,11 @@
 ﻿<div class="container-fluid" ng-controller="ManageNodesController" data-ng-init="initController()" ng-cloak>
     <!-- message bars -->
-    <div class="alert alert-danger alert-dismissible fade in" ng-show="isNodeErrorMessageVisible">
+    <div class="alert alert-danger alert-dismissible fade show" ng-show="isNodeErrorMessageVisible">
         <a class="close" ng-click="isNodeErrorMessageVisible = false;">×</a>
         <strong>Błąd :( </strong>
         <span ng-bind="nodeErrorMessage"></span>
     </div>
-    <div class="alert alert-success alert-dismissible fade in" ng-show="isNodeSuccessMessageVisible">
+    <div class="alert alert-success alert-dismissible fade show" ng-show="isNodeSuccessMessageVisible">
         <a class="close" ng-click="isNodeSuccessMessageVisible = false;">×</a>
         <strong>Sukces! </strong>
         <span ng-bind="nodeSuccessMessage"></span>

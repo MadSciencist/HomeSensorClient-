@@ -21,10 +21,13 @@ app.controller("StreamController", function ($scope, httpService) {
         $scope.streamDescription = selectedStream.description;
     };
 
-    const getAllStreams = function () {
+    const getAllStreams = () => {
         httpService.getData(baseUrl)
             .then(response => {
-                if (response.data.length === 0) $scope.noStreams = true;
+                if (response.data.length === 0) {
+                    $scope.noStreams = true;
+                    return;
+                }
                 $scope.streams = response.data.map(i => ({
                     dictionary: i.name,
                     key: i.id,

@@ -14,7 +14,6 @@ let devMode = false;
 
 const stylesDev = [
     "./node_modules/bootstrap/dist/css/bootstrap.css",
-    "./node_modules/js-datepicker/datepicker.css",
     "./node_modules/angular-material/angular-material.css",
     "./node_modules/@fortawesome/fontawesome-free/css/all.css",
     "./node_modules/video.js/dist/video-js.css",
@@ -23,7 +22,6 @@ const stylesDev = [
 
 const stylesProd = [
     "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-    "./node_modules/js-datepicker/datepicker.min.css",
     "./node_modules/angular-material/angular-material.min.css",
     "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
     "./node_modules/video.js/dist/video-js.min.css",
@@ -39,9 +37,7 @@ const scriptsDev = [
     "./node_modules/angular-messages/angular-messages.js",
     "./node_modules/angular-material/angular-material.js",
     "./node_modules/bootstrap/dist/js/bootstrap.js",
-    "./node_modules/js-datepicker/datepicker.js",
     "./node_modules/chart.js/dist/Chart.js",
-    "./node_modules/ng-office-ui-fabric/ngOfficeUiFabric.js",
     "./node_modules/video.js/dist/video.js",
     "./src/js/**/*.js"
 ];
@@ -55,7 +51,6 @@ const scriptsProd = [
     "./node_modules/angular-messages/angular-messages.min.js",
     "./node_modules/angular-material/angular-material.min.js",
     "./node_modules/bootstrap/dist/js/bootstrap.min.js",
-    "./node_modules/js-datepicker/datepicker.min.js",
     "./node_modules/chart.js/dist/Chart.min.js",
     "./node_modules/video.js/dist/video.min.js",
     "./src/js/**/*.js"

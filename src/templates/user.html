@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid" ng-controller="UserController" data-ng-init="initController()">
     <div class="row">
         <div class="col-md-4" style="text-align: center;">
-            <img alt="User picture" style="width:260px;" title="Zdjęcie użytkownika" class="img-circle img-thumbnail" ng-src="{{ userData.photoUrl }}">
+            <img alt="User picture" style="width:260px;" title="Zdjęcie użytkownika" class="rounded-circle img-thumbnail" ng-src="{{ userData.photoUrl }}">
         </div>
         <div class="col-md-6">
             <div data-ng-include="'partials/user-info.html'"></div>

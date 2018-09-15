@@ -1,17 +1,17 @@
 ﻿<div class="container-fluid" ng-controller="ManageNodesController" data-ng-init="getActuators()">
     <!-- message bars -->
-    <div class="alert alert-danger alert-dismissible fade in" ng-show="isControlErrorMessageVisible">
+    <div class="alert alert-danger alert-dismissible fade show" ng-show="isControlErrorMessageVisible">
         <a class="close" ng-click="isControlErrorMessageVisible = false;">×</a>
         <strong>Błąd :( </strong>
         <span ng-bind="controlErrorMessage"></span>
     </div>
-    <div class="alert alert-success alert-dismissible fade in" ng-show="isControlSuccessMessageVisible">
+    <div class="alert alert-success alert-dismissible fade show" ng-show="isControlSuccessMessageVisible">
         <a class="close" ng-click="isControlSuccessMessageVisible = false;">×</a>
         <strong>Sukces! </strong>
         <span ng-bind="controlSuccessMessage"></span>
     </div>
 
-    <div class="container-fluid well" ng-show="noDevices">There is no devices.</div>
+    <div class="container-fluid card card-body" ng-show="noDevices">There is no devices.</div>
     <div ng-hide="noDevices" class="row">
         <div ng-repeat="node in nodes | orderBy: 'id'">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">

@@ -9,6 +9,7 @@
     width: 200px;
     height: 100%;
     color: #e1ffff;
+    z-index: 1032;
 }
 
 .nav-side-menu .brand {
@@ -108,6 +109,12 @@ margin-left: 0px;
     transition: all 1s ease;
 }
 
+.footer-build-with {
+    padding-left: 200px;
+    width: 100%;
+}
+
+
 @media (max-width: 767px) {
     .main-content {
         padding-left: 0px;
@@ -117,6 +124,7 @@ margin-left: 0px;
 
     .footer-build-with {
         display: none;
+        overflow: hidden;
     }
 
     .nav-side-menu {

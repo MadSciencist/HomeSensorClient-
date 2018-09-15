@@ -1,11 +1,11 @@
 ﻿<div class="container-fluid" ng-controller="UsersController" data-ng-init="getUsers()">
     <!-- message bars -->
-    <div ng-show="isUpdateFailed || isDeleteFailed" class="alert alert-danger alert-dismissible fade in">
+    <div ng-show="isUpdateFailed || isDeleteFailed" class="alert alert-danger alert-dismissible fade show">
         <a class="close" ng-click="isUpdateFailed = false; isDeleteFailed = false;">×</a>
         <strong>Błąd! </strong>
         <span ng-bind="resultMessage"></span>
     </div>
-    <div ng-show="isUpdateSuccess || isDeleteSuccess" class="alert alert-success alert-dismissible fade in">
+    <div ng-show="isUpdateSuccess || isDeleteSuccess" class="alert alert-success alert-dismissible fade show">
         <a class="close" ng-click="isUpdateSuccess = false; isDeleteSuccess = false;">×</a>
         <strong>Sukces! </strong>
         <span ng-bind="resultMessage"></span>

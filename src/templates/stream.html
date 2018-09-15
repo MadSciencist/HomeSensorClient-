@@ -1,13 +1,11 @@
 <div ng-controller="StreamController" ng-init="initController()" class="container-fluid">
-  <div clas="row">
-    <div id="users-info-error" ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade in">
+    <div ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade show">
       <a class="close" ng-click="isMessagebarVisible = false">×</a>
       <strong>Błąd! </strong>
       <span ng-bind="messagebarMessage"></span>
     </div>
-  </div>
 
-  <div class="container-fluid well" ng-show="noStreams">There is no streams.</div>
+  <div class="container-fluid card card-body" ng-show="noStreams">There is no streams.</div>
   <div ng-hide="noStreams">
     <div class="row">
       <md-input-container style="width: 200px;">

@@ -1,12 +1,12 @@
 <div class="container-fluid" ng-controller="ManageSystemController" data-ng-init="initController()">
     <!--message bars-->
-    <div class="alert alert-success alert-dismissible fade in" ng-show="isOpertionSuccess">
+    <div class="alert alert-success alert-dismissible fade show" ng-show="isOpertionSuccess">
         <a class="close" ng-click="isOpertionSuccess = false">×</a>
         <strong>Sukces!</strong>
         <span ng-bind="successMessage" class="left-padding-sm"></span>
     </div>
 
-    <div class="alert alert-danger alert-dismissible fade in" ng-show="isOperationFail">
+    <div class="alert alert-danger alert-dismissible fade show" ng-show="isOperationFail">
         <a class="close" ng-click="isOperationFail = false;">×</a>
         <strong>Błąd!</strong>
         <span ng-bind="errorMessage" class="left-padding-sm"></span>

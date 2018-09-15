@@ -1,16 +1,16 @@
 ﻿<div class="container-fluid" ng-controller="LoginController">
-        <div class="alert alert-success alert-dismissible fade in" ng-show="isRegisterSuccess">
-                <a class="close" ng-click="isRegisterSuccess = false;">×</a>
-                <strong>Udało się! </strong>
-                <span>Teraz możesz się zalogować. Jednak by móc w pełni korzystać z systemu, administrator musi nadać Ci odpowiednie prawa.</span>
-            </div>
-    <div class="col-md-6 col-md-offset-3" ng-show="badAuthentication">
-        <div class="panel panel-danger">
-            <div class="panel-heading">Wystąpił błąd</div>
-            <div class="panel-body" ng-bind="badAuthenticationMessage"></div>
+    <div class="alert alert-success alert-dismissible fade show" ng-show="isRegisterSuccess">
+        <a class="close" ng-click="isRegisterSuccess = false;">×</a>
+        <strong>Udało się! </strong>
+        <span>Teraz możesz się zalogować. Jednak by móc w pełni korzystać z systemu, administrator musi nadać Ci odpowiednie prawa.</span>
+    </div>
+    <div class="col-lg-6 offset-md-3" ng-show="badAuthentication">
+        <div class="card">
+            <div class="card-header">Wystąpił błąd</div>
+            <div class="card-body" ng-bind="badAuthenticationMessage"></div>
         </div>
     </div>
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-lg-6 offset-md-3" style="padding-top: 30px">
         <h3 class="md-headline">Zaloguj się</h3>
         <form name="loginForm" ng-submit="login()" role="form">
             <div layout="row">
