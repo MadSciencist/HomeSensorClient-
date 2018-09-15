@@ -66,8 +66,8 @@
                         </md-chips>
                     </md-input-container>
                 </div>
-                <div layout="row">
-                    <md-input-container flex="100" ng-if="dialog.nodeForm.nodeType == 1" ng-init="dialog.selectedSensorActuatorTypes = []">
+                <div layout="row" ng-if="dialog.nodeForm.nodeType == 1">
+                    <md-input-container flex="100" ng-init="dialog.selectedSensorActuatorTypes = []">
                         <label>Zainstalowane sensory</label>
                         <md-chips ng-model="dialog.selectedSensorActuatorTypes" md-select-snap md-transform-chip="dialog.transformChip($chip)" md-require-match="true">
                             <md-autocomplete md-items="item in dialog.querySearch(dialog.searchText, 'actuator')" md-selected-item="dialog.selectedItem"
@@ -82,16 +82,15 @@
                         </md-chips>
                     </md-input-container>
                 </div>
-
-                <div layout="row" ng-show="form.nodeType == 1">
+                <div layout="row" ng-if="dialog.nodeForm.nodeType == 1">
                     <md-input-container flex="50">
                         <label>IP urządzenia</label>
-                        <input name="ipAddress" ng-model="form.ipAddress" type="text">
+                        <input name="ipAddress" ng-model="dialog.nodeForm.ipAddress" type="text">
                     </md-input-container>
 
                     <md-input-container flex="50">
                         <label>IP bramy</label>
-                        <input name="gatewayAddress" ng-model="form.gatewayAddress" type="text">
+                        <input name="gatewayAddress" ng-model="dialog.nodeForm.gatewayAddress" type="text">
                     </md-input-container>
                 </div>
             </div>

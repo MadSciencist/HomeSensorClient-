@@ -11,10 +11,32 @@
         <span ng-bind="controlSuccessMessage"></span>
     </div>
 
+    <div layout="row" layout-wrap>
+        <div flex-xs="100" flex-sm="100" flex-md="50" flex-lg="33" flex-xl="25" ng-repeat="node in nodes | orderBy: 'id'">
+            <md-card class="device-card" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline" ng-bind="node.name"></span>
+                        <span class="md-subhead device-card-description" ng-bind="node.description"></span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button>Edytuj</md-button>
+                    <md-button>Historia</md-button>
+                    <span class="padding-left-right">Stan: </span>
+                    <label class="switch">
+                        <input type="checkbox" id="node_{{node.id}}" ng-model="node.isOn" ng-click="onToggle(node.id)" ng-checked="{{node.isOn}}">
+                        <span class="slider round"></span>
+                    </label>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+
     <div class="container-fluid card card-body" ng-show="noDevices">There is no devices.</div>
-    <div ng-hide="noDevices" class="row">
+    <!-- <div ng-hide="noDevices" class="row">
         <div ng-repeat="node in nodes | orderBy: 'id'">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4">
                 <md-card class="device-card" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
                     <md-card-title>
                         <md-card-title-text>
@@ -33,10 +55,10 @@
                     </md-card-actions>
                 </md-card>
             </div>
-            <div class="clearfix visible-lg" ng-if="($index + 1) % 3 == 0"></div>
-            <div class="clearfix visible-md" ng-if="($index + 1) % 2 == 0"></div>
-            <div class="clearfix visible-sm" ng-if="($index + 1) % 12 == 0"></div>
-            <div class="clearfix visible-xs" ng-if="($index + 1) % 12 == 0"></div>
+            <div class="clearfix d-none d-lg-block d-xl-none" ng-if="($index + 1) % 3 == 0"></div>
+            <div class="clearfix d-none d-md-block d-lg-none" ng-if="($index + 1) % 2 == 0"></div>
+            <div class="clearfix d-none d-sm-block d-md-none" ng-if="($index + 1) % 12 == 0"></div>
+            <div class="clearfix d-block d-sm-none" ng-if="($index + 1) % 12 == 0"></div>
         </div>
-    </div>
+    </div> -->
 </div>

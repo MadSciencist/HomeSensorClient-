@@ -1,12 +1,10 @@
 ﻿<div class="container-fluid" ng-controller="ChartsController" data-ng-init="initController()">
-        <!-- <div class="container-fluid card card-body" ng-show="noSensors">There is no sensors.</div> -->
-        <div ng-hide="noSensors" class="row" ng-model="sensorsIdentifiers">
-            <div ng-repeat="sensorContainer in sensorsIdentifiers">
-                <div class="col-xl-6">
-                    <!-- <canvas ng-init="getSpecifiedSesorData(sensorContainer)" id="{{sensorContainer.canvasName}}"></canvas> -->
-                    ASDASDASDASDDSA
-                </div>
-                <!-- <div class="clearfix visible-xl" ng-if="($index + 1) % 2 == 0"></div> -->
-            </div>
+    <div class="container-fluid card card-body" ng-show="noSensors">There is no sensors.</div>
+
+    <div layout="row" layout-wrap>
+        <div flex-sm="100" flex-md="50" flex-lg="50" flex-xl="50" ng-repeat="sensorContainer in sensorsIdentifiers | orderBy: 'id'">
+            <canvas ng-init="getSpecifiedSesorData(sensorContainer)" id="{{sensorContainer.canvasName}}"></canvas>
         </div>
+    </div>
+
 </div>
