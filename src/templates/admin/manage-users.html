@@ -19,23 +19,23 @@
     </div>
     <div class="container-fluid">
         <h3 class="md-headline">Użytkownicy systemu:</h3>
-        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
-            <table class="table table-condensed table-hover">
-                <tr>
-                    <th class="center">Imie</th>
-                    <th class="center">Nazwisko</th>
-                    <th class="center">E-Mail</th>
-                    <th class="center">Data dołączenia</th>
-                    <th class="center">Rola</th>
-                    <th class="center">Akcje</th>
+        <div class="table-responsive container-fluid">
+            <table class="table table-md table-hover">
+                <tr class="row">
+                    <th class="col-md-1">Imie</th>
+                    <th class="col-md-1">Nazwisko</th>
+                    <th class="col-md-2">E-Mail</th>
+                    <th class="col-md-3">Data dołączenia</th>
+                    <th class="col-md-1">Rola</th>
+                    <th class="col-md-4">Akcje</th>
                 </tr>
-                <tr ng-repeat="user in users | orderBy: 'id'">
-                    <td class="col-sm-1 center thick" ng-bind="user.name"></td>
-                    <td class="col-sm-1 center thick" ng-bind="user.lastname"></td>
-                    <td class="col-sm-2 center" ng-bind="user.email"></td>
-                    <td class="col-sm-3 center" ng-bind="formatDate(user.joinDate)"></td>
-                    <td class="col-sm-1 center" ng-bind="getUserRoleFromDictionary(user.role)"></td>
-                    <td class="col-sm-4 center">
+                <tr class="row" ng-repeat="user in users | orderBy: 'id'">
+                    <td class="col-md-1 thick" ng-bind="user.name"></td>
+                    <td class="col-md-1 thick" ng-bind="user.lastname"></td>
+                    <td class="col-md-2" ng-bind="user.email"></td>
+                    <td class="col-md-3" ng-bind="formatDate(user.joinDate)"></td>
+                    <td class="col-md-1" ng-bind="getUserRoleFromDictionary(user.role)"></td>
+                    <td class="col-md-4">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, user.id)">Uprawnienia</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteUser(user.id)">Usuń</md-button>
                     </td>

@@ -24,29 +24,24 @@
         </div>
     </div>
 
-
-
-
-
-
     <!-- table -->
     <div class="container-fluid">
         <h3 class="md-headline">Czujniki:</h3>
-        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
-            <table class="table table-condensed table-hover">
-                <tr>
-                    <th class="center">Nazwa</th>
-                    <th>Opis</th>
-                    <th class="center">Identyfikator</th>
-                    <th class="center">Rodzaj urządzenia</th>
-                    <th class="center">Akcje</th>
+        <div class="table-responsive container-fluid">
+            <table class="table table-sm table-hover">
+                <tr class="row">
+                    <th class="col-md-2">Nazwa</th>
+                    <th class="col-md-5">Opis</th>
+                    <th class="col-md-1">Identyfikator</th>
+                    <th class="col-md-1">Rodzaj urządzenia</th>
+                    <th class="col-md-3">Akcje</th>
                 </tr>
-                <tr ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '0'}">
-                    <td class="col-sm-2 center thick" ng-bind="node.name"></td>
-                    <td class="col-sm-5" ng-bind="node.description"></td>
-                    <td class="col-sm-1 center" ng-bind="node.identifier"></td>
-                    <td class="col-sm-1 center" ng-bind="node.formatedProperties"></td>
-                    <td class="col-sm-3 center">
+                <tr class="row" ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '0'}">
+                    <td class="col-md-2 thick" ng-bind="node.name"></td>
+                    <td class="col-md-5" ng-bind="node.description"></td>
+                    <td class="col-md-1" ng-bind="node.identifier"></td>
+                    <td class="col-md-1" ng-bind="node.formatedProperties"></td>
+                    <td class="col-md-3">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
                     </td>
@@ -55,25 +50,25 @@
         </div>
 
         <h3 class="md-headline top-margin-sm">Sterowniki:</h3>
-        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
-            <table class="table table-condensed table-hover">
-                <tr>
-                    <th class="center">Nazwa</th>
-                    <th>Opis</th>
-                    <th class="center">Adres IP</th>
-                    <th class="center">Adres IP gateway</th>
-                    <th class="center">Identyfikator</th>
-                    <th class="center">Rodzaj urządzenia</th>
-                    <th class="center">Akcje</th>
+        <div class="table-responsive container-fluid">
+            <table class="table table-sm table-hover">
+                <tr class="row">
+                    <th class="col-md-2">Nazwa</th>
+                    <th class="col-md-3">Opis</th>
+                    <th class="col-md-1">Adres IP</th>
+                    <th class="col-md-1">Adres IP gateway</th>
+                    <th class="col-md-1">Identyfikator</th>
+                    <th class="col-md-1">Rodzaj urządzenia</th>
+                    <th class="col-md-3">Akcje</th>
                 </tr>
-                <tr ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '1'}">
-                    <td class="col-sm-2 center thick" ng-bind="node.name"></td>
-                    <td class="col-sm-3" ng-bind="node.description"></td>
-                    <td class="col-sm-1 center" ng-bind="node.ipAddress"></td>
-                    <td class="col-sm-1 center" ng-bind="node.gatewayAddress"></td>
-                    <td class="col-sm-1 center" ng-bind="node.identifier"></td>
-                    <td class="col-sm-1 center" ng-bind="node.formatedProperties"></td>
-                    <td class="col-sm-3 center">
+                <tr class="row" ng-repeat="node in nodes | orderBy: 'id' | filter: {nodeType: '1'}">
+                    <td class="col-md-2 thick" ng-bind="node.name"></td>
+                    <td class="col-md-3" ng-bind="node.description"></td>
+                    <td class="col-md-1" ng-bind="node.ipAddress"></td>
+                    <td class="col-md-1" ng-bind="node.gatewayAddress"></td>
+                    <td class="col-md-1" ng-bind="node.identifier"></td>
+                    <td class="col-md-1" ng-bind="node.formatedProperties"></td>
+                    <td class="col-md-3">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
                     </td>

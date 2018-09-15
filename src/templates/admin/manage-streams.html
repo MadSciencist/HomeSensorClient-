@@ -28,19 +28,19 @@
     <div class="container-fluid">
         <!-- display streams table -->
         <h3 class="md-headline">Dodane streamy:</h3>
-        <div class="table-responsive table-vertical-align-center table-head-vertical-align-center">
-            <table class="table table-condensed table-hover" ng-show="streams.length > 0">
-                <tr>
-                    <th class="center">Nazwa</th>
-                    <th>Opis</th>
-                    <th>URL</th>
-                    <th class="center">Akcje</th>
+        <div class="table-responsive container-fluid">
+            <table class="table table-sm table-hover" ng-show="streams.length > 0">
+                <tr class="row">
+                    <th class="col-md-2">Nazwa</th>
+                    <th class="col-md-3">Opis</th>
+                    <th class="col-md-4">URL</th>
+                    <th class="col-md-3">Akcje</th>
                 </tr>
-                <tr ng-repeat="stream in streams | orderBy: 'id'">
-                    <td class="center col-sm-2 thick" ng-bind="stream.name"></td>
-                    <td class="col-sm-3" ng-bind="stream.description"></td>
-                    <td class="col-sm-4" ng-bind="stream.connectionString"></td>
-                    <td class="center col-sm-3">
+                <tr class="row" ng-repeat="stream in streams | orderBy: 'id'">
+                    <td class="col-md-2" ng-bind="stream.name"></td>
+                    <td class="col-md-3" ng-bind="stream.description"></td>
+                    <td class="col-md-4" ng-bind="stream.connectionString"></td>
+                    <td class="col-md-3">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, stream.id)">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteStream(stream.id)">Usuń</md-button>
                     </td>
