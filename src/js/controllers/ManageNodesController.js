@@ -18,9 +18,47 @@
     $scope.controlErrorMessage = '';
     $scope.controlSuccessMessage = '';
 
+    $scope.selectedSensorActuatorTypes = [];
+    $scope.searchText = null;
+
+
     $scope.initController = function () {
         $scope.getAllNodes();
     };
+
+    $scope.transformChip = chip => {
+        // If it is an object, it's already a known chip
+        if (angular.isObject(chip)) {
+            return chip;
+        }
+        // Otherwise, create a new one
+        return { name: chip, type: 'new' };
+    }
+
+
+    $scope.querySearch = (query, type) => {
+        let chipItemsPool;
+
+        if (type === 'sensor') {
+            chipItemsPool = $rootScope.sensorTypeDictionary.map(i => {
+                return { value: i.value.toLowerCase(), key: i.key }
+            }) || [];
+        } else if (type === 'actuator') {
+            chipItemsPool = $rootScope.actuatorTypeDictionary.map(i => {
+                return { value: i.value.toLowerCase(), key: i.key }
+            }) || [];
+        }
+
+        return query ? chipItemsPool.filter(filterAnyPosition(query)) : [];
+    }
+
+    const filterAnyPosition = query => {
+        const lowercaseQuery = query.toLowerCase();
+        //return a filter fuction which matches the string from first index
+        return query => {
+            return query.value.search(lowercaseQuery) > -1
+        };
+    }
 
     /* add/edit form and modal */
     $scope.formModalFired = function (e, isUpdating, id) {
@@ -32,13 +70,7 @@
     $scope.showNodeForm = function (ev) {
         $mdDialog.show({
             controller: DialogController,
-            locals: {
-                isEditing: $scope.isEditing,
-                dataToPass: $scope.nodeForm,
-                nodeDictionary: $rootScope.nodeTypeDictionary,
-                sensorDictionary: $rootScope.sensorTypeDictionary,
-                actuatorDictionary: $rootScope.actuatorTypeDictionary
-            },
+            locals: { data: $scope },
             templateUrl: './modals/node-edit-modal.html',
             parent: angular.element(document.body),
             targetEvent: ev,
@@ -51,13 +83,8 @@
         });
     };
 
-    function DialogController($scope, $mdDialog, dataToPass, nodeDictionary, sensorDictionary, actuatorDictionary, isEditing) {
-        //inject data to form (2 way binding)
-        $scope.form = dataToPass;
-        $scope.nodeDictionary = nodeDictionary;
-        $scope.sensorDictionary = sensorDictionary;
-        $scope.actuatorDictionary = actuatorDictionary;
-        $scope.isEditing = isEditing;
+    function DialogController($scope, $mdDialog, data) {
+        $scope.dialog = data;
 
         $scope.hideForm = () => $mdDialog.hide();
         $scope.cancelForm = () => $mdDialog.cancel();
@@ -67,8 +94,11 @@
     /* CRUD http operations */
     const updateNodeData = function () {
         $scope.isFetching = true;
+        let formData = $scope.nodeForm;
+        const nodeProperties = $scope.selectedSensorActuatorTypes.map(i => i.value);
+        formData.RegistredProperties = JSON.stringify(nodeProperties);
         if ($scope.isEditing === true) { //PUT
-            httpService.putData('/api/nodes/'.concat($scope.nodeForm.id), JSON.stringify($scope.nodeForm))
+            httpService.putData('/api/nodes/'.concat($scope.nodeForm.id), JSON.stringify(formData))
                 .then(() => {
                     $scope.isFetching = false;
                     $scope.isNodeSuccessMessageVisible = true;
@@ -121,6 +151,12 @@
         httpService.getData('/api/nodes')
             .then(resp => {
                 $scope.nodes = resp.data;
+                for (let i = 0; i < $scope.nodes.length; i++) {
+                    $scope.nodes[i].formatedProperties = JSON.parse($scope.nodes[i].registredProperties) //change json strint to object
+                        .map((s) => s.charAt(0).toUpperCase() + s.substring(1)) //first chars to uppercase
+                        .join(' ');
+                }
+
                 $scope.isFetching = false;
             }).catch(error => {
                 $scope.isFetching = false;
@@ -160,3 +196,14 @@
             });
     };
 });
+
+    /*
+    * maybe one day....
+    *   const filterFromBegining = query => {
+        const lowercaseQuery = query.toLowerCase();
+        //return a filter fuction which matches the string from first index
+        return query => {
+            return (query.value.indexOf(lowercaseQuery) === 0)
+        };
+    }
+    */

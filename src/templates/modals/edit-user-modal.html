@@ -22,14 +22,20 @@
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Hasło</label>
-                        <input required name="password" ng-model="dialog.userToEdit.password" type="password">
-                        <div ng-messages="editForm.password.$error">
+                        <input required name="password" ng-model="dialog.userToEdit.password" type="password" minlength="5" maxlength="20">
+                        <div ng-messages="editForm.password.$error" multiple>
                             <div ng-message="required">Musisz podać hasło.</div>
+                            <div ng-message="minlength">Minimalna długość hasła to 5 znaków.</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
                         <label>Powtórz hasło</label>
-                        <input name="passwordRepeat" ng-model="dialog.userToEdit.passwordRepeat" type="password">
+                        <input required name="passwordRepeat" ng-model="dialog.userToEdit.passwordRepeat" type="password" minlength="5" maxlength="20" ng-pattern="{dialog.userToEdit.password}}">
+                        <div ng-messages="editForm.passwordRepeat.$error" multiple>
+                            <div ng-message="required">Musisz podać hasło.</div>
+                            <div ng-message="minlength">Minimalna długość hasła to 5 znaków.</div>
+                            <div ng-message="pattern">Wprowadzone hasła są różne.</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <div layout="row">
@@ -75,8 +81,8 @@
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding-top: 10px">
             <span flex></span>
-            <md-button ng-click="dialog.cancelForm()">Anuluj</md-button>
+            <md-button ng-click="cancelForm()">Anuluj</md-button>
             <md-button ng-click="dialog.uploadFile()">Wyślij zdjęcie</md-button>
-            <md-button ng-disabled="editForm.$invalid" ng-click="dialog.submitForm()">Wyślij</md-button>
+            <md-button ng-disabled="editForm.$invalid" ng-click="submitForm()">Wyślij</md-button>
         </md-dialog-actions>
 </md-dialog>

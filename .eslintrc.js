@@ -26,9 +26,9 @@ module.exports = {
         ],
         "array-callback-return": "error",
         "array-element-newline": "off",
-        "arrow-body-style": "error",
+        "arrow-body-style": "off",
         "arrow-parens": [
-            "error",
+            "off",
             "as-needed"
         ],
         "arrow-spacing": [
@@ -106,7 +106,7 @@ module.exports = {
         "id-length": "off",
         "id-match": "error",
         "implicit-arrow-linebreak": [
-            "error",
+            "off",
             "beside"
         ],
         "indent": "off",
@@ -132,7 +132,7 @@ module.exports = {
         "max-params": "off",
         "max-statements": "off",
         "max-statements-per-line": "error",
-        "multiline-comment-style": "error",
+        "multiline-comment-style": "off",
         "new-parens": "error",
         "newline-after-var": "off",
         "newline-before-return": "off",
@@ -299,7 +299,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "space-infix-ops": "error",
+        "space-infix-ops": "off",
         "space-unary-ops": "error",
         "spaced-comment": "off",
         "strict": [

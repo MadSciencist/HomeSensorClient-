@@ -2,7 +2,7 @@
     $scope.registerForm = {};
     $scope.isRegisterSuccess = false;
     
-    $scope.login = function () {
+    $scope.login = () => {
         const credentials = JSON.stringify({
             username: $scope.username,
             password: $scope.password
@@ -17,7 +17,6 @@
                 $window.localStorage.setItem('userId', response.data.userId);
                 $window.localStorage.setItem('validTo', response.data.tokenValidTo);
                 $window.localStorage.setItem('role', response.data.userRole);
-
                 $location.path('/');
             }).catch(error => {
                 $scope.username = '';
@@ -31,7 +30,7 @@
     };
 
     /* register stuff */
-    $scope.showRegisterForm = function (ev) {
+    $scope.showRegisterForm = ev => {
         $mdDialog.show({
             controller: DialogController,
             locals: { registerForm: $scope.registerForm },

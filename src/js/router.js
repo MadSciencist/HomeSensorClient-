@@ -29,35 +29,28 @@ app.config(function ($routeProvider, $locationProvider) {
             requiredRoles: ["Admin", "Manager", "Viewer"]
         })
         .when("/manage-nodes", {
-            templateUrl: "manage-nodes.html",
+            templateUrl: "admin/manage-nodes.html",
             controller: "ManageNodesController",
             pageTitle: "Zarządzaj swoimi urządzeniami",
             auth: true,
             requiredRoles: ["Admin", "Manager"]
         })
         .when("/manage-users", {
-            templateUrl: "manage-users.html",
+            templateUrl: "admin/manage-users.html",
             controller: "UsersController",
             pageTitle: "Zarządzaj użytkownikami systemu",
             auth: true,
             requiredRoles: ["Admin", "Manager"]
         })
-        .when("/new-device-type", {
-            templateUrl: "manage-device-type.html",
-            controller: "ManageDeviceTypeController",
-            pageTitle: "Zarządzaj dostępnymi typami urządzeń",
-            auth: true,
-            requiredRoles: ["Admin", "Manager"]
-        })
         .when("/manage-streams", {
-            templateUrl: "manage-streams.html",
+            templateUrl: "admin/manage-streams.html",
             controller: "ManageStreamsController",
             pageTitle: "Zarządzaj dostępnymi streamami",
             auth: true,
             requiredRoles: ["Admin", "Manager"]
         })
         .when("/manage-system", {
-            templateUrl: "manage-system.html",
+            templateUrl: "admin/manage-system.html",
             controller: "ManageSystemController",
             pageTitle: "Zarządzaj systemem",
             auth: true,

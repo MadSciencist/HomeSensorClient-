@@ -28,14 +28,20 @@
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Hasło</label>
-                        <input required name="password" ng-model="form.password" type="password">
-                        <div ng-messages="registerForm.password.$error">
+                        <input required name="password" ng-model="form.password" type="password" minlength="5" maxlength="20">
+                        <div ng-messages="registerForm.password.$error" multiple>
                             <div ng-message="required">Musisz podać hasło.</div>
+                            <div ng-message="minlength">Minimalna długość hasła to 5 znaków.</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
                         <label>Powtórz hasło</label>
-                        <input name="passwordRepeat" ng-model="form.passwordRepeat" type="password">
+                        <input required name="passwordRepeat" ng-model="form.passwordRepeat" type="password" minlength="5" maxlength="20" ng-pattern="{{form.password}}">
+                        <div ng-messages="registerForm.passwordRepeat.$error" multiple>
+                            <div ng-message="required">Musisz podać hasło.</div>
+                            <div ng-message="minlength">Minimalna długość hasła to 5 znaków.</div>
+                            <div ng-message="pattern">Wprowadzone hasła są różne.</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <div layout="row">
@@ -56,8 +62,8 @@
                     <md-input-container flex="50">
                         <label>Płeć</label>
                         <md-select ng-model="form.gender">
-                                <md-option ng-repeat="gender in genderDictionary" value="{{gender.key}}" ng-bind="gender.value"></md-option>
-                            </md-select>
+                            <md-option ng-repeat="gender in genderDictionary" value="{{gender.key}}" ng-bind="gender.value"></md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
             </div>

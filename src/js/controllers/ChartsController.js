@@ -2,47 +2,71 @@
     $scope.sensorsIdentifiers = [];
     $scope.noSensors = false;
 
-    $scope.initController = function () {
+    $scope.initController = () => {
         httpService.getData('/api/nodes/type/0')
             .then(response => {
-                if(response.data.length === 0) $scope.noSensors = true;
+                if (response.data.length === 0) $scope.noSensors = true;
                 for (let i = 0; i < response.data.length; i++) {
-                    $scope.sensorsIdentifiers.push({ identifier: response.data[i].identifier, name: response.data[i].name });
+                    const properties = JSON.parse(response.data[i].registredProperties);
+                    for (let propItem of properties) {
+                        $scope.sensorsIdentifiers.push({
+                            isFetched: false,
+                            canvasName: `canvas-chart-${response.data[i].identifier}-${propItem}`,
+                            take: 100,
+                            skip: 0,
+                            identifier: response.data[i].identifier,
+                            name: response.data[i].name,
+                            property: propItem,
+                            timeStamps: [],
+                            data: []
+                        });
+                    }
                 }
             })
             .catch(error => {
                 $scope.noSensors = true;
-                console.log("Error while retrieving data: ", error.data);
+                console.error("Error while retrieving data: ", error.data);
             });
     };
 
-    $scope.getSpecifiedSesorData = function (identifier) {
-        if(identifier === undefined) return;
-            httpService.getData('/api/sensors/'.concat(identifier))
+    $scope.getSpecifiedSesorData = chartContext => {
+        const url = `/api/sensors/${chartContext.identifier}?skip=${chartContext.skip}&take=${chartContext.take}`;
+        httpService.getData(url)
             .then(response => {
-                if(response.data.length > 0){
-                    const name = 'canvas-chart-'.concat(identifier);
-                    $scope.createChart(name, response.data);
-                }else {
-                    console.warn(`Sensor '${identifier}' has no data, so its skiped.`);
+                if (response.data.data.length > 0) {
+                    chartContext.isFetched = true;
+                    /* the response is like (pseudo json) 
+                    * {timeStamp: [], data: [{}, {},..]  so first we are getting the timestamps (common for all the datasets */
+                    chartContext.timeStamps = response.data.data.map(i => i.timeStamp);
+
+                    //move create chart outside of httpService to.. investigate
+                    /* then get the single arrat of data of given dataset (property)  */
+                    chartContext.data = response.data.data.map(i => JSON.parse(i.data)).map(i => i[chartContext.property]);
+
+                    /* finally create chart with computed values */
+                    /* if the first element of data is falsy, then there is no proper data 
+                    * (probably a wrong node config vs a wrong ESP json properties) 
+                    * in other case remove generated canvas and its parent (bootstrap col) from DOM to repair layout */                    
+                   if(chartContext.data[0]) $scope.createChart(chartContext);
+                    else document.querySelector("#canvas-chart-dev-humidity").parentElement.remove()
+                } else {
+                    console.warn(`Sensor '${chartContext.identifier}' has no data, so its skiped.`);
                 }
             })
             .catch(error => {
-                console.log("Error while retrieving data: ", error.data);
+                chartContext.isFetched = false;
+                console.error("Error while retrieving data: ", error.data);
             });
-     };
+    };
 
-    $scope.createChart = function (container, dataArray) {
-        const currentSensor = $scope.sensorsIdentifiers.filter(s => s.identifier === dataArray[0].identifier)[0];
-        const processedStamps = processTimestamps(dataArray);
-        const sensorValues_Y = getValuesArray(dataArray);
-
-        const ctx = document.getElementById(container).getContext('2d');
+    $scope.createChart = chartContext => {
+        const processedStamps = processTimestamps(chartContext.timeStamps);
+        const ctx = document.getElementById(chartContext.canvasName).getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [{
-                    data: sensorValues_Y
+                    data: chartContext.data
                 }],
                 labels: processedStamps
             },
@@ -53,7 +77,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Wykres temperatury z czujnika '.concat(currentSensor.name)
+                    text: `Wykres z czujnika ${chartContext.identifier} - ${chartContext.property}`
                 },
                 scales: {
                     yAxes: [{
@@ -64,24 +88,12 @@
         });
     };
 
-    const getValuesArray = function (sensorAllDataArray) {
-        let valuesArray = [];
-        for (let i = 0; i < sensorAllDataArray.length; i++) {
-            const indexOfStartValue = sensorAllDataArray[i].data.indexOf(':');
-            const indexOfEndValue = sensorAllDataArray[i].data.indexOf('*');
-            const stringValue = sensorAllDataArray[i].data.slice(indexOfStartValue + 1, indexOfEndValue);
-            const numberValue = parseInt(stringValue);
-            valuesArray.push(numberValue);
-        }
-        return valuesArray;
-    };
-
-    const processTimestamps = function (d) {
+    const processTimestamps = timeStamps => {
         const days = ['Nd', 'Pon', 'Wt', 'Sr', 'Czw', 'Pt', 'Sob'];
         let stampsArray = [];
-        for (let i = 0; i < d.length; i++) {
-            let date = new Date(Date.parse(d[i].timeStamp));
-            let dateFormatted = days[date.getDay()] + ' ' + date.getHours() + ':' + date.getMinutes();
+        for (let timeStamp of timeStamps) {
+            const date = new Date(timeStamp);
+            const dateFormatted = `${days[date.getDay()]} ${date.getHours()} ${date.getMinutes()}`;
             stampsArray.push(dateFormatted);
         }
         return stampsArray;

@@ -1,4 +1,4 @@
-﻿<div class="container-fluid" ng-controller="ManageNodesController" data-ng-init="initController()">
+﻿<div class="container-fluid" ng-controller="ManageNodesController" data-ng-init="initController()" ng-cloak>
     <!-- message bars -->
     <div class="alert alert-danger alert-dismissible fade in" ng-show="isNodeErrorMessageVisible">
         <a class="close" ng-click="isNodeErrorMessageVisible = false;">×</a>
@@ -24,6 +24,11 @@
         </div>
     </div>
 
+
+
+
+
+
     <!-- table -->
     <div class="container-fluid">
         <h3 class="md-headline">Czujniki:</h3>
@@ -40,7 +45,7 @@
                     <td class="col-sm-2 center thick" ng-bind="node.name"></td>
                     <td class="col-sm-5" ng-bind="node.description"></td>
                     <td class="col-sm-1 center" ng-bind="node.identifier"></td>
-                    <td class="col-sm-1 center" ng-bind="getSensorTypeFromDictionary(node.sensorType)"></td>
+                    <td class="col-sm-1 center" ng-bind="node.formatedProperties"></td>
                     <td class="col-sm-3 center">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>
@@ -67,7 +72,7 @@
                     <td class="col-sm-1 center" ng-bind="node.ipAddress"></td>
                     <td class="col-sm-1 center" ng-bind="node.gatewayAddress"></td>
                     <td class="col-sm-1 center" ng-bind="node.identifier"></td>
-                    <td class="col-sm-1 center" ng-bind="getActuatorTypeFromDictionary(node.actuatorType)"></td>
+                    <td class="col-sm-1 center" ng-bind="node.formatedProperties"></td>
                     <td class="col-sm-3 center">
                         <md-button class="md-primary md-raised" ng-click="formModalFired($event, true, node.id);">Edytuj</md-button>
                         <md-button class="md-warn md-raised" ng-click="deleteNode(node.id)">Usuń</md-button>

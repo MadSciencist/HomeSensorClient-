@@ -13,14 +13,14 @@
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Nazwa</label>
-                        <input required name="name" ng-model="form.name" type="text">
+                        <input required name="name" ng-model="dialog.nodeForm.name" type="text">
                         <div ng-messages="nodeForm.name.$error">
                             <div ng-message="required">Musisz podać nazwę.</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
                         <label>Identyfikator</label>
-                        <input required name="identifier" ng-model="form.identifier" type="text">
+                        <input required name="identifier" ng-model="dialog.nodeForm.identifier" type="text">
                         <div ng-messages="nodeForm.identifier.$error">
                             <div ng-message="required">Musisz podać unikalny identyfikator.</div>
                         </div>
@@ -29,39 +29,60 @@
                 <div layout="row">
                     <md-input-container flex="100">
                         <label>Opis</label>
-                        <textarea name="description" ng-model="form.description" rows="2" type="text"></textarea>
+                        <textarea name="description" ng-model="dialog.nodeForm.description" rows="2" type="text"></textarea>
                     </md-input-container>
                 </div>
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Login</label>
-                        <input name="loginName" ng-model="form.loginName" type="text">
+                        <input name="loginName" ng-model="dialog.nodeForm.loginName" type="text">
                     </md-input-container>
                     <md-input-container flex="50">
                         <label>Hasło</label>
-                        <input name="loginPassword" ng-model="form.loginPassword" type="password">
+                        <input name="loginPassword" ng-model="dialog.nodeForm.loginPassword" type="password">
                     </md-input-container>
                 </div>
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Typ</label>
-                        <md-select ng-model="form.nodeType">
-                            <md-option ng-repeat="node in nodeDictionary" value="{{node.key}}" ng-bind="node.value"></md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container flex="50" ng-show="form.nodeType == 0">
-                        <label>Typ sensora</label>
-                        <md-select ng-model="form.sensorType">
-                            <md-option ng-repeat="sensor in sensorDictionary" value="{{sensor.key}}" ng-bind="sensor.value"></md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container flex="50" ng-show="form.nodeType == 1">
-                        <label>Urządzenie</label>
-                        <md-select ng-model="form.actuatorType">
-                            <md-option ng-repeat="act in actuatorDictionary" value="{{act.key}}" ng-bind="act.value"></md-option>
+                        <md-select ng-model="dialog.nodeForm.nodeType">
+                            <md-option ng-repeat="node in dialog.nodeTypeDictionary" value="{{node.key}}" ng-bind="node.value"></md-option>
                         </md-select>
                     </md-input-container>
                 </div>
+                <div layout="row">
+                    <md-input-container flex="100" ng-if="dialog.nodeForm.nodeType == 0" ng-init="dialog.selectedSensorActuatorTypes = []">
+                        <label>Zainstalowane sensory</label>
+                        <md-chips ng-model="dialog.selectedSensorActuatorTypes" md-select-snap md-transform-chip="dialog.transformChip($chip)" md-require-match="true">
+                            <md-autocomplete md-items="item in dialog.querySearch(dialog.searchText, 'sensor')" md-selected-item="dialog.selectedItem"
+                                md-search-text="dialog.searchText" md-item-text="item.value" md-min-length="0" placeholder="Wpisz typ...">
+                                <span md-highlight-text="dialog.searchText">{{item.value}}</span>
+                            </md-autocomplete>
+                            <md-chip-template>
+                                <span>
+                                    <strong>{{$chip.value}}</strong>
+                                </span>
+                            </md-chip-template>
+                        </md-chips>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="100" ng-if="dialog.nodeForm.nodeType == 1" ng-init="dialog.selectedSensorActuatorTypes = []">
+                        <label>Zainstalowane sensory</label>
+                        <md-chips ng-model="dialog.selectedSensorActuatorTypes" md-select-snap md-transform-chip="dialog.transformChip($chip)" md-require-match="true">
+                            <md-autocomplete md-items="item in dialog.querySearch(dialog.searchText, 'actuator')" md-selected-item="dialog.selectedItem"
+                                md-search-text="dialog.searchText" md-item-text="item.value" md-min-length="0" placeholder="Wpisz typ...">
+                                <span md-highlight-text="dialog.searchText">{{item.value}}</span>
+                            </md-autocomplete>
+                            <md-chip-template>
+                                <span>
+                                    <strong>{{$chip.value}}</strong>
+                                </span>
+                            </md-chip-template>
+                        </md-chips>
+                    </md-input-container>
+                </div>
+
                 <div layout="row" ng-show="form.nodeType == 1">
                     <md-input-container flex="50">
                         <label>IP urządzenia</label>

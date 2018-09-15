@@ -19,8 +19,8 @@
         </div>
     </div>
 
-    <md-content style="width: 450px; padding-left: 30px; padding-right: 30px;" flex layout-padding>
-        <form name="serverForm">
+    <!-- <md-content style="width: 450px; padding-left: 30px; padding-right: 30px;"> -->
+        <form name="serverForm" style="width: 350px">
             <div class="row">
                 <md-input-container class="col-sm-12">
                     <label>Adres URL serwera Raspberry Pi</label>
@@ -39,9 +39,8 @@
                     <input required name="serverPassword" ng-model="serverFormData.rpiPassword" type="password">
                 </md-input-container>
             </div>
-            <div style="text-align: right;">
+            <div class="row" style="text-align: right">
                 <md-button class="md-raised md-primary" ng-disabled="serverForm.$invalid" ng-click="putSettings()">Zapisz</md-button>
             </div>
         </form>
-    </md-content>
 </div>
