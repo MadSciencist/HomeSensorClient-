@@ -1,31 +1,29 @@
 <div ng-controller="StreamController" ng-init="initController()" class="container-fluid">
-    <div ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade show">
-      <a class="close" ng-click="isMessagebarVisible = false">×</a>
-      <strong>Błąd! </strong>
-      <span ng-bind="messagebarMessage"></span>
-    </div>
+  <div ng-show="isMessagebarVisible" class="alert alert-danger alert-dismissible fade show">
+    <a class="close" ng-click="isMessagebarVisible = false">×</a>
+    <strong>Błąd! </strong>
+    <span ng-bind="messagebarMessage"></span>
+  </div>
 
-  <div class="container-fluid card card-body" ng-show="noStreams">There is no streams.</div>
-  <div ng-hide="noStreams">
-    <div class="row">
-      <md-input-container style="width: 200px;">
-        <label>Wybierz stream:</label>
-        <md-select ng-model="selectedStreamKey" ng-change="streamChanged()">
-          <md-option ng-repeat="stream in streams" value="{{stream.key}}" ng-bind="stream.dictionary"></md-option>
-        </md-select>
-      </md-input-container>
-      <div style="display: inline-block;">
-        <md-button class="md-secondary md-raised" ng-click="startStream()">Odtwarzaj</md-button>
-        <md-button class="md-warn md-raised" ng-click="stopStream()">Zatrzymaj</md-button>
-      </div>
-      <div class="top-padding"></div>
+  <div class="container-fluid card card-body" ng-show="noStreams">Aktualnie brak dodanych streamów.</div>
+  <div ng-hide="noStreams" layout="row">
+    <md-input-container style="width: 200px;">
+      <label>Wybierz stream:</label>
+      <md-select ng-model="selectedStreamKey">
+        <md-option ng-repeat="stream in streams" value="{{stream.key}}" ng-bind="stream.text"></md-option>
+      </md-select>
+    </md-input-container>
+    <div style="display: inline-block;">
+      <md-button class="md-secondary md-raised" ng-click="startStream(); isPlaying = true">Odtwarzaj</md-button>
+      <md-button class="md-warn md-raised" ng-click="stopStream(); isPlaying = false">Zatrzymaj</md-button>
     </div>
+    <div class="top-padding"></div>
+  </div>
 
-    <div class="row" style="max-width: 900px;">
-      <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="480"
-        data-setup={{playerSettings}}>
-        <source src="{{streamUrl}}" type="application/x-mpegURL">
-        <p class="vjs-no-js">To view this video please enable JavaScript</p>
-    </div>
+  <div class="row" style="max-width: 900px;" ng-show="isPlaying">
+    <video id="video-stream" class="video-js vjs-default-skin vjs-big-play-centered col-12" controls preload="auto" width="640"
+      height="480" data-setup={{playerSettings}}>
+      <source src="{{streamUrl}}" type="application/x-mpegURL">
+      <p class="vjs-no-js">To view this video please enable JavaScript</p>
   </div>
 </div>

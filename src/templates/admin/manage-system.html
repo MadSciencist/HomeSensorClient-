@@ -19,28 +19,60 @@
         </div>
     </div>
 
-    <!-- <md-content style="width: 450px; padding-left: 30px; padding-right: 30px;"> -->
-        <form name="serverForm" style="width: 350px">
-            <div class="row">
-                <md-input-container class="col-sm-12">
-                    <label>Adres URL serwera Raspberry Pi</label>
-                    <input required name="serverAddress" ng-model="serverFormData.rpiUrl" type="text">
-                </md-input-container>
+    <div id="system-accordion" class="container-fluid">
+        <div class="card">
+            <div class="card-header pointer">
+                <a class="card-link" data-toggle="collapse" data-target="#collapseOne">
+                    <span class="fas fa-server fa-lg right-margin-sm"></span>Ustawienia serwera Raspberry PI
+                </a>
             </div>
-            <div class="row">
-                <md-input-container class="col-sm-12">
-                    <label>Login</label>
-                    <input required name="serverLogin" ng-model="serverFormData.rpiLogin" type="text">
-                </md-input-container>
+            <div id="collapseOne" class="collapse show" data-parent="#system-accordion">
+                <div class="card-body container-fluid">
+                    <form name="serverForm">
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <label>Adres URL serwera Raspberry Pi</label>
+                                <input required name="serverAddress" ng-model="serverFormData.rpiUrl" type="text">
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <label>Login</label>
+                                <input required name="serverLogin" ng-model="serverFormData.rpiLogin" type="text">
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <label>Password</label>
+                                <input required name="serverPassword" ng-model="serverFormData.rpiPassword" type="password">
+                            </md-input-container>
+                        </div>
+                        <div layout="row" flex-sm="100">
+                            <md-button class="md-raised md-primary" ng-disabled="serverForm.$invalid" ng-click="putSettings()">Zapisz</md-button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="row">
-                <md-input-container class="col-sm-12">
-                    <label>Password</label>
-                    <input required name="serverPassword" ng-model="serverFormData.rpiPassword" type="password">
-                </md-input-container>
+        </div>
+        <div class="card top-margin-sm">
+            <div class="card-header pointer">
+                <a class="collapsed card-link" data-toggle="collapse" data-target="#collapseTwo">
+                    <span class="fas fa-stethoscope fa-lg right-margin-sm"></span>Sprwadź połączenie z serwerem
+                </a>
             </div>
-            <div class="row" style="text-align: right">
-                <md-button class="md-raised md-primary" ng-disabled="serverForm.$invalid" ng-click="putSettings()">Zapisz</md-button>
+            <div id="collapseTwo" class="collapse" data-parent="#system-accordion">
+                <div class="card-body">
+                    <md-button ng-click="checkConnection()">Sprwadź połączenie</md-button>
+                    <div class="top-margin-sm" ng-show="isConnectionResultVisible">
+                        <div ng-show="connectionSucess" class="left-margin-sm">
+                                <span class="fas fa-check-circle fa-lg right-margin-sm green"></span>Udało się!
+                        </div>
+                        <div ng-hide="connectionSucess" class="left-margin-sm">
+                                <span class="fas fa-exclamation-triangle fa-lg right-margin-sm red"></span>Brak połączenia.
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
+    </div>
 </div>

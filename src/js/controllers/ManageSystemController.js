@@ -6,6 +6,8 @@ app.controller("ManageSystemController", function ($scope, $mdDialog, httpServic
     $scope.errorMessage = '';
     $scope.isFetching = true;
     $scope.serverFormData = [];
+    $scope.isConnectionResultVisible = false;
+
 
     $scope.initController = function(){
         $scope.isFetching = true;
@@ -15,14 +17,26 @@ app.controller("ManageSystemController", function ($scope, $mdDialog, httpServic
                 $scope.isFetching = false;
             })
             .catch(error => {
-                console.log('Wystapił błąd: ' + error.data);
                 $scope.isOperationFail = true;
                 $scope.isFetching = false;
                 $scope.errorMessage = 'Wystąpił nieoczekiwany błąd przy pobieraniu danych. Sprawdź połączenie sieciowe.';
+                console.error(message, optionalParams)('Wystapił błąd: ' + error.data);
             });
     };
 
-    $scope.putSettings = function () {
+    $scope.checkConnection = () => {
+        httpService.getData('api/time/now')
+        .then(() => {
+            $scope.isConnectionResultVisible = true;
+            $scope.connectionSucess = true;
+        }).catch(error => {
+            $scope.isConnectionResultVisible = true;
+            $scope.connectionSucess = false;
+            console.error(`Brak komunikacji z serwerem: ${error.data}`);
+        })
+    }
+
+    $scope.putSettings = () => {
         $scope.isFetching = true;
         httpService.putData(`${baseUrl}/${$scope.serverFormData.id}`, getFormData())
             .then(() => {
@@ -30,15 +44,14 @@ app.controller("ManageSystemController", function ($scope, $mdDialog, httpServic
                 $scope.successMessage = 'Udało się zaktualizować ustawienia!';
                 $scope.isOpertionSuccess = true;
             })
-            .catch(error => {
-                console.log('Wystapił błąd: ' + error);
+            .catch(() => {
                 $scope.isOperationFail = true;
                 $scope.isFetching = false;
                 $scope.errorMessage = 'Wystąpił nieoczekiwany błąd przy pobieraniu danych. Sprawdź połączenie sieciowe.';
             });
     };
 
-    const getFormData = function(){
+    const getFormData = () => {
         return JSON.stringify({
             RpiUrl: $scope.serverFormData.rpiUrl,
             Login: $scope.serverFormData.rpiLogin,

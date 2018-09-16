@@ -14,6 +14,8 @@
                             canvasName: `canvas-chart-${response.data[i].identifier}-${propItem}`,
                             take: 100,
                             skip: 0,
+                            from: new Date(2000, 0, 0),
+                            to: new Date(),
                             identifier: response.data[i].identifier,
                             name: response.data[i].name,
                             property: propItem,
@@ -30,18 +32,18 @@
     };
 
     $scope.getSpecifiedSesorData = chartContext => {
-        const url = `/api/sensors/${chartContext.identifier}?skip=${chartContext.skip}&take=${chartContext.take}`;
+        const url = `/api/sensors/${chartContext.identifier}?skip=${chartContext.skip}&take=${chartContext.take}&property=all&from=${chartContext.from.toJSON()}&to=${chartContext.to.toJSON()}`;
         httpService.getData(url)
             .then(response => {
                 if (response.data.data.length > 0) {
                     chartContext.isFetched = true;
                     /* the response is like (pseudo json) 
-                    * {timeStamp: [], data: [{}, {},..]  so first we are getting the timestamps (common for all the datasets */
+                    * {timeStamp: [], data: [{val: x, timeStamp: y}, {val: x, timeStamp: y},..]  so first we are getting the timestamps (common for all the datasets */
                     chartContext.timeStamps = response.data.data.map(i => i.timeStamp);
 
                     //move create chart outside of httpService to.. investigate
                     /* then get the single arrat of data of given dataset (property)  */
-                    chartContext.data = response.data.data.map(i => JSON.parse(i.data)).map(i => i[chartContext.property]);
+                    chartContext.data = response.data.data.map(i => JSON.parse(i.val)).map(i => i[chartContext.property]);
 
                     /* finally create chart with computed values */
                     /* if the first element of data is falsy, then there is no proper data 

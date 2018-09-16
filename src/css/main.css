@@ -28,8 +28,16 @@ body {
     padding-top: 20px;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .top-margin-sm {
     margin-top: 15px;
+}
+
+.left-margin-sm {
+    margin-left: 15px;
 }
 
 .right-margin-sm {

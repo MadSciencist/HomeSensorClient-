@@ -30,7 +30,8 @@
                     </md-input-container>
                     <md-input-container flex="50">
                         <label>Powtórz hasło</label>
-                        <input required name="passwordRepeat" ng-model="dialog.userToEdit.passwordRepeat" type="password" minlength="5" maxlength="20" ng-pattern="{dialog.userToEdit.password}}">
+                        <input required name="passwordRepeat" ng-model="dialog.userToEdit.passwordRepeat" type="password" minlength="5" maxlength="20"
+                            ng-pattern="{{dialog.userToEdit.password}}">
                         <div ng-messages="editForm.passwordRepeat.$error" multiple>
                             <div ng-message="required">Musisz podać hasło.</div>
                             <div ng-message="minlength">Minimalna długość hasła to 5 znaków.</div>
@@ -54,9 +55,12 @@
                 </div>
 
                 <div layout="row">
-                    <md-input-container flex="50">
-                        <input name="file" type="file" aria-label="Avatar picker" accept=".jpg, .jpeg, .png .gif" required />
-                    </md-input-container>
+                    <div flex="50">
+                        <div class="custom-file" style="max-width: 325px; margin-top: 12px">
+                            <input name="file" type="file" class="custom-file-input" accept=".jpg, .jpeg, .png .gif">
+                            <label class="custom-file-label" for="customFile">Wybierz avatar</label>
+                        </div>
+                    </div>
                     <md-input-container flex="50">
                         <label>Płeć</label>
                         <md-select ng-model="dialog.userToEdit.gender">
@@ -66,8 +70,7 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <div class="row" ng-show="dialog.isAvatarUploaded">
-                    <div class="center">
+                <div ng-show="dialog.isAvatarUploaded">
                         <img alt="User picture" style="width:200px;" title="" class="avatar-edit-thumbnail" ng-src="{{ dialog.uploadedAvatarUrl }}"
                         />
                         <div style="display: inline-block;">
@@ -75,7 +78,6 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    </div>
                 </div>
             </div>
         </md-dialog-content>

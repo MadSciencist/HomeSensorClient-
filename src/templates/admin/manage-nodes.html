@@ -1,5 +1,6 @@
 ﻿<div class="container-fluid" ng-controller="ManageNodesController" data-ng-init="initController()" ng-cloak>
     <!-- message bars -->
+    <div id="message-anchor" style="visibility: hidden"></div>
     <div class="alert alert-danger alert-dismissible fade show" ng-show="isNodeErrorMessageVisible">
         <a class="close" ng-click="isNodeErrorMessageVisible = false;">×</a>
         <strong>Błąd :( </strong>
