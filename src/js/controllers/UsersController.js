@@ -11,7 +11,7 @@
     $scope.isDeleteFailed = false;
     const baseUsersUrl = "/api/users/";
 
-    $scope.getUsers = function () {
+    $scope.getUsers = () => {
             httpService.getData(baseUsersUrl)
                 .then(response => {
                     $scope.users = response.data;
@@ -22,12 +22,12 @@
     };
 
     /* add/edit form and modal */
-    $scope.formModalFired = function (e, id) {
+    $scope.formModalFired = (e, id) => {
         $scope.userToEdit = $scope.users.filter(u => u.id == id)[0] || {};
         $scope.showUserEditModal(e);
     };
 
-    $scope.showUserEditModal = function (ev) {
+    $scope.showUserEditModal = (ev) => {
         $mdDialog.show({
             controller: DialogController,
             locals: {
@@ -64,7 +64,7 @@
         };
     }
 
-    const editUserRoleSubmit = function () {
+    const editUserRoleSubmit = () => {
         const url = baseUsersUrl + $scope.userToEdit.id;
         if (IsAdminTryingToDeleteItselfOrRemovePriviledges($scope.userToEdit.id)) {
             $scope.isUpdateFailed = true;
@@ -88,7 +88,7 @@
             });
     };
 
-    $scope.deleteUser = function (id) {
+    $scope.deleteUser = id => {
         const url = baseUsersUrl + id;
         $scope.userToEdit = ($scope.users.filter(u => u.id === id))[0];
 

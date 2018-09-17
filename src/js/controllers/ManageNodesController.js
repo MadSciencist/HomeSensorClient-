@@ -1,8 +1,7 @@
-﻿app.controller("ManageNodesController", function ($scope, $rootScope, httpService, $mdDialog, $anchorScroll, $location) {
+﻿app.controller("ManageNodesController", function ($scope, $rootScope, httpService, $mdDialog, $routeParams, $location) {
     $scope.getNodeTypeFromDictionary = $rootScope.getNodeTypeFromDictionary;
     $scope.getSensorTypeFromDictionary = $rootScope.getSensorTypeFromDictionary;
-    $scope.getActuatorTypeFromDictionary =
-        $rootScope.getActuatorTypeFromDictionary;
+    $scope.getActuatorTypeFromDictionary = $rootScope.getActuatorTypeFromDictionary;
     $scope.isEditing = false; //default => adding new
     $scope.isFetching = true;
     $scope.nodes = [];
@@ -22,8 +21,12 @@
     $scope.selectedSensorActuatorTypes = [];
     $scope.searchText = null;
 
-    $scope.initController = function () {
-        $scope.getAllNodes();
+    $scope.initController = () => {
+        $scope.getAllNodes().then(() => {
+            if($routeParams.mode === 'edit'){
+                $scope.formModalFired(null, true, parseInt($routeParams.id));
+            }
+        });
     };
 
     $scope.transformChip = chip => {
@@ -36,17 +39,17 @@
     };
 
     $scope.querySearch = (query, type) => {
-        let chipItemsPool;
+        let chipItemsPool = null;
 
         if (type === "sensor") {
             chipItemsPool =
                 $rootScope.sensorTypeDictionary.map(i => {
-                    return { value: i.value.toLowerCase(), key: i.key };
+                    return { value: i.value, key: i.value.toLowerCase() };
                 }) || [];
         } else if (type === "actuator") {
             chipItemsPool =
                 $rootScope.actuatorTypeDictionary.map(i => {
-                    return { value: i.value.toLowerCase(), key: i.key };
+                    return { value: i.value, key: i.value.toLowerCase() };
                 }) || [];
         }
 
@@ -57,7 +60,7 @@
         const lowercaseQuery = query.toLowerCase();
         //return a filter fuction which matches the string from first index
         return query => {
-            return query.value.search(lowercaseQuery) > -1;
+            return query.key.search(lowercaseQuery) > -1;
         };
     };
 
@@ -65,6 +68,8 @@
     $scope.formModalFired = function (e, isUpdating, id) {
         $scope.isEditing = isUpdating;
         $scope.nodeForm = $scope.nodes.filter(n => n.id === id)[0] || {};
+        if (isUpdating) $scope.selectedSensorActuatorTypes = $scope.nodeForm.chipProperties;
+        else $scope.selectedSensorActuatorTypes = [];
         $scope.showNodeForm(e);
     };
 
@@ -77,21 +82,21 @@
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: false,
-                fullscreen: false // Only for -xs, -sm breakpoints.
+                fullscreen: true // Only for -xs, -sm breakpoints.
             })
             .then(
                 () => {
                     updateNodeData();
+                    resetRoute();
                 },
                 () => {
-                    console.log("Clicked cancel");
+                    resetRoute();
                 }
             );
     };
 
-    function DialogController($scope, $mdDialog, data) {
+    const DialogController = ($scope, $mdDialog, data) => {
         $scope.dialog = data;
-
         $scope.hideForm = () => $mdDialog.hide();
         $scope.cancelForm = () => $mdDialog.cancel();
         $scope.submitForm = () => $mdDialog.hide();
@@ -100,46 +105,40 @@
     /* CRUD http operations */
     const updateNodeData = function () {
         $scope.isFetching = true;
-        let formData = $scope.nodeForm;
-        const nodeProperties = $scope.selectedSensorActuatorTypes.map(i => i.value);
-        formData.RegistredProperties = JSON.stringify(nodeProperties);
+        let formData = getFormData();
+        formData.id = $scope.nodeForm.id;
+
         if ($scope.isEditing === true) {
             //PUT
             httpService
-                .putData(
-                    "/api/nodes/".concat($scope.nodeForm.id),
-                    JSON.stringify(formData)
-                )
+                .putData("/api/nodes/".concat($scope.nodeForm.id), JSON.stringify(formData))
                 .then(() => {
+                    scrollToMessagebar();
                     $scope.isFetching = false;
                     $scope.isNodeSuccessMessageVisible = true;
-                    $scope.nodeSuccessMessage =
-                        "Zaktualizowano urządzenie " + $scope.nodeForm.name + ".";
+                    $scope.nodeSuccessMessage = "Zaktualizowano urządzenie " + $scope.nodeForm.name + ".";
                     $scope.getAllNodes();
-                }).catch(error => {
+                })
+                .catch(error => {
                     scrollToMessagebar();
                     $scope.getAllNodes(); //revert changes
                     $scope.isFetching = false;
                     $scope.isNodeErrorMessageVisible = true;
-                    $scope.nodeErrorMessage =
-                        "Nie udało się zaktualizować urządzenia " +
-                        $scope.nodeForm.name +
-                        ".";
+                    $scope.nodeErrorMessage = "Nie udało się zaktualizować urządzenia " + $scope.nodeForm.name + ".";
                     console.error("Error while puting data: " + error.data);
                 });
         } else {
             //POST
-            let formData = $scope.nodeForm;
-            delete formData.id;
             httpService
-                .postData("/api/nodes", JSON.stringify(formData))
+                .postData("/api/nodes", JSON.stringify(getFormData()))
                 .then(() => {
+                    scrollToMessagebar();
                     $scope.isFetching = false;
                     $scope.isNodeSuccessMessageVisible = true;
-                    $scope.nodeSuccessMessage =
-                        "Dodano urządzenie " + $scope.nodeForm.name + ".";
+                    $scope.nodeSuccessMessage = "Dodano urządzenie " + $scope.nodeForm.name + ".";
                     $scope.getAllNodes();
-                }).catch(error => {
+                })
+                .catch(error => {
                     scrollToMessagebar();
                     $scope.getAllNodes(); //revert changes
                     $scope.isFetching = false;
@@ -151,33 +150,45 @@
         }
     };
 
+    const getFormData = () => {
+        const nodeProperties = $scope.selectedSensorActuatorTypes.map(i => i.value) || [];
+        return {
+            name: $scope.nodeForm.name,
+            identifier: $scope.nodeForm.identifier,
+            description: $scope.nodeForm.description,
+            loginName: $scope.nodeForm.loginName,
+            loginPassword: $scope.nodeForm.loginPassword,
+            nodeType: $scope.nodeForm.nodeType,
+            ipAddress: $scope.nodeForm.ipAddress,
+            gatewayAddress: $scope.nodeForm.gatewayAddress,
+            RegistredProperties: JSON.stringify(nodeProperties)
+        };
+    }
+
     $scope.deleteNode = function (nodeId) {
         if (confirm("Czy na pewno chcesz usunąć wybrane urządzenie?")) {
             $scope.isFetching = true;
             httpService
                 .deleteData("/api/nodes/".concat(nodeId))
                 .then(() => {
+                    scrollToMessagebar();
                     $scope.isNodeSuccessMessageVisible = true;
-                    $scope.nodeSuccessMessage =
-                        "Usunięto urządzenie " +
-                        $scope.nodes.filter(n => n.id === nodeId)[0].name +
-                        ".";
+                    $scope.nodeSuccessMessage = "Usunięto urządzenie " + $scope.nodes.filter(n => n.id === nodeId)[0].name + ".";
                     $scope.getAllNodes();
                 })
                 .catch(error => {
                     scrollToMessagebar();
                     $scope.isFetching = false;
                     $scope.isNodeErrorMessageVisible = true;
-                    $scope.nodeErrorMessage =
-                        "Nie udało się usunąć urządzenia " + $scope.nodeForm.name + ".";
+                    $scope.nodeErrorMessage = "Nie udało się usunąć urządzenia " + $scope.nodeForm.name + ".";
                     console.error("Error while puting data: " + error.data);
                 });
         }
     };
 
-    $scope.getAllNodes = function () {
+    $scope.getAllNodes = async () => {
         $scope.isFetching = true;
-        httpService
+        await httpService
             .getData("/api/nodes")
             .then(resp => {
                 $scope.isFetching = false;
@@ -185,13 +196,14 @@
                 for (let i = 0; i < $scope.nodes.length; i++) {
                     //skip falsy values such as undefined (null in db)
                     if (!$scope.nodes[i].registredProperties) continue;
-                    const parsedProps =
-                        JSON.parse($scope.nodes[i].registredProperties) || []; //change json strint to object
+                    const parsedProps = JSON.parse($scope.nodes[i].registredProperties) || []; //change json strint to object
                     $scope.nodes[i].formatedProperties = parsedProps
                         .map(s => s.charAt(0).toUpperCase() + s.substring(1)) //first chars to uppercase
                         .join(" ");
+                    $scope.nodes[i].chipProperties = parsedProps.map(i => ({ key: i.toLowerCase(), value: i }));
                 }
-            }).catch(error => {
+            })
+            .catch(error => {
                 scrollToMessagebar();
                 $scope.isFetching = false;
                 $scope.isNodeErrorMessageVisible = true;
@@ -201,8 +213,16 @@
     };
 
     const scrollToMessagebar = () => {
-        document.getElementById('message-anchor').scrollIntoView(false);
-    }
+        document.getElementById("message-anchor").scrollIntoView(false);
+    };
+
+    const resetRoute = () => {
+        const route = $routeParams;
+        if(route.mode === 'edit'){
+            $location.search({});
+            $location.path('/manage-nodes');
+        }
+    };
 
     /* for Control template: */
     $scope.getActuators = function () {
@@ -223,9 +243,7 @@
         const node = $scope.nodes.filter(node => node.id === nodeId)[0];
         node.isOn === true ? (state = "on") : (state = "off");
 
-        let uri = "/api/devices/set?id="
-            .concat(nodeId)
-            .concat("&subId=0".concat("&value=".concat(state)));
+        let uri = "/api/devices/set?id=".concat(nodeId).concat("&subId=0".concat("&value=".concat(state)));
 
         httpService
             .postData(uri, null)

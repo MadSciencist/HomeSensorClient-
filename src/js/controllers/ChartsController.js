@@ -18,7 +18,7 @@
                             to: new Date(),
                             identifier: response.data[i].identifier,
                             name: response.data[i].name,
-                            property: propItem,
+                            property: propItem.toLowerCase(),
                             timeStamps: [],
                             data: []
                         });
@@ -48,9 +48,9 @@
                     /* finally create chart with computed values */
                     /* if the first element of data is falsy, then there is no proper data 
                     * (probably a wrong node config vs a wrong ESP json properties) 
-                    * in other case remove generated canvas and its parent (bootstrap col) from DOM to repair layout */                    
-                   if(chartContext.data[0]) $scope.createChart(chartContext);
-                    else document.querySelector("#canvas-chart-dev-humidity").parentElement.remove()
+                    * in other case remove generated canvas and its parent (column) from DOM to repair layout */
+                    if (chartContext.data[0]) $scope.createChart(chartContext);
+                    else document.getElementById(chartContext.canvasName).parentElement.remove();
                 } else {
                     console.warn(`Sensor '${chartContext.identifier}' has no data, so its skiped.`);
                 }

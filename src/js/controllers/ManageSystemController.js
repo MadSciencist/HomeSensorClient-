@@ -20,7 +20,7 @@ app.controller("ManageSystemController", function ($scope, $mdDialog, httpServic
                 $scope.isOperationFail = true;
                 $scope.isFetching = false;
                 $scope.errorMessage = 'Wystąpił nieoczekiwany błąd przy pobieraniu danych. Sprawdź połączenie sieciowe.';
-                console.error(message, optionalParams)('Wystapił błąd: ' + error.data);
+                console.error('Wystapił błąd: ' + error.data);
             });
     };
 

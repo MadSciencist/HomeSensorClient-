@@ -28,6 +28,13 @@ app.config(function ($routeProvider, $locationProvider) {
             auth: true,
             requiredRoles: ["Admin", "Manager", "Viewer"]
         })
+        .when("/manage-nodes/:id", {
+            templateUrl: "admin/manage-nodes.html",
+            controller: "ManageNodesController",
+            pageTitle: "Zarządzaj swoimi urządzeniami",
+            auth: true,
+            requiredRoles: ["Admin", "Manager"]
+        })
         .when("/manage-nodes", {
             templateUrl: "admin/manage-nodes.html",
             controller: "ManageNodesController",
