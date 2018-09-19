@@ -22,11 +22,11 @@
     <div id="system-accordion" class="container-fluid">
         <div class="card">
             <div class="card-header pointer">
-                <a class="card-link" data-toggle="collapse" data-target="#collapseOne">
+                <a class="card-link" data-toggle="collapse" data-target="#collapse-rpi">
                     <span class="fas fa-server fa-lg right-margin-sm"></span>Ustawienia serwera Raspberry PI
                 </a>
             </div>
-            <div id="collapseOne" class="collapse show" data-parent="#system-accordion">
+            <div id="collapse-rpi" class="collapse show" data-parent="#system-accordion">
                 <div class="card-body container-fluid">
                     <form name="serverForm">
                         <div layout="row">
@@ -56,11 +56,11 @@
         </div>
         <div class="card top-margin-sm">
             <div class="card-header pointer">
-                <a class="collapsed card-link" data-toggle="collapse" data-target="#collapseTwo">
+                <a class="collapsed card-link" data-toggle="collapse" data-target="#collapse-test">
                     <span class="fas fa-stethoscope fa-lg right-margin-sm"></span>Sprwadź połączenie z serwerem
                 </a>
             </div>
-            <div id="collapseTwo" class="collapse" data-parent="#system-accordion">
+            <div id="collapse-test" class="collapse" data-parent="#system-accordion">
                 <div class="card-body">
                     <md-button ng-click="checkConnection()">Sprwadź połączenie</md-button>
                     <div class="top-margin-sm" ng-show="isConnectionResultVisible">
@@ -71,6 +71,28 @@
                                 <span class="fas fa-exclamation-triangle fa-lg right-margin-sm red"></span>Brak połączenia.
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="card top-margin-sm">
+            <div class="card-header pointer">
+                <a class="collapsed card-link" data-toggle="collapse" data-target="#coollapse-sensors">
+                    <span class="fas fa-eye fa-lg right-margin-sm"></span>Edytuj dostępne sensory
+                </a>
+            </div>
+            <div id="coollapse-sensors" class="collapse" data-parent="#system-accordion">
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+        <div class="card top-margin-sm">
+            <div class="card-header pointer">
+                <a class="collapsed card-link" data-toggle="collapse" data-target="#collapse-actuators">
+                    <span class="fas fa-lightbulb fa-lg right-margin-sm"></span>Edytuj dostępne aktuatory
+                </a>
+            </div>
+            <div id="collapse-actuators" class="collapse" data-parent="#system-accordion">
+                <div class="card-body">
                 </div>
             </div>
         </div>

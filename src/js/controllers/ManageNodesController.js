@@ -13,11 +13,6 @@
     $scope.isNodeSuccessMessageVisible = false;
     $scope.nodeErrorMessage = "";
     $scope.nodeSuccessMessage = "";
-    $scope.isControlErrorMessageVisible = false;
-    $scope.isControlSuccessMessageVisible = false;
-    $scope.controlErrorMessage = "";
-    $scope.controlSuccessMessage = "";
-
     $scope.selectedSensorActuatorTypes = [];
     $scope.searchText = null;
 
@@ -222,45 +217,6 @@
             $location.search({});
             $location.path('/manage-nodes');
         }
-    };
-
-    /* for Control template: */
-    $scope.getActuators = function () {
-        httpService
-            .getData("/api/nodes/type/1")
-            .then(resp => {
-                if (resp.data.length === 0) $scope.noDevices = true;
-                $scope.nodes = resp.data;
-            })
-            .catch(error => {
-                $scope.noDevices = true;
-                console.error("Error while getting data: " + error.data);
-            });
-    };
-
-    $scope.onToggle = function (nodeId) {
-        let state;
-        const node = $scope.nodes.filter(node => node.id === nodeId)[0];
-        node.isOn === true ? (state = "on") : (state = "off");
-
-        let uri = "/api/devices/set?id=".concat(nodeId).concat("&subId=0".concat("&value=".concat(state)));
-
-        httpService
-            .postData(uri, null)
-            .then(() => {
-                $scope.isControlSuccessMessageVisible = true;
-                $scope.controlSuccessMessage = "Zmienoino stan urządzenia "
-                    .concat(node.name)
-                    .concat("na stan: ")
-                    .concat(node.isOn ? "włączony" : "wyłączony");
-            })
-            .catch(error => {
-                $scope.isControlErrorMessageVisible = true;
-                $scope.controlErrorMessage = "Nie udało się zmienić stanu urządzenia "
-                    .concat(node.name)
-                    .concat(" . Sprawdź, czy urządzenie ma dostęp do sieci.");
-                console.error("Error while puting data: " + error.data);
-            });
     };
 });
 

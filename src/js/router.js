@@ -4,6 +4,7 @@ app.config(function ($routeProvider, $locationProvider) {
         .when("/", {
             templateUrl: "charts.html",
             controller: "ChartsController",
+            pageTitle: "Wykresy z danych wszystkich czujników",
             auth: true,
             requiredRoles: ["Admin", "Manager", "Viewer"] //user should be in one of these groups
         })
@@ -16,7 +17,7 @@ app.config(function ($routeProvider, $locationProvider) {
         })
         .when("/control", {
             templateUrl: "control.html",
-            controller: "ManageNodesController",
+            controller: "DevicesController",
             pageTitle: "Steruj swoimi urządzeniami",
             auth: true,
             requiredRoles: ["Admin", "Manager", "Viewer"]
